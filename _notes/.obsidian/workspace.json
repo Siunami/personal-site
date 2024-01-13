@@ -1,0 +1,161 @@
+{
+  "main": {
+    "id": "9ec685e248317e28",
+    "type": "split",
+    "children": [
+      {
+        "id": "7d6129e0ef112730",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "61991863dd7b72d8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "taste-building/Jan 12 Morning pages.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "a8181e77c1da3233",
+    "type": "split",
+    "children": [
+      {
+        "id": "0a4285d159ca2e5d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "44c30c731c31b5ad",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "d35999bff23778b2",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "638d8069ff3233bb",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "efa9cbbbab165dde",
+    "type": "split",
+    "children": [
+      {
+        "id": "3a221d88be2dc289",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "41f3fa6099370ed7",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "taste-building/Jan 12 Morning pages.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "b2635ceda71447ee",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "taste-building/Jan 12 Morning pages.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "56bf335130a47f91",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "77d130183c37d8bd",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "taste-building/Jan 12 Morning pages.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "61991863dd7b72d8",
+  "lastOpenFiles": [
+    "test.md",
+    "taste-building/Jan 12 Morning pages.md",
+    "your-first-note.md",
+    "accents.md",
+    "consistency.md",
+    "move your body every day.md",
+    "안녕하세요.md",
+    "Untitled.md",
+    "taste-building"
+  ]
+}
