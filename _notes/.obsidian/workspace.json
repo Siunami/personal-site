@@ -4,19 +4,15 @@
     "type": "split",
     "children": [
       {
-        "id": "7d6129e0ef112730",
+        "id": "dd4af2e2aa127f39",
         "type": "tabs",
         "children": [
           {
-            "id": "61991863dd7b72d8",
+            "id": "1b60c39398141c63",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "taste-building/Jan 12 Morning pages.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "empty",
+              "state": {}
             }
           }
         ]
@@ -85,7 +81,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "taste-building/Jan 12 Morning pages.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +97,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "taste-building/Jan 12 Morning pages.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -124,9 +118,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "taste-building/Jan 12 Morning pages.md"
-              }
+              "state": {}
             }
           }
         ]
@@ -146,16 +138,21 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "61991863dd7b72d8",
+  "active": "1b60c39398141c63",
   "lastOpenFiles": [
-    "test.md",
-    "taste-building/Jan 12 Morning pages.md",
-    "your-first-note.md",
     "accents.md",
-    "consistency.md",
-    "move your body every day.md",
+    "test.md",
+    "your-first-note.md",
     "안녕하세요.md",
     "Untitled.md",
+    "move your body every day.md",
+    "templates/{{title}}.md",
+    "consistency.md",
+    "Untitled",
+    "Pasted image 20240113160252.png",
+    "templates",
+    "taste-building/Jan-13-24.md",
+    "taste-building/Jan 12 Morning pages.md",
     "taste-building"
   ]
 }

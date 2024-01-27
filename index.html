@@ -1,6 +1,119 @@
 ---
 layout: page
-title: The farm
 ---
 
-<h1>The farm</h1>
+<div class="bento">
+	
+</div>
+
+<div class="bento-third">
+	<div class="bento-item bento-item-1-3">
+		<h2 class="bento-title">Interface Gallery</h2>
+	</div>
+	<div class="bento-item bento-item-3-3">
+		<ul class="bento-list">
+			<li>Writing more trails!</li>
+			<li>Testing an example item that is much longer than the other ones</li>
+		</ul>
+		<span class="bento-time">jan 23 3:29am</span>
+	</div>
+</div>
+<div class="bento-half">
+	<div class="bento-item bento-item-1-2">
+		The artifacts in this space are pieces of an infinite puzzle. One that I doubt I’ll finish in my lifetime. For I’m starting to think that it was never meant to be completed. Each new puzzle piece, each new connection, reveals more questions than it does answers. Instead I’ll settle for continuing to play as long as I can. Sharing pieces of my puzzle with you in the hopes that it might be useful in your own.
+		<span class="bento-signature">
+			<img
+				src="{{site.baseurl}}/assets/Signature.svg"
+				alt="Matthew Siu Signature"
+			/>
+		</span>
+	</div>
+	<div class="bento-item bento-item-2-2">
+		<h2 class="bento-title">Places</h2>
+	</div>
+</div>
+
+<div class="side-by-side">
+	<div class="form-group">
+		<div style="display: flex; flex-direction: row">
+			<h2>Trails</h2>
+			<span class="post-header-subtext">mind wanderings</span>
+		</div>
+		<!-- {% for impression in site.impressions %} {{ impression.last_modified_at |
+		date: "%Y-%m-%d" }}
+		<div>
+			<a class="internal-link" href="{{ site.baseurl }}{{ impression.url }}"
+				>{{ impression.title }}</a
+			>
+		</div>
+		{% endfor %}  -->
+		{% assign notes_by_month = site.impressions | group_by_exp:"impression",
+		"impression.date | date: '%B %Y'" %} {% for month in notes_by_month %}
+		<span class="post-section">
+			{{ month.name }}
+			<!-- <div
+				style="
+					height: 1px;
+					width: 78px;
+					background: linear-gradient(
+						90deg,
+						#858585 0%,
+						rgba(178, 178, 178, 0) 98.33%
+					);
+					background-image: radial-gradient(
+							circle,
+							#858585 10%,
+							transparent 10.01%
+						),
+						radial-gradient(circle, #858585 10%, white 10.01%);
+					background-size: 10px 10px;
+					background-position: 0 0, 5px 5px;
+				"
+			></div> -->
+			<hr class="post-decoration"></hr>
+		</span>
+		<!-- Month and Year -->
+		{% for impression in month.items %} {{ note.last_modified_at | date:
+		"%Y-%m-%d" }}
+		<div class="post">
+			<a
+				class="internal-link"
+				href="{{ impression.baseurl }}{{ impression.url }}"
+				>{{ impression.title }}</a
+			>
+		</div>
+		{% endfor %} {% endfor %}
+		<a class="internal-link" href="/">see all</a>
+	</div>
+
+	<div class="form-group">
+		<div style="display: flex; flex-direction: row">
+			<h2>Artifacts</h2>
+			<span class="post-header-subtext">pieces of the past</span>
+		</div>
+		{% assign notes_by_month = site.notes | group_by_exp:"note", "note.date |
+		date: '%B %Y'" %} {% for month in notes_by_month %}
+		<span class="post-section" >
+			{{ month.name }}
+			<hr class="post-decoration"></hr>
+		</span>
+		<!-- Month and Year -->
+		{% for note in month.items %}
+		<div class="post">
+			<a class="internal-link" href="{{ note.baseurl }}{{ note.url }}"
+				>{{ note.title }}</a
+			>
+		</div>
+		{% endfor %} {% endfor %}
+		<a class="internal-link" href="/">see all</a>
+
+
+		<!-- {% for note in site.notes %} {{ note.last_modified_at | date: "%Y-%m-%d" }}
+		<div>
+			<a class="internal-link" href="{{ note.baseurl }}{{ note.url }}"
+				>{{ note.title }}</a
+			>
+		</div>
+		{% endfor %} -->
+	</div>
+</div>

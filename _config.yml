@@ -5,7 +5,7 @@ author: clay harmon
 simple_search: http://google.com/search
 description: A Jekyll theme for content-rich sites
 name: tufte
-markdown: kramdown
+# markdown: kramdown
 markdown_ext: "markdown,mkdown,mkdn,mkd,md"
 permalink: /articles/:short_year/:title
 timezone: America/New_York
@@ -23,8 +23,23 @@ embed_tweets: true
 # set to `false` to open non-internal links in current tab.
 open_external_links_in_new_tab: true
 
+theme: tufte-pandoc-jekyll
+
+gems:
+  - jekyll-pandoc
+
+markdown: Pandoc
+pandoc:
+  extensions:
+    - section-divs
+    - from: "markdown+tex_math_single_backslash"
+    - filter: "pandoc-sidenote"
+
 collections:
   notes:
+    output: true
+    permalink: /:title
+  impressions:
     output: true
     permalink: /:title
 

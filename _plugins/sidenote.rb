@@ -2,6 +2,7 @@ module Jekyll
   class RenderSideNoteTag < Liquid::Tag
 
     require "shellwords"
+    require "nokogiri"
 
     def initialize(tag_name, text, tokens)
       super
@@ -9,7 +10,10 @@ module Jekyll
     end
 
     def render(context)
-      "<label for='#{@text[0]}' class='margin-toggle sidenote-number'></label><input type='checkbox' id='#{@text[0]}' class='margin-toggle'/><span class='sidenote'>#{@text[1]} </span>"
+      # "<label for='#{@text[0]}' class='margin-toggle sidenote-number'></label><input type='checkbox' id='#{@text[0]}' class='margin-toggle'/><span class='sidenote'>#{@text[1]} </span>"
+      html = Nokogiri::HTML.fragment(@text[1])
+      content = html.to_html
+      "<label for='#{@text[0]}' class='margin-toggle sidenote-number'></label><input type='checkbox' id='#{@text[0]}' class='margin-toggle'/><span class='sidenote'>#{content}</span>"
     end
   end
 end

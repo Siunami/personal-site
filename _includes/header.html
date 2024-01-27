@@ -1,17 +1,19 @@
 <!--- Header and nav template site-wide -->
-<header>
-	<h2>Matthew Siu</h2>
+<!-- FILEPATH: /Users/dubberly/Desktop/personal-site/_includes/header.html -->
+<!-- BEGIN: abpxx6d04wxr -->
+<header class="header">
+	<!-- Import English name SVG -->
+	<img
+		class="english-name"
+		src="{{site.baseurl}}/assets/english-name.svg"
+		alt="English Name"
+	/>
+	<!-- Import Chinese name SVG -->
+	<img
+		class="chinese-name header-spacing"
+		src="{{site.baseurl}}/assets/chinese-name.svg"
+		alt="Chinese Name"
+	/>
 
-	<!-- <nav class="group">
-		<a href="{{site.baseurl}}/"><img class="badge" src="{{site.baseurl}}/assets/img/badge_1.png" alt="CH"></a>
-	{% for node in site.pages %}
-		{% unless node.nav_exclude %}
-		    {% if page.url == node.url %}
-		      <a class="active" href="{{node.url | prepend: site.baseurl}}" class="active">{{node.title}}</a>
-		    {% else %}
-		      <a href="{{node.url | prepend: site.baseurl}}">{{node.title}}</a>
-		    {% endif %}
-	    {% endunless %}
-  	{% endfor %}
-	</nav> -->
+	<div class="header-line header-spacing"></div>
 </header>
