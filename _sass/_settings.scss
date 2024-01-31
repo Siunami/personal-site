@@ -42,11 +42,42 @@ body, * {
 }
 
 .header-line {
+    position: relative;
     height:100%;
     width: 1px;
-    background-color: $gray;
+    background-color: $text-color;
     margin-left:auto;
     margin-right: auto;
+}
+
+.header-icons {
+    position: absolute;
+    width:30px;
+    left: -15px;
+    top: 15px;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+}
+
+.header-icon {
+    width: 20px;
+    height: 20px;
+    padding: 5px;
+    border: 1px solid $text-color;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    background-color: $bg-color;
+}
+
+.header-image {
+    width: 20px;
+    height: 20px;
+    margin:auto;
+    // padding: 5px;
+    // border: 1px solid $gray;
+    // border-radius: 50%;
+    // margin-bottom: 10px;
 }
 
 .content {
@@ -55,6 +86,10 @@ body, * {
 }
 
 /* BENTO */
+.bento {
+    margin-left: -10px;
+}
+
 .bento-half {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -146,10 +181,15 @@ body, * {
         width: 50%;
         margin-bottom: auto;
     }
+
+    .form-align {
+        padding-left: 10px;
+        width: calc(50% - 10px)
+    }
 }
 
 .post-header-subtext{
-    font-size: 0.8rem;
+    font-size: 1rem;
     color: $gray;
     margin-top:auto;
     margin-left:5px;
