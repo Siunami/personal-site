@@ -2,6 +2,45 @@
 layout: default
 ---
 
+{% assign current_index = -1 %} {% for impression in site.impressions %} {% if
+impression.title == page.title %} {% assign current_index = forloop.index %} {%
+break %} {% endif %} {% endfor %} {% if current_index > 1 %} {% assign
+previous_index = current_index | minus: 2 %}{% assign previous_title =
+site.impressions[previous_index] %} {% endif %}{% if current_index <
+site.impressions.size | minus: 1 %} {% assign next_index = current_index %}{%
+assign next_title = site.impressions[next_index] %}{% endif %}
+<div class="post-nav">
+	<a
+		href="/trails/{{ previous_title.title | replace: ' ', '-' }}"
+		class="previous post-nav-link {% if previous_title == null %}post-nav-hide{% endif %}"
+		><div>
+			<b>← Previous trail</b>
+			<div>{{previous_title.title}}</div>
+		</div></a
+	>
+
+	<a href="/trails" class="post-trails">
+		<div class="post-trails-up">↑</div>
+		<div>All trails</div>
+	</a>
+	<a
+		href="/trails/{{ next_title.title | replace: ' ', '-' }}"
+		class="next post-nav-link {% if next_title == null %}post-nav-hide{% endif %}"
+	>
+		<div>
+			<b>Next trail →</b>
+			<div>{{next_title.title}}</div>
+		</div>
+	</a>
+</div>
+<!-- {% for note in site.impressions %}
+<div>
+	<h1>{{ note.title }}</h1>
+	<p class="subtitle">{{ note.date | date: "%B %-d, %Y" }}</p>
+</div>
+{% endfor %} -->
+<!-- {% for note in site.impressions %} {{ note.last_modified_at | date:
+"%Y-%m-%d" }} {% endfor %} -->
 <h1>{{ page.title}}</h1>
 <p class="subtitle">{{ page.date | date: "%B %-d, %Y" }}</p>
 

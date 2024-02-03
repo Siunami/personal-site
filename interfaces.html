@@ -1,0 +1,114 @@
+---
+layout: page
+---
+
+<div class="grid-container">
+	{% assign prototypes = site.data.prototypes %} {% assign total_prototypes =
+	prototypes | size %} {% assign third_of_prototypes = total_prototypes |
+	divided_by: 3 %} {% assign start_index_list2 = third_of_prototypes %} {%
+	assign start_index_list3 = third_of_prototypes | times: 2 %} {% assign list1 =
+	prototypes | slice: 0, third_of_prototypes %} {% assign list2 = prototypes |
+	slice: start_index_list2, third_of_prototypes %} {% assign list3 = prototypes
+	| slice: start_index_list3, third_of_prototypes %} {% assign lists = list1 |
+	concat: list2 | concat: list3 %}
+	<div></div>
+	{% assign string_list = "jpg,png,gif" | split: "," %}
+
+	<div class="grid-item">
+		{% for prototype in list1 %} {% assign is_image = false %} {% for string in
+		string_list %} {% if prototype.resource contains string %} {% assign
+		is_image = true %} {% break %} {% endif %} {% endfor %} {% if is_image %}
+		<!-- Handle images -->
+		<img
+			src="{{ prototype.resource }}"
+			alt="{{ prototype.name }}"
+			class="image-dimensions"
+		/>
+		<span class="media-caption">{{ prototype.description }}</span>
+		{% else %}
+		<!-- Handle videos -->
+		<video
+			class="video-dimensions"
+			src="{{ prototype.resource }}"
+			controls
+		></video>
+		<span class="media-caption">{{ prototype.description }}</span>
+		{% endif %} {% endfor %}
+	</div>
+
+	<div class="grid-item">
+		{% for prototype in list2 %} {% assign is_image = false %} {% for string in
+		string_list %} {% if prototype.resource contains string %} {% assign
+		is_image = true %} {% break %} {% endif %} {% endfor %} {% if is_image %}
+		<!-- Handle images -->
+		<img
+			src="{{ prototype.resource }}"
+			alt="{{ prototype.name }}"
+			class="image-dimensions"
+		/>
+		<span class="media-caption">{{ prototype.description }}</span>
+		{% else %}
+		<!-- Handle videos -->
+		<video
+			class="video-dimensions"
+			src="{{ prototype.resource }}"
+			controls
+		></video>
+		<span class="media-caption">{{ prototype.description }}</span>
+		{% endif %} {% endfor %}
+	</div>
+
+	<div class="grid-item">
+		{% for prototype in list3 %} {% assign is_image = false %} {% for string in
+		string_list %} {% if prototype.resource contains string %} {% assign
+		is_image = true %} {% break %} {% endif %} {% endfor %} {% if is_image %}
+		<!-- Handle images -->
+		<img
+			src="{{ prototype.resource }}"
+			alt="{{ prototype.name }}"
+			class="image-dimensions"
+		/>
+		<span class="media-caption">{{ prototype.description }}</span>
+		{% else %}
+		<!-- Handle videos -->
+		<video
+			class="video-dimensions"
+			src="{{ prototype.resource }}"
+			controls
+		></video>
+		<span class="media-caption">{{ prototype.description }}</span>
+		{% endif %} {% endfor %}
+	</div>
+</div>
+
+<style>
+	.video-dimensions {
+		max-width: 300px;
+	}
+
+	.grid-container {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+
+	.grid-item {
+		display: flex;
+		flex-direction: column;
+		width: 300px;
+		margin: 10px;
+	}
+
+	.media-caption {
+		font-size: 1rem;
+	}
+
+	@media (max-width: 900px) {
+		.grid-container {
+			flex-direction: column;
+		}
+		.grid-item {
+			width: 100%;
+		}
+	}
+</style>

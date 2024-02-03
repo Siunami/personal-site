@@ -4,9 +4,10 @@ title: Nostalgia for places of the past
 date: 2024-01-15 23:07
 categories:
 ---
-<blockquote class="twitter-tweet"><p lang="in" dir="ltr">Berserk (1997). <a href="https://t.co/HEzb4eiqtM">pic.twitter.com/HEzb4eiqtM</a></p>&mdash; retro anime (@retro_twt) <a href="https://twitter.com/retro_twt/status/1746641106484232421?ref_src=twsrc%5Etfw">January 14, 2024</a></blockquote>
 
-This clip was going around recently and left me feeling nostalgic for a life that I had never lived. The world depicted in these scenes had a certain feeling of aliveness. Christopher Alexander, in an attempt to articulate this feeling himself, developed a set of patterns for communicating this feeling. I want to use these patterns as a lense to view this world. 
+This clip was going around recently and left me feeling nostalgic for a life that I had never lived. The world depicted in these scenes had a certain feeling of aliveness. Christopher Alexander, in an attempt to articulate this feeling himself, developed a set of patterns for communicating this feeling. I want to use these patterns as a lense to view this world.
+
+<blockquote class="twitter-tweet"><p lang="in" dir="ltr">Berserk (1997). <a href="https://t.co/HEzb4eiqtM">pic.twitter.com/HEzb4eiqtM</a></p>&mdash; retro anime (@retro_twt) <a href="https://twitter.com/retro_twt/status/1746641106484232421?ref_src=twsrc%5Etfw">January 14, 2024</a></blockquote>
 
 To start, one of the more prominent features of this world is this castle. Castles have always seemed to carry an allure in society{% sidenote 1 'watch a [medieval architecture historian break down the castle from Harry Potter](https://www.youtube.com/watch?v=r49zkVISluM)' %}. A couple relevant patterns.
 ![assets/img/beserker3.png](assets/img/beserker3.png)
@@ -28,7 +29,7 @@ To start, one of the more prominent features of this world is this castle. Castl
 Building Edge (Pattern 160)
 "Make sure that you treat the edge of the building as a "thing," a "place," a zone with volume to it, not a line or interface which has no thickness. Crenelate the edge of buildings with places that invite people to stop." To sit, lean, and walk, especially at those points along the perimeter which look onto interesting outdoor life.
 
-**Lastly, another conversation taking place on a sunny afternoon on a staircase** 
+**Lastly, another conversation taking place on a sunny afternoon on a staircase**
 ![assets/img/beserker2.png](assets/img/beserker2.png)
 ![assets/img/beserker5.png](assets/img/beserker5.png)
 (105) South Facing Outdoors

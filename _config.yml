@@ -1,4 +1,4 @@
-baseurl: /tufte-jekyll
+# baseurl:
 title: Tufte-Jekyll
 subtitle: Content-centric blogging
 author: clay harmon
@@ -41,7 +41,7 @@ collections:
     permalink: /:title
   impressions:
     output: true
-    permalink: /:title
+    permalink: /trails/:title
 
 post:
   template: _post.txt

@@ -1,0 +1,25 @@
+---
+layout: page
+---
+
+{% assign notes_by_month = site.notes | group_by_exp:"note", "note.date | date:
+'%B %Y'" %} {% for month in notes_by_month %}
+<!-- <span class="post-section" >
+    {{ month.name }}
+    <hr class="post-decoration"></hr>
+</span> -->
+<!-- Month and Year -->
+{% for note in month.items %}
+<div class="post-large">
+	<a class="post-large-header" href="{{ note.baseurl }}{{ note.url }}"
+		>{{ note.title }}</a
+	>
+	<div>
+		{% assign d = note.date | date: "%d" | plus:'0' %} {{ note.date | date: "%B"
+		}} {% case d %} {% when 1 or 21 or 31 %}{{ d }}st {% when 2 or 22 %}{{ d
+		}}nd {% when 3 or 23 %}{{ d }}rd {% else %}{{ d }}th {% endcase %}, {{
+		note.date | date: "%Y" }}
+	</div>
+	<div class="post-large-text">{{ note.content | truncate: 140, "" }}...</div>
+</div>
+{% endfor %} {% endfor %}

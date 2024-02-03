@@ -13,14 +13,16 @@ $contrast-color: #a00000;
 $border-color: #333333;
 $link-style: underline; // choices are 'color' or 'underline'. Color option styles links with $contrast-color set above
 
-$gray: #858585;
+$gray: #9b9b9b;
 $light-gray: #e6e6e6;
 $width: 87.5%;
+$small-width: 92.5%;
 
 // .body {
 //     margin:0px;
 //     padding:0px;
 // }
+
 
 body, * {
     margin: 0;
@@ -30,20 +32,25 @@ body, * {
 
 /* HEADER STYLING */
 .header {
-    height:100%;
+    // height:100%;
     position:absolute;
     left: -100px;
     display:flex;
     flex-direction: column;
 }
 
+
 .header-spacing {
     margin-top: 5px;
 }
 
+.header-nav {
+    display: none;
+}
+
 .header-line {
     position: relative;
-    height:100%;
+    height: calc(100vh - 400px); // Adjust the value (100px) according to your needs
     width: 1px;
     background-color: $text-color;
     margin-left:auto;
@@ -81,14 +88,36 @@ body, * {
 }
 
 .content {
-    min-height:100vh;
+    // min-height:100vh;
     width: $width;
 }
+
+.section {
+    margin-bottom: 1rem
+}
+
+.text {
+    position:relative;
+    font-family: $body-font;
+    width:100%;
+    max-width:800px;
+    font-size: 1.2rem;
+    margin-top:.5rem;
+}
+
+.flex-row {
+    display:flex;
+    flex-direction: row;
+}
+
+
 
 /* BENTO */
 .bento {
     margin-left: -10px;
+    max-width: 1020px;
 }
+
 
 .bento-half {
     display: grid;
@@ -128,20 +157,45 @@ body, * {
     border: 1px solid $gray;
     padding: 10px;
     border-radius: 4px;
+    min-height: 150px;
+    background-color: white;
 }
 
 .bento-title {
     margin-top: 0px;
+    margin-bottom: 8px;
+}
+
+.bento-bulletin-header {
+    // font-size: 1.5rem;
+    margin-top: 0rem;
+    padding-right: 0px;
+    width: fit-content;
 }
 
 .bento-time {
+    // position: absolute;
+    // bottom: 6px;
+    color: $gray;
+    margin-top: auto;
+    margin-bottom: 1px;
+    margin-left: 8px;
+}
+
+.bento-attribution {
     position: absolute;
-    bottom: 6px;
-    color: $gray
+    bottom: 10px;
+    right: 10px;
+    padding: 4px;
+    border: 1px solid $gray;
+    border-radius: 4px;
+    background-color: $border-color;
+    color: $bg-color;
+    cursor: pointer;
 }
 
 .bento-list {
-    font-size: 12px;
+    // font-size: 12px;
     width:calc(100% - 10px);
     // margin:0px;
     margin-left: 10px;
@@ -176,28 +230,39 @@ body, * {
     flex-direction: row;
     align-items: center;
     width: auto;
+    max-width: 1020px;
+
     margin-bottom: 1rem;
-    .form-group {
+    .post-group {
         width: 50%;
         margin-bottom: auto;
     }
 
-    .form-align {
+    .post-align {
         padding-left: 10px;
         width: calc(50% - 10px)
     }
 }
 
+.post-header {
+    // font-size: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 2px;
+    padding-right:0px;
+    width: fit-content;
+}
+
 .post-header-subtext{
-    font-size: 1rem;
     color: $gray;
     margin-top:auto;
-    margin-left:5px;
+    margin-bottom: 3px;
+    margin-left:10px;
 }
 
 .post-section {
     display:flex;
     flex-direction: row;
+    font-size: .8rem;
     margin-top: 8px;
     margin-bottom: 8px;
     color: $gray;
@@ -216,4 +281,187 @@ body, * {
 .post {
     margin-top:8px;
     margin-bottom:8px;
+}
+
+.post-nav {
+    display: flex;
+    flex-direction: row;
+    padding: 8px;
+    border: 1px solid $gray;
+    border-radius: 4px;
+    width: 55%;
+}
+
+.post-nav-link {
+    width: auto;
+    width: 40%
+}
+
+.post-nav-hide {
+    opacity: 0;
+
+}
+
+.post-trails {
+    margin-left:auto;
+    margin-right:auto;
+    // margin-top: auto;
+    margin-bottom: auto;
+    // font-size: 1.5rem;
+}
+
+.post-trails-up {
+    margin-left:auto;
+    margin-right:auto;
+    width:fit-content;
+    // font-size: 1.5rem;
+}
+
+// .next {
+//     margin-left: auto;
+// }
+
+.post-large-section {
+    font-size: 2rem;
+}
+
+.post-large {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-right: 0px;
+    width: fit-content;
+}
+
+.post-large-header {
+    font-size: 1.5rem;
+
+}
+
+.post-large-text {
+    font-size: 1rem;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-right: 0px;
+    width: fit-content;
+
+}
+
+@media (max-width: 1000px) {
+    .text {
+        font-size: 1.5rem;
+
+        margin-top: 1rem;
+    }
+    
+    .header {
+        position: relative;
+        left: 0px;
+        margin-top: 3rem;
+        flex-direction: row;
+    }
+
+    .english-name {
+        width: 55px;
+    }
+
+    .chinese-name {
+        display: none;
+    }
+
+    .header-nav {
+        margin-left: 20px;
+
+        margin-top: auto;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .header-nav-item {
+        font-size: 1.2rem;
+        margin-right: 10px;
+        margin-top: auto;
+        margin-bottom: auto;
+        padding: 4px; 
+        // border: 1px solid $gray;
+        // border-radius: 4px;
+        border-bottom: 1px dotted $gray;
+        height: fit-content;
+        width: fit-content;
+        user-select: none;
+        cursor: pointer;
+    }
+
+    .header-nav-item:hover {
+        background-color: $light-gray;
+    }
+
+    .post-section {
+        font-size: 1rem;
+    }
+
+
+    .bento-time {
+        margin-bottom: 2px;
+    }
+}
+
+@media (max-width: 768px) {
+    // body, * {
+    //     width: 92.5% !important;
+    // }
+
+    .content {
+        width: 90%;
+    }
+
+    .english-name {
+        width: 40px;
+    }
+
+    .bento-half {
+        display:flex;
+        flex-direction: column;
+    }
+
+    .bento-third {
+        display:flex;
+        flex-direction: column;
+    }
+
+    .bento-item {
+        min-height: 100px;
+        font-size: 1.4rem;
+    }
+
+    .bento-time {
+        margin-bottom: 0px;
+    }
+    
+
+    .side-by-side {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: auto;
+        max-width: 1020px;
+
+        margin-bottom: 1rem;
+        .post-group {
+            width: 100%;
+            margin-bottom: auto;
+        }
+
+        .post-align {
+            padding-left: 0px;
+            width: 100%;
+        }
+    }
+
+    .post-section {
+        font-size: 1.2rem;
+    }
+    
+    .post-header-subtext {
+        font-size: 1.2rem;
+    }
 }

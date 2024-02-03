@@ -1,0 +1,43 @@
+---
+layout: page
+---
+
+{% assign notes_by_month = site.impressions | group_by_exp:"impression",
+"impression.date | date: '%B %Y'" | reverse %} {% for month in notes_by_month %}
+<span class="post-large-section">
+	{{ month.name }}
+	<!-- <div
+				style="
+					height: 1px;
+					width: 78px;
+					background: linear-gradient(
+						90deg,
+						#858585 0%,
+						rgba(178, 178, 178, 0) 98.33%
+					);
+					background-image: radial-gradient(
+							circle,
+							#858585 10%,
+							transparent 10.01%
+						),
+						radial-gradient(circle, #858585 10%, white 10.01%);
+					background-size: 10px 10px;
+					background-position: 0 0, 5px 5px;
+				"
+			></div> -->
+</span>
+<!-- Month and Year -->
+{% for note in month.items %}
+<div class="post-large">
+	<a class="post-large-header" href="{{ note.baseurl }}{{ note.url }}"
+		>{{ note.title }}</a
+	>
+	<div>
+		{% assign d = note.date | date: "%d" | plus:'0' %} {{ note.date | date: "%B"
+		}} {% case d %} {% when 1 or 21 or 31 %}{{ d }}st {% when 2 or 22 %}{{ d
+		}}nd {% when 3 or 23 %}{{ d }}rd {% else %}{{ d }}th {% endcase %}, {{
+		note.date | date: "%Y" }}
+	</div>
+	<div class="post-large-text">{{ note.content | truncate: 140, "" }}...</div>
+</div>
+{% endfor %} {% endfor %}

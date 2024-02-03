@@ -1,0 +1,69 @@
+- name: Multimedia annotations
+  description: Getting context for particular terms and concepts on hover.
+  resource: /assets/prototypes/multimedia annotations.mp4
+  type: video
+
+- name: Google maps for language
+  description: A method for exploring idea space in the early stages of a research process
+  resource: /assets/prototypes/google maps.jpg
+  type: image
+
+- name: Dynamic elements for essays
+  description: Exploring methods for communicating complex mental models in a piece of text.
+  resource: /assets/prototypes/dynamic_timeline.mp4
+  type: video
+
+- name: Malleable digital materials
+  description: Exploring a more malleable digital substrate that can be shaped and manipulated to see the materials in different ways
+  resource: /assets/prototypes/Malleable_Materials.mp4
+  type: video
+
+- name: Language picker
+  description: A color picker for language
+  resource: /assets/prototypes/Language Picker.mp4
+  type: video
+
+- name: Telescopic text
+  description: A method for expanding to show extra details on demand
+  resource: /assets/prototypes/telescopic.mp4
+  type: video
+
+- name: Globe search
+  description: A geospatial search interface, offering unexpected, surprising and delightful resources
+  resource: /assets/prototypes/Map Search.mp4
+  type: video
+
+- name: Graph explorer
+  description: A graph explorer for chinese language
+  resource: /assets/prototypes/graph_explorer.mp4
+  type: video
+
+- name: Ask and reply
+  description: Question asking service using LLMs that supports follow up replies
+  resource: /assets/prototypes/question and replies.mp4
+  type: video
+
+- name: Exploding text
+  description: Exploding text
+  resource: /assets/prototypes/exploding text.gif
+  type: image
+
+- name: Visual storytelling
+  description: A storytelling engine that finds visuals to match a story
+  resource: /assets/prototypes/Visual stories.mp4
+  type: video
+
+- name: Dreams
+  description: An interface that resurfaces contents of a collection over time
+  resource: /assets/prototypes/Dreams.mp4
+  type: video
+
+- name: Image gallery
+  description: Image gallery viewed in different ways
+  resource: /assets/prototypes/image_gallery.mp4
+  type: video
+
+- name: Peek.mov
+  description: Peek to get more context
+  resource: /assets/prototypes/Peek.mp4
+  type: video
