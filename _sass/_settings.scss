@@ -118,6 +118,26 @@ body, * {
     max-width: 1020px;
 }
 
+.bento-full {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    grid-auto-rows: minmax(140px, auto);
+    margin-bottom: 10px;
+}
+
+.bento-item-1-1 {
+    grid-column: 1 / 1;
+}
+
+.letter {
+    position:relative;
+    border: 1px solid $gray;
+    padding: 20px 30px;
+    border-radius: 4px;
+    min-height: 150px;
+    background-color: white;
+}
 
 .bento-half {
     display: grid;

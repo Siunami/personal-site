@@ -2,23 +2,41 @@
 layout: page
 ---
 
-<div class="section">
-	<p class="text">歡迎光臨, welcome!</p>
-	<p class="text">I do interface research exploring ways to expand what we can <i>perceive</i> and <i>understand</i>.</p>
-	<p class="text">My current focus is on prototyping a text editor that can help people synthesize messy, unstructured materials. More to share soon! I’ve done research at NYU focused on creativity support tools, developed interfaces at Midjourney and worked as an interaction designer alongside Hugh Dubberly.</p>
-	<p class="text">
-		<span>
-			Friends have described me as an old soul. Patient, perceptive, persistent. Please have a look around and feel free to say hi.
-			<span style="margin-left:5px;"><a style="text-decoration: none; background-repeat: no-repeat;" href="mailto:matthewwilsonsiu@gmail.com"><img style="width:20px;" src="/assets/mail.svg"/></a></span>
-			<span style="margin-left:5px;"><a style="text-decoration: none; background-repeat: no-repeat;" href="https://twitter.com/MatthewWSiu" target="_blank"><img style="width:20px;" src="/assets/twitter.svg"/></a></span>
-		</span>
-		
-		
-	</p>
-	<p class="text">
-		<img style="width: 40px;opacity:0;user-select: none;" src="/assets/Signature.svg" alt="Signature">	
-		<img style="width: 100px;position:absolute; right:50px; top:-30px; user-select: none;" src="/assets/Signature.svg" alt="Signature">	
-	</p>
+<div class="bento bento-full">
+	<div class="letter bento-item-1-1">
+		<p class="text">Welcome!</p>
+		<p class="text">I'm an interface researcher exploring ways to expand what we can <i>perceive</i> and <i>understand</i>.</p>
+		<p class="text">I’ve done research at NYU focused on <i>creativity support tools</i>, developed interfaces at Midjourney and worked as an interaction designer alongside Hugh Dubberly.</p>
+		<p class="text">Over the last year, I've been building a <i>novel text editing environment</i> that can help people synthesize messy, unstructured materials. More to share soon!</p>
+		<p class="text">If you find that my work resonates with you, this is my standing invitation to reach out!</p>
+		<!-- <p class="text">
+
+		</p> -->
+		<!-- Friends have described me as an old soul. Patient, perceptive, persistent. Please have a look around and feel free to say hi. -->
+		<div style="color:grey; display:flex; flex-direction: row;">
+			<a style="text-decoration: none; background-repeat: no-repeat; margin-top:auto; margin-bottom: auto;" href="mailto:matthewwilsonsiu@gmail.com">
+				<img style="width:auto; margin-top:auto; margin-bottom: auto;" src="/assets/mail.svg"/>
+			</a> 
+			<div class="text">
+				matthewwilsonsiu@gmail.com
+
+			</div>
+		</div>
+		<div class="text" style="color:grey">
+			<a style="text-decoration: none; background-repeat: no-repeat; margin-top:auto; margin-bottom: auto;" href="https://twitter.com/MatthewWSiu" target="_blank">
+				<img style="width:auto; margin-top:auto; margin-bottom: auto;" src="/assets/twitter.svg"/>
+			</a> 
+			@MatthewWSiu
+		</div>
+			
+		<!-- <p class="text">
+			<img style="width: 40px;opacity:0;user-select: none;" src="/assets/Signature.svg" alt="Signature">	
+			<img style="width: 100px;position:absolute; right:50px; top:-30px; user-select: none;" src="/assets/Signature.svg" alt="Signature">	
+		</p> -->
+		<img style="position:absolute; right: 10px; bottom: 10px;" src="/assets/letter.png"/>
+		<img style="position:absolute; left: 10px; top: 10px; transform: rotate(180deg);" src="/assets/letter.png"/>
+
+	</div>
 </div>
 
 <div class="bento bento-third">
@@ -112,13 +130,13 @@ layout: page
 		</span> -->
 		<!-- Month and Year -->
 		{% for note in month.items %}
-		<div class="post text">
-			<a href="{{ note.baseurl }}{{ note.url }}"
+		<div style="color:#649FE1" class="post text">
+			<a style="color: #649FE1" href="{{ note.baseurl }}{{ note.url }}"
 				>{{ note.title }}</a
 			>
 		</div>
 		{% endfor %} {% endfor %}
-		<a href="/artifacts">see all</a>
+		<a style="color: black" href="/artifacts">see all</a>
 
 
 		<!-- {% for note in site.notes %} {{ note.last_modified_at | date: "%Y-%m-%d" }}
