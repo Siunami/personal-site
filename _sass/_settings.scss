@@ -16,7 +16,7 @@ $link-style: underline; // choices are 'color' or 'underline'. Color option styl
 $gray: #9b9b9b;
 $light-gray: #e6e6e6;
 $width: 87.5%;
-$small-width: 92.5%;
+// $small-width: 92.5%;
 
 // .body {
 //     margin:0px;
@@ -426,12 +426,13 @@ body, * {
 }
 
 @media (max-width: 768px) {
-    // body, * {
-    //     width: 92.5% !important;
-    // }
+    body {
+        // width: $small-width !important;
+        padding-left: 3.5% !important;
+    }
 
     .content {
-        width: 90%;
+        width: 100% !important;
     }
 
     .english-name {
