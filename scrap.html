@@ -1,0 +1,24 @@
+{% assign latest_bulletin = site.data.bulletin | first %} {% assign
+bulletin_parts = latest_bulletin.bulletin | split: ';' %}
+<span class="flex-row bento-title">
+	<h2 class="bento-bulletin-header">Bulletin</h2>
+	<span class="bento-time">{{ latest_bulletin.date }}</span>
+</span>
+
+{% for part in bulletin_parts %}
+<span>{{ part | strip }}</span>{% unless forloop.last %}<br /><br />{% endunless
+%} {% endfor %}
+
+<div
+	style="
+		position: absolute;
+		right: -20px;
+		top: 10px;
+		display: flex;
+		flex-direction: column;
+	"
+>
+	<div>.</div>
+	<div>.</div>
+	<div>.</div>
+</div>

@@ -4,34 +4,37 @@ layout: page
 
 <div class="bento bento-full">
 	<div class="letter bento-item-1-1">
-		<p class="text">Welcome!</p>
-		<p class="text">I'm an interface researcher exploring ways to expand what we can <i>perceive</i> and <i>understand</i>.</p>
-		<p class="text">I’ve done research at NYU focused on <i>creativity support tools</i>, developed interfaces at Midjourney and worked as an interaction designer alongside Hugh Dubberly.</p>
-		<p class="text">Over the last year, I've been building a <i>novel text editing environment</i> that can help people synthesize messy, unstructured materials. More to share soon!</p>
-		<p class="text">If you find that my work resonates with you, this is my standing invitation to reach out!</p>
-		<!-- <p class="text">
+		<div style="z-index:100; ">
+			<p class="text">Welcome!</p>
+			<p class="text">I'm an interface researcher exploring ways to expand what we can <i>perceive</i> and <i>understand</i>.</p>
+			<p class="text">I’ve done research at NYU focused on <i>creativity support tools</i>, developed interfaces at Midjourney and worked as an interaction designer alongside Hugh Dubberly.</p>
+			<p class="text">Over the last year, I've been building a <i>novel text editing environment</i> that can help people synthesize messy, unstructured materials. More to share soon!</p>
+			<p class="text">If you find that my work resonates with you, this is my standing invitation to reach out!</p>
+			<!-- <p class="text">
+	
+			</p> -->
+			<!-- Friends have described me as an old soul. Patient, perceptive, persistent. Please have a look around and feel free to say hi. -->
+			<div class="text" style="color:grey; display:flex; flex-direction: row; padding-left:20px;">
+				<a style="position: absolute;left:0px; top:3px;text-decoration: none; background-repeat: no-repeat; margin-top:auto; margin-bottom: auto;" href="mailto:matthewwilsonsiu@gmail.com">
+					<img style="width:auto; margin-top:auto; margin-bottom: auto;" src="/assets/mail.svg"/>
+				</a> 
+				matthewwilsonsiu@gmail.com
+			</div>
+			<div class="text" style="color:grey; display:flex; flex-direction: row; padding-left:20px;">
+				<a style="position: absolute;left:0px; top:3px;text-decoration: none; background-repeat: no-repeat; margin-top:auto; margin-bottom: auto;" href="https://twitter.com/MatthewWSiu" target="_blank">
+					<img style="width:auto; margin-top:auto; margin-bottom: auto;" src="/assets/twitter.svg"/>
+				</a> 
+				@MatthewWSiu
+			</div>
+		</div>
 
-		</p> -->
-		<!-- Friends have described me as an old soul. Patient, perceptive, persistent. Please have a look around and feel free to say hi. -->
-		<div class="text" style="color:grey; display:flex; flex-direction: row; padding-left:20px;">
-			<a style="position: absolute;left:0px; top:3px;text-decoration: none; background-repeat: no-repeat; margin-top:auto; margin-bottom: auto;" href="mailto:matthewwilsonsiu@gmail.com">
-				<img style="width:auto; margin-top:auto; margin-bottom: auto;" src="/assets/mail.svg"/>
-			</a> 
-			matthewwilsonsiu@gmail.com
-		</div>
-		<div class="text" style="color:grey; display:flex; flex-direction: row; padding-left:20px;">
-			<a style="position: absolute;left:0px; top:3px;text-decoration: none; background-repeat: no-repeat; margin-top:auto; margin-bottom: auto;" href="https://twitter.com/MatthewWSiu" target="_blank">
-				<img style="width:auto; margin-top:auto; margin-bottom: auto;" src="/assets/twitter.svg"/>
-			</a> 
-			@MatthewWSiu
-		</div>
 			
 		<!-- <p class="text">
 			<img style="width: 40px;opacity:0;user-select: none;" src="/assets/Signature.svg" alt="Signature">	
 			<img style="width: 100px;position:absolute; right:50px; top:-30px; user-select: none;" src="/assets/Signature.svg" alt="Signature">	
 		</p> -->
-		<img style="position:absolute; right: 10px; bottom: 10px;" src="/assets/letter.png"/>
-		<img style="position:absolute; left: 10px; top: 10px; transform: rotate(180deg);" src="/assets/letter.png"/>
+		<img style="position:absolute;z-index: 1; right: 10px; bottom: 10px; user-select: none;" src="/assets/letter.png"/>
+		<img style="position:absolute;z-index: 1; left: 10px; top: 10px; transform: rotate(180deg); user-select: none;" src="/assets/letter.png"/>
 
 	</div>
 </div>
@@ -41,16 +44,31 @@ layout: page
 		<h2 class="bento-title">Interface Gallery</h2>
 	</div>
 	<div class="bento-item bento-item-3-3" style=" background-image: url('assets/bulletin3.png'); background-repeat: no-repeat; background-size: cover;">
-		{% assign latest_bulletin = site.data.bulletin | first %}
-		{% assign bulletin_parts = latest_bulletin.bulletin | split: ';' %}
-		<span class="flex-row bento-title">
-			<h2 class="bento-bulletin-header">Bulletin</h2>
-			<span class="bento-time">{{ latest_bulletin.date }}</span>
-		</span>
+		{% for data in site.data.bulletin %}
+		<div class="bulletin-item hide">
+			{% assign bulletin_parts = data.bulletin | split: ';' %}
 
-		{% for part in bulletin_parts %}
-			<span>{{ part | strip }}</span>{% unless forloop.last %}<br/><br/>{% endunless %}
+			<span class="flex-row bento-title">
+				<h2 class="bento-bulletin-header">Bulletin</h2>
+				<span class="bento-time">{{ data.date }}</span>
+			</span>
+	
+			{% for part in bulletin_parts %}
+				<span>{{ part | strip }}</span>{% unless forloop.last %}<br/><br/>{% endunless %}
+			{% endfor %}
+		</div>
 		{% endfor %}
+
+		<div id="bulletin-toggle">	
+			<div class="caret-item caret-up" style="position:relative">
+				<div class="caret-disable"></div>
+				<img class="caret" style="transform: rotate(-180deg);" src="/assets/caret.svg" alt="Caret">
+			</div>
+			<div class="caret-item caret-down" style="position:relative">
+				<div class="caret-disable"></div>
+				<img class="caret" src="/assets/caret.svg" alt="Caret">
+			</div>
+		</div>
 	</div>
 </div>
 <div class="bento bento-half">
@@ -145,3 +163,44 @@ layout: page
 		{% endfor %} -->
 	</div>
 </div>
+
+<script>
+	let bulletinItems = document.querySelectorAll('.bulletin-item');
+	let currentBulletin = 0;
+	bulletinItems[currentBulletin].classList.remove("hide");
+
+	let downCaretDisable = document.querySelector('.caret-down').querySelector(".caret-disable");
+	let upCaretDisable = document.querySelector('.caret-up').querySelector(".caret-disable");
+
+	function toggleBulletinCarets() {
+		if (currentBulletin == 0) {
+			upCaretDisable.classList.remove("caret-hide")
+			downCaretDisable.classList.add("caret-hide")
+		} else if (currentBulletin == bulletinItems.length - 1) {
+			upCaretDisable.classList.add("caret-hide")
+			downCaretDisable.classList.remove("caret-hide")
+		} else {
+			upCaretDisable.classList.add("caret-hide")
+			downCaretDisable.classList.add("caret-hide")
+		}
+	}
+
+	toggleBulletinCarets()
+	let downCaret = document.querySelector('.caret-down').querySelector(".caret");
+	let upCaret = document.querySelector('.caret-up').querySelector(".caret");
+
+	downCaret.addEventListener('click', function() {
+		bulletinItems[currentBulletin].classList.add("hide");
+		currentBulletin = Math.min(currentBulletin + 1, bulletinItems.length - 1);
+		bulletinItems[currentBulletin].classList.remove("hide");
+		toggleBulletinCarets()
+	});
+
+	upCaret.addEventListener('click', function() {
+		bulletinItems[currentBulletin].classList.add("hide");
+		currentBulletin = Math.max(currentBulletin - 1, 0);
+		bulletinItems[currentBulletin].classList.remove("hide");
+		toggleBulletinCarets()
+	});
+
+</script>
