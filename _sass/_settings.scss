@@ -281,7 +281,9 @@ body, * {
     width: auto;
     max-width: 1020px;
 
+    margin-top: 2.5rem;
     margin-bottom: 1rem;
+
     .post-group {
         width: 50%;
         margin-bottom: auto;
@@ -499,6 +501,7 @@ body, * {
         width: auto;
         max-width: 1020px;
 
+        margin-top: 2.5rem;
         margin-bottom: 1rem;
         .post-group {
             width: 100%;
@@ -506,6 +509,7 @@ body, * {
         }
 
         .post-align {
+            margin-top:2rem;
             padding-left: 0px;
             width: 100%;
         }
@@ -516,6 +520,7 @@ body, * {
     }
     
     .post-header-subtext {
+        margin-top:auto;
         font-size: 1.2rem;
     }
 }
