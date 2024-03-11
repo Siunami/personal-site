@@ -1,0 +1,469 @@
+---
+permalink: /peek/
+---
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>peek</title>
+	<style>
+		body {
+			font: 16px system-ui;
+			user-select: none; /* no text selection needed */
+			-webkit-user-select: none; /* no text selection needed */
+			background-color: #eee;
+			overflow: hidden; /* prevent accidentally dragging the viewport on iOS */
+			margin: 0;
+		}
+
+		#article {
+			top: 10px;
+			right: 10px;
+			position: absolute;
+
+			padding: 5px;
+			border: 1px solid black;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<div id="article">Original article</div>
+	<script>
+		let article = document.getElementById("article");
+		article.onclick = function f() {
+			window.open(
+				"https://sci-hub.se/https://doi.org/10.2307/1210376?curius=524",
+				"_blank"
+			);
+		};
+
+		("use strict");
+
+		// === generic scheduler & its debugger
+		let scheduledRender = false;
+		function scheduleRender(debugForceRender) {
+			if (scheduledRender) return;
+			scheduledRender = true;
+
+			requestAnimationFrame(function renderAndMaybeScheduleAnotherRender(now) {
+				// eye-grabbing name. No "(anonymous)" function in the debugger & profiler
+				scheduledRender = false;
+				if (render(now)) scheduleRender();
+			});
+		}
+
+		// HELPERS
+		function insertAfter(newNode, referenceNode) {
+			referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+		}
+
+		// === generic spring physics
+		// 4ms/step for the spring animation's step. Typically 4 steps for 60fps (16.6ms/frame) and 2 for 120fps (8.3ms/frame). Frame time delta varies, so not always true
+		// could use 8ms instead, but 120fps' 8.3ms/frame means the computation might not fit in the remaining 0.3ms, which means sometime the simulation step wouldn't even run once, giving the illusion of jank
+		const msPerAnimationStep = 4;
+		function spring(pos, v = 0, k = 290, b = 24) {
+			return { pos, dest: pos, v, k, b }; // k = stiffness, b = damping. Try https://chenglou.me/react-motion/demos/demo5-spring-parameters-chooser/
+		}
+		function springStep(config) {
+			// https://blog.maximeheckel.com/posts/the-physics-behind-spring-animations/
+			// this seems inspired by https://github.com/chenglou/react-motion/blob/9e3ce95bacaa9a1b259f969870a21c727232cc68/src/stepper.js
+			const t = msPerAnimationStep / 1000; // convert to seconds for the physics equation
+			const { pos, dest, v, k, b } = config;
+			// for animations, dest is actually spring at rest. Current position is the spring's stretched/compressed state
+			const Fspring = -k * (pos - dest); // Spring stiffness, in kg / s^2
+			const Fdamper = -b * v; // Damping, in kg / s
+			const a = Fspring + Fdamper; // a needs to be divided by mass, but we'll assume mass of 1. Adjust k and b to change spring curve instead
+			const newV = v + a * t;
+			const newPos = pos + newV * t;
+
+			config.pos = newPos;
+			config.v = newV;
+		}
+		function springGoToEnd(config) {
+			config.pos = config.dest;
+			config.v = 0;
+		}
+
+		function prepareTextSections(element, text, highlight) {
+			const textContainer = document.createElement("div");
+
+			let parts = text.split(highlight);
+
+			for (let part of parts) {
+				let textNode = document.createElement("span");
+				textNode.innerText = part;
+				textNode.style.lineWrap = "line-wrap";
+				textNode.style.display = "flex";
+				textNode.style.flexDirection = "row wrap";
+				textContainer.appendChild(textNode);
+				if (part !== parts[parts.length - 1]) {
+					let highlightNode = document.createElement("span");
+					highlightNode.style.backgroundColor = "yellow";
+
+					highlightNode.style.color = "black";
+					// highlightNode.style.fontWeight = "bold";
+					highlightNode.appendChild(document.createTextNode(highlight));
+					centerNode = highlightNode;
+					textContainer.appendChild(highlightNode);
+				}
+			}
+
+			element.appendChild(textContainer);
+			const textElBbox = textContainer.getBoundingClientRect();
+			const bbox = centerNode.getBoundingClientRect();
+
+			const defaultScroll = bbox.top - textElBbox.top - 10;
+			element.scrollTo({ left: 0, top: defaultScroll, behavior: "instant" });
+
+			const defaultHeight = bbox.height + 18;
+			textContainer.style.maxHeight = defaultHeight.dest + "px";
+
+			return { defaultHeight, defaultScroll, textContainer };
+		}
+
+		function hasDivisibleNumberInRange(num1, num2, divisor) {
+			if (num1 > num2) {
+				var tempNum = num1;
+				num1 = num2;
+				num2 = tempNum;
+			}
+
+			// We use Math.ceil on num1 to make sure we start with a whole number that's equal or greater than num1
+			// And we use Math.floor on num2 to make sure we don't go past num2
+			for (var i = Math.ceil(num1); i <= Math.floor(num2); i++) {
+				if (i % divisor == 0 && i != 0) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		function logBaseB(x, b) {
+			return Math.log(x) / Math.log(b);
+		}
+
+		function example4(frequency, type) {
+			o = context.createOscillator();
+			g = context.createGain();
+			o.type = type;
+			o.connect(g);
+			o.frequency.value = frequency;
+			g.connect(context.destination);
+			o.start(0);
+
+			g.gain.exponentialRampToValueAtTime(
+				0.0000000001,
+				context.currentTime + 0.5
+			);
+		}
+
+		// === constant layout metrics. The rest is dynamic
+		const fontSize = "20px";
+		const fontFamily = "monospace";
+
+		// === state
+		let animatedUntilTime = null;
+		let text =
+			"INTERVIEW\n\nI spoke with Charles Eames on several occasions during January, 1970, and the quotes in the preceding article are excerpted from those conversations. Afterward, I posed written questions to Eames, intended to capsulize and explore many of the discussions we had had, to which he responded in writing.\n\nQ: Your career has seen many permutations. At times you have been an architect, furniture designer, a craftsman, an inventor, a film-maker, and a professor. Do you see a sense of design in your own career, or does it appear to be more accidental or haphazard?\n\nA: Looking back on our work, I see no design-certainly nothing haphazard, and not much that could really be called accidental. What I think I see is a natural, though not predictable, growth toward a goal that has not ever been specified.\n\nQ: How does an Eames film originate? What do the discussions with the producer(s) entail? What determines whether you and Ray will accept or reject a proposed film?\n\nA: A film comes as a result of one of two situations. It is either a logical extension of some immediate problem we are working on, or it is something we have been wanting to do for a long time and can't put off any longer\n\nQ: On several occasions you have stated that you regard film simply as the medium through which you solve problems and explain concepts. What, for you, has made film so uniquely suited to this task?\n\nA: We have fallen for the illusion that film is a perfectly controlled medium; that after the mess of production, when it is all in the can, nothing can erode it-the image, the color, the timing, the sound, everything is under control. It is just an illusion- thoughtless reproduction, projection and presentation turn it into a mess again. Still, putting an idea on film provides the ideal discipline for whittling that idea down to size.\n\nQ: One of the most consistent techniques in your films is information-overload, that is, you habitually give more data than the mind can assimilate. What do you think is the effect of this cascading level of information on the viewer? Do you think this effect can be conditioning, that it can expand the ability to perceive? In other words, will a viewer learn more from the fifth Eames film he sees than the first, assuming they are of equal complexity?\n\nA: I don't really believe we overload, but if that is what it is, we try to use it in a way that heightens the reality of the subject, and where, if the viewer is reduced to only a sampling, that sampling will be true to the spirit of the subject. Maybe after seeing one or two the viewer learns to relax.";
+		let highlight =
+			"What I think I see is a natural, though not predictable, growth toward a goal that has not ever been specified.";
+
+		let startDrag = null;
+		let currPosition = null;
+
+		var context = new AudioContext();
+		var o = null;
+		var g = null;
+
+		// start position at 20 which is height of slider
+		let lastPosition = 20;
+
+		const debug = false;
+
+		// === DOM elements
+
+		document.body.style.height = "100vh";
+		document.body.style.width = "100vw";
+		document.body.style.position = "absolute";
+		document.body.style.top = "0px";
+		document.body.style.left = "0px";
+
+		let textEl = document.createElement("div");
+		textEl.style.lineWrap = "line-wrap";
+		textEl.style.maxHeight = "200px";
+		const defaultMarginTop = 400;
+
+		textEl.style.margin = `${defaultMarginTop}px 20%`;
+		textEl.style.padding = "0px 20px";
+		textEl.style.overflow = "hidden";
+		textEl.style.border = "1px solid gray";
+		textEl.style.borderRadius = "5px";
+
+		document.body.appendChild(textEl);
+
+		let centerNode;
+
+		const { defaultHeight, defaultScroll, textContainer } = prepareTextSections(
+			textEl,
+			text,
+			highlight
+		);
+		const textElHeightSpring = spring(defaultHeight);
+		const textElScrollSpring = spring(defaultScroll);
+		const textElTopSpring = spring(0);
+
+		let peekHandleEl = document.createElement("div");
+		peekHandleEl.style.position = "absolute";
+
+		const textElBbox = textEl.getBoundingClientRect();
+
+		const defaultTop = textElBbox.top + textElHeightSpring.dest / 2 - 10;
+		const peekSpring = spring(defaultTop);
+
+		// 10 is height of the handle
+		peekHandleEl.style.top = peekSpring.dest + "px";
+		peekHandleEl.style.left = textElBbox.left - 30 + "px";
+		peekHandleEl.style.width = "20px";
+		peekHandleEl.style.height = "20px";
+		peekHandleEl.style.backgroundColor = "gray";
+		peekHandleEl.style.borderRadius = "40px";
+
+		const defaultSpringSVGHeight = 20;
+		const springSVGHeightSpring = spring(defaultSpringSVGHeight);
+		const peekSpringSVG = document.createElementNS(
+			"http://www.w3.org/2000/svg",
+			"svg"
+		);
+		peekSpringSVG.setAttribute("viewBox", `0 0 20 ${defaultSpringSVGHeight}`);
+		peekSpringSVG.style.position = "absolute";
+		peekSpringSVG.style.top = defaultTop + "px";
+		peekSpringSVG.style.left = textElBbox.left - (debug ? 50 : 30) + "px";
+		peekSpringSVG.style.width = "20px";
+		peekSpringSVG.style.height = `${defaultSpringSVGHeight}px`;
+
+		if (debug) peekSpringSVG.style.backgroundColor = "gray";
+
+		const peekSpringSVGLine = document.createElementNS(
+			"http://www.w3.org/2000/svg",
+			"line"
+		);
+
+		peekSpringSVGLine.setAttribute("x1", "10");
+		peekSpringSVGLine.setAttribute("y1", `${defaultSpringSVGHeight / 2}`);
+		peekSpringSVGLine.setAttribute("x2", "10");
+		peekSpringSVGLine.setAttribute("y2", `${defaultSpringSVGHeight}`);
+		peekSpringSVGLine.setAttribute("stroke", "black");
+		peekSpringSVGLine.setAttribute("stroke-dasharray", "5,5");
+
+		peekSpringSVG.appendChild(peekSpringSVGLine);
+
+		document.body.appendChild(peekSpringSVG);
+		document.body.appendChild(peekHandleEl);
+
+		function springForEach(f) {
+			f(peekSpring);
+			f(textElHeightSpring);
+			f(textElScrollSpring);
+			f(textElTopSpring);
+			f(springSVGHeightSpring);
+		}
+
+		// === event handlers
+		peekHandleEl.addEventListener("mouseenter", (ev) => {
+			if (document.body.style.cursor !== "grabbing")
+				document.body.style.cursor = "grab";
+		});
+
+		peekHandleEl.addEventListener("mouseleave", (ev) => {
+			if (document.body.style.cursor !== "grabbing")
+				document.body.style.cursor = "default";
+		});
+
+		peekHandleEl.addEventListener("mousedown", (ev) => {
+			startDrag = {
+				x: ev.clientX,
+				y: ev.clientY,
+			};
+			document.body.style.cursor = "grabbing";
+			scheduleRender();
+		});
+
+		window.addEventListener("touchstart", (ev) => {
+			console.log("touchstart");
+			console.log(ev);
+			var touch = ev.touches[0];
+			startDrag = {
+				x: touch.clientX,
+				y: touch.clientY,
+			};
+			document.body.style.cursor = "grabbing";
+			scheduleRender();
+		});
+
+		window.addEventListener("mousemove", (ev) => {
+			if (startDrag) {
+				currPosition = {
+					x: ev.clientX,
+					y: ev.clientY,
+				};
+			}
+			scheduleRender();
+		});
+
+		window.addEventListener("touchmove", (ev) => {
+			if (startDrag) {
+				var touch = ev.touches[0];
+
+				currPosition = {
+					x: touch.clientX,
+					y: touch.clientY,
+				};
+			}
+			scheduleRender();
+		});
+
+		window.addEventListener("mouseup", (ev) => {
+			document.body.style.cursor = "default";
+			if (startDrag) {
+				startDrag = null;
+				currPosition = null;
+			}
+			scheduleRender();
+		});
+
+		window.addEventListener("touchend", (ev) => {
+			document.body.style.cursor = "default";
+
+			if (startDrag) {
+				startDrag = null;
+				currPosition = null;
+			}
+			scheduleRender();
+		});
+
+		function render(now) {
+			// === step 1: batched DOM reads (to avoid accidental DOM read & write interleaving)
+			const windowSizeX = document.documentElement.clientWidth; // excludes scroll bar & invariant under safari pinch zoom
+
+			// === step 2: handle inputs-related state change
+			if (startDrag && currPosition) {
+				const delta = currPosition.y - startDrag.y;
+				if (delta > 0) {
+					peekSpring.dest = defaultTop + delta;
+					textElHeightSpring.dest = defaultHeight + delta;
+					textElScrollSpring.dest = 0;
+					textElTopSpring.dest = 0;
+				} else {
+					peekSpring.dest = defaultTop + delta;
+					textElHeightSpring.dest = defaultHeight + Math.abs(delta);
+					// springSVGHeightSpring.dest = defaultSpringSVGHeight + Math.abs(delta);
+					textElScrollSpring.dest = delta;
+					textElTopSpring.dest = delta;
+				}
+				springSVGHeightSpring.dest = defaultSpringSVGHeight + delta;
+			} else {
+				peekSpring.dest = defaultTop;
+				textElHeightSpring.dest = defaultHeight;
+				springSVGHeightSpring.dest = defaultSpringSVGHeight;
+
+				textElScrollSpring.dest = 0;
+				textElTopSpring.dest = 0;
+			}
+
+			// === step 3: calculate new layout & cursor
+
+			// === step 4: run animation
+			let newAnimatedUntilTime = animatedUntilTime ?? now;
+			const steps = Math.floor(
+				(now - newAnimatedUntilTime) / msPerAnimationStep
+			); // run x spring steps. Decouple physics simulation from framerate!
+			newAnimatedUntilTime += steps * msPerAnimationStep;
+			let stillAnimating = false;
+			springForEach((s) => {
+				for (let i = 0; i < steps; i++) springStep(s);
+				if (Math.abs(s.v) < 0.01 && Math.abs(s.dest - s.pos) < 0.01)
+					springGoToEnd(s); // close enough, done
+				else stillAnimating = true;
+			});
+
+			// === step 5: render. Batch DOM writes
+			peekHandleEl.style.top = peekSpring.pos + "px";
+
+			peekSpringSVG.setAttribute(
+				"viewBox",
+				`0 0 20 ${Math.abs(springSVGHeightSpring.pos)}`
+			);
+			peekSpringSVG.style.height = Math.abs(springSVGHeightSpring.pos) + "px";
+			peekSpringSVGLine.setAttribute(
+				"y2",
+				Math.abs(springSVGHeightSpring.pos) + ""
+			);
+			if (springSVGHeightSpring.pos < 0) {
+				peekSpringSVG.style.top = defaultTop + springSVGHeightSpring.pos + "px";
+				peekSpringSVGLine.setAttribute("y1", `0`);
+			} else {
+				peekSpringSVG.style.top = defaultTop + "px";
+				peekSpringSVGLine.setAttribute("y1", `${defaultSpringSVGHeight / 2}`);
+			}
+			// if (textElTopSpring.pos == 0) {
+			// 	peekSpringSVG.style.top = defaultTop + "px";
+			// } else {
+			// peekSpringSVG.style.top =
+			// 	defaultTop - springSVGHeightSpring.pos + 10 + "px";
+			// }
+
+			textEl.style.maxHeight = textElHeightSpring.pos + "px";
+			textEl.style.marginTop = `calc(${
+				defaultMarginTop + textElTopSpring.pos
+			}px)`;
+			// scroll up be the delta
+			textContainer.style.transform =
+				"translateY(" + -textElScrollSpring.pos + "px)";
+
+			console.log(
+				springSVGHeightSpring.pos - 20,
+				logBaseB(Math.abs(springSVGHeightSpring.pos - 20), 1.09)
+			);
+
+			// check if last sound is null or 100 ms ago
+			// convert date to a number
+
+			// See if there's a whole number divisible by 10 between the last position and the current position
+			// if so, play a sound
+			const currentPosition =
+				springSVGHeightSpring.pos - defaultSpringSVGHeight;
+
+			if (
+				lastPosition != null &&
+				hasDivisibleNumberInRange(lastPosition, currentPosition, 40)
+			) {
+				example4(360 + Math.abs(springSVGHeightSpring.pos - 20), "sine");
+			}
+
+			lastPosition = springSVGHeightSpring.pos - defaultSpringSVGHeight;
+
+			// if (
+			// 	lastPostion == null ||
+			// 	(currTime - lastSound > 300 && springSVGHeightSpring.pos != 20)
+			// ) {
+			// 	lastSound = currTime;
+			// 	example4(360 + Math.abs(springSVGHeightSpring.pos) - 20, "sine");
+			// }
+
+			// if (springSVGHeightSpring.pos != 20) {
+			// 	example4(360 + Math.abs(springSVGHeightSpring.pos) - 20, "sine");
+			// }
+
+			// === step 6: update state & prepare for next frame
+
+			animatedUntilTime = stillAnimating ? newAnimatedUntilTime : null;
+
+			return stillAnimating;
+		}
+
+		scheduleRender();
+	</script>
+</body>

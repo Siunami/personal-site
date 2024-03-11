@@ -1,0 +1,390 @@
+---
+permalink: /remix/
+---
+
+<html>
+	<head>
+		<title>remix</title>
+		<style>
+			* {
+				font-family: Georgia, "Times New Roman", Times, serif;
+			}
+
+			.text-style {
+				font-size: 18px;
+			}
+
+			.dimensions {
+				width: 50%;
+				height: 50%;
+			}
+
+			#textarea {
+				position: absolute;
+
+				left: calc(50% - 350px);
+				top: 25%;
+				background-color: white;
+
+				width: 700px;
+				border-radius: 5px;
+			}
+
+			#explode {
+				position: fixed;
+				left: 20px;
+				top: 20px;
+			}
+
+			#text {
+				max-width: 50%;
+			}
+
+			#bomb {
+				width: 200px;
+				height: auto;
+				position: absolute;
+				left: 42%;
+				top: 10%;
+			}
+
+			.mobile-message {
+				display: none;
+			}
+
+			@media only screen and (max-device-width: 600px) {
+				.text-style {
+					font-size: 48px;
+				}
+
+				.mobile-message {
+					display: block;
+					position: absolute;
+					top: 10px;
+					right: 10px;
+					font-size: 24px;
+				}
+
+				#bomb {
+					width: 400px;
+					height: auto;
+					position: absolute;
+					left: calc(50% - 200px);
+					top: 10%;
+				}
+
+				#textarea {
+					width: 90%;
+					left: 5%;
+					right: 5%;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<!-- <button id="explode">explode</button> -->
+		<div contenteditable="true" id="text" class="text-style"></div>
+		<textarea id="textarea" class="text-style dimensions"></textarea>
+		<img
+			id="bomb"
+			src="https://composermatt.blob.core.windows.net/composer/3779.png"
+		/>
+
+		<!-- <div class="mobile-message">not mobile optimized</div> -->
+	</body>
+	<script>
+		/**
+		 * Returns a random integer between min (inclusive) and max (inclusive).
+		 * The value is no lower than min (or the next integer greater than min
+		 * if min isn't an integer) and no greater than max (or the next integer
+		 * lower than max if max isn't an integer).
+		 * Using Math.round() will give you a non-uniform distribution!
+		 */
+		function getRandomInt(min, max) {
+			min = Math.ceil(min);
+			max = Math.floor(max);
+			return Math.floor(Math.random() * (max - min + 1)) + min;
+		}
+	</script>
+	<script>
+		// 1231
+
+		let textArea = document.getElementById("textarea");
+		// textArea.style.transition = "all 1s ease-in-out";
+		let textMeasure = document.getElementById("text");
+		textMeasure.style.position = "absolute";
+		textMeasure.style.left = "-1000px";
+		let explodeButton = document.getElementById("explode");
+		let bomb = document.getElementById("bomb");
+		let body = document.getElementsByTagName("body")[0];
+
+		var image = new Image();
+		image.src = "https://composermatt.blob.core.windows.net/composer/3779.gif";
+
+		const TEXT_AREA_PADDING = 3;
+		// const SPACE_BAR_WIDTH = 5;
+		const SPACE_BAR_WIDTH = 4.25;
+		const VERTICAL_SPACING = 21;
+
+		function measureText(word) {
+			textMeasure.style.maxWidth = `50%`;
+			textMeasure.innerHTML = word;
+			let clientRect = textMeasure.getBoundingClientRect();
+			const initialHeight = clientRect.height;
+
+			while (clientRect.height == initialHeight && clientRect.width > 10) {
+				textMeasure.style.maxWidth = `calc(${clientRect.width}px - 2%)`;
+				clientRect = textMeasure.getBoundingClientRect();
+			}
+			if (clientRect.width < 10) textMeasure.style.maxWidth = `10px`;
+			while (clientRect.height != initialHeight) {
+				textMeasure.style.maxWidth = `${clientRect.width + 1}px`;
+				clientRect = textMeasure.getBoundingClientRect();
+			}
+			let finalBoundingBox = textMeasure.getBoundingClientRect();
+			return finalBoundingBox;
+		}
+
+		function calculateRowWidth(row, widthLimit) {
+			let totalWidth = TEXT_AREA_PADDING * 2;
+
+			let first = true;
+			for (let particle of row) {
+				totalWidth += particle.element.getBoundingClientRect().width;
+				first = false;
+			}
+
+			return widthLimit - totalWidth;
+		}
+
+		function WordParticle(word, x, y, width, element) {
+			this.text = word;
+			this.x = x;
+			this.y = y;
+			this.width = width;
+			this.element = element;
+			this.velX = 0;
+			this.accX = 0;
+			this.velY = 0;
+			this.accY = 0;
+
+			this.render = () => {
+				this.element.style.left = this.x + "px";
+				this.element.style.top = this.y + "px";
+				this.element.innerHTML = this.text;
+			};
+
+			// initial expansion is rapid. Followed a by a slowdown to a steady speed
+			this.update = () => {
+				if (Math.abs(this.velX) > 3 / Math.sqrt(this.text.length)) {
+					this.velX += this.accX;
+				}
+				if (Math.abs(this.velX) < 10) {
+					this.accX = this.accX < 0 ? -0.2 : 0.2;
+				} else if (Math.abs(this.velX) < 30) {
+					this.accX = this.accX < 0 ? -0.5 : 0.5;
+				} else if (Math.abs(this.velX) < 45) {
+					this.accX = this.accX < 0 ? -1 : 1;
+				} else if (Math.abs(this.velX) < 60) {
+					this.accX = this.accX < 0 ? -1.5 : 1.5;
+				}
+
+				if (
+					this.x + this.velX >
+						window.innerWidth - element.getBoundingClientRect().width ||
+					this.x + this.velX < 0
+				) {
+					this.velX *= -1;
+					this.accX *= -1;
+				}
+				this.x += this.velX;
+
+				if (Math.abs(this.velY) > 3 / Math.sqrt(this.text.length)) {
+					this.velY += this.accY;
+				}
+				if (Math.abs(this.velY) < 10) {
+					this.accY = this.accY < 0 ? -0.2 : 0.2;
+				} else if (Math.abs(this.velY) < 30) {
+					this.accY = this.accY < 0 ? -0.5 : 0.5;
+				} else if (Math.abs(this.velY) < 45) {
+					this.accY = this.accY < 0 ? -1 : 1;
+				} else if (Math.abs(this.velY) < 60) {
+					this.accY = this.accY < 0 ? -1.5 : 1.5;
+				}
+				if (
+					this.y + this.velY >
+						window.innerHeight - element.getBoundingClientRect().height ||
+					this.y + this.velY < 0
+				) {
+					this.velY *= -1;
+					this.accY *= -1;
+				}
+				this.y += this.velY;
+				this.render();
+			};
+		}
+
+		let rows = [[]];
+		let flattened_rows = [];
+
+		function draw() {
+			flattened_rows.forEach((particle) => particle.update());
+		}
+
+		function renderTextPositions() {
+			let words = textArea.value.split(" ");
+
+			let textAreaDim = textArea.getBoundingClientRect();
+			let currRow = 0;
+			let currRowIndex = 0;
+
+			for (let word of words) {
+				if (word != "") {
+					let wordBoundaries = measureText(word);
+
+					let { width, x, y } = wordBoundaries;
+
+					const element = document.createElement("div");
+					element.className = "text-style";
+
+					// word styling
+					// element.style.fontSize ="18px";
+					element.innerText = word;
+					element.style.position = "absolute";
+					element.style.left = `-1000px`;
+					element.style.top = `-1000px`;
+
+					// console.log(textAreaDim)
+					const remainingWidth = calculateRowWidth(
+						rows[currRow],
+						textAreaDim.width
+					);
+
+					if (remainingWidth - 60 > width) {
+						// calculate starting position
+						const xOffset =
+							textAreaDim.width - remainingWidth - TEXT_AREA_PADDING;
+
+						element.style.left = `calc(${
+							textAreaDim.x + xOffset + SPACE_BAR_WIDTH * currRowIndex
+						}px)`;
+						element.style.top = `calc(${
+							textAreaDim.y + currRow * VERTICAL_SPACING + TEXT_AREA_PADDING
+						}px)`;
+						body.prepend(element);
+					} else {
+						currRow += 1;
+						currRowIndex = 0;
+						rows[currRow] = [];
+
+						element.style.left = `calc(${
+							textAreaDim.x + TEXT_AREA_PADDING + SPACE_BAR_WIDTH * currRowIndex
+						}px)`;
+						element.style.top = `calc(${
+							textAreaDim.y + currRow * VERTICAL_SPACING + TEXT_AREA_PADDING
+						}px)`;
+						body.prepend(element);
+					}
+
+					const finalBoundingBox = element.getBoundingClientRect();
+					const particle = new WordParticle(
+						word,
+						finalBoundingBox.x,
+						finalBoundingBox.y,
+						width,
+						element
+					);
+					rows[currRow].push(particle);
+					currRowIndex += 1;
+				}
+			}
+		}
+
+		function explode() {
+			flattened_rows = rows.flat();
+
+			flattened_rows.forEach((particle) => {
+				particle.element.getBoundingClientRect().width;
+				particle.velX =
+					getRandomInt(-20, 90) *
+					(particle.element.getBoundingClientRect().x < window.innerWidth / 2
+						? -1
+						: 1);
+				// particle.velY = getRandomInt(70, 90) * (getRandomInt(-1,1) < 0 ? -1 : 1);
+				particle.velY = getRandomInt(30, 60);
+				// particle.velY = (getRandomInt(-1,1) < 0 ? getRandomInt(10, 30) : getRandomInt(70, 90));
+
+				const acc = 2;
+
+				if (particle.velX < 0) particle.accX = acc;
+				else particle.accX = -acc;
+
+				if (particle.velY < 0) particle.accY = acc;
+				else particle.accY = -acc;
+
+				// var regex = /[.,\/#!$%\^&\*;:{}=\-_`~()]/g;
+				// particle.text = particle.text.replace(/[.,/#!$%^&*;:{}=-_`~()]/g, "").replace(/s{2,}/g, " ");
+				particle.text = particle.text.replace(/[^a-zA-Z0-9'’]+/g, "");
+			});
+
+			const interval = setInterval(draw, 33);
+		}
+
+		let bombInterval;
+		let startExplosion = false;
+		let bombClicked = false;
+
+		function dropBomb() {
+			if (!bombClicked) {
+				bombClicked = true;
+
+				renderTextPositions();
+				bomb.src = image.src;
+
+				let acc = 0.2;
+				let vel = 0;
+				let startTime = new Date();
+				bomb.style.opacity = 1;
+				textArea.style.opacity = 1;
+
+				function drop() {
+					// if (textArea.style.opacity > 0)
+					// 	textArea.style.opacity = textArea.style.opacity - 0.05;
+
+					if (new Date() - startTime < 1300) {
+						let y = bomb.getBoundingClientRect().y;
+						vel += acc;
+						bomb.style.top = y + vel;
+					} else if (bomb.style.opacity > 0) {
+						if (!startExplosion) {
+							startExplosion = true;
+
+							explode();
+							textArea.style.opacity = 0;
+						}
+						bomb.style.opacity = bomb.style.opacity - 0.05;
+					} else {
+						clearInterval(bombInterval);
+					}
+				}
+
+				bombInterval = setInterval(drop, 33);
+			}
+		}
+
+		// window.addEventListener("keypress", function (e) {
+		// 	if (e.which == 13) {
+		// 		dropBomb();
+		// 	}
+		// });
+
+		bomb.addEventListener("click", (ev) => {
+			dropBomb();
+		});
+
+		explodeButton.addEventListener("click", (ev) => {
+			renderTextPositions();
+			// explode()
+		});
+	</script>
+</html>
