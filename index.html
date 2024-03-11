@@ -4,16 +4,16 @@ layout: page
 
 <div class="bento bento-full">
 	<div class="letter bento-item-1-1">
+		<img style="position:absolute;z-index: 1; right: 10px; bottom: 10px; user-select: none;" src="/assets/letter.png"/>
+		<img style="position:absolute;z-index: 1; left: 10px; top: 10px; transform: rotate(180deg); user-select: none;" src="/assets/letter.png"/>
+
 		<div style="z-index:100; ">
 			<p class="text">Welcome!</p>
 			<p class="text">I'm an interface researcher exploring ways to expand what we can <i>perceive</i> and <i>understand</i>.</p>
 			<p class="text">I’ve done research at NYU focused on <i>creativity support tools</i>, developed interfaces at Midjourney and worked as an interaction designer alongside Hugh Dubberly.</p>
 			<p class="text">Over the last year, I've been building a <i>novel text editing environment</i> that can help people synthesize messy, unstructured materials. More to share soon!</p>
 			<p class="text">If you find that my work resonates with you, this is my standing invitation to reach out!</p>
-			<!-- <p class="text">
-	
-			</p> -->
-			<!-- Friends have described me as an old soul. Patient, perceptive, persistent. Please have a look around and feel free to say hi. -->
+
 			<div class="text" style="color:grey; display:flex; flex-direction: row; padding-left:20px;">
 				<a style="position: absolute;left:0px; top:3px;text-decoration: none; background-repeat: no-repeat; margin-top:auto; margin-bottom: auto;" href="mailto:matthewwilsonsiu@gmail.com">
 					<img style="width:auto; margin-top:auto; margin-bottom: auto;" src="/assets/mail.svg"/>
@@ -27,15 +27,6 @@ layout: page
 				@MatthewWSiu
 			</div>
 		</div>
-
-			
-		<!-- <p class="text">
-			<img style="width: 40px;opacity:0;user-select: none;" src="/assets/Signature.svg" alt="Signature">	
-			<img style="width: 100px;position:absolute; right:50px; top:-30px; user-select: none;" src="/assets/Signature.svg" alt="Signature">	
-		</p> -->
-		<img style="position:absolute;z-index: 1; right: 10px; bottom: 10px; user-select: none;" src="/assets/letter.png"/>
-		<img style="position:absolute;z-index: 1; left: 10px; top: 10px; transform: rotate(180deg); user-select: none;" src="/assets/letter.png"/>
-
 	</div>
 </div>
 
@@ -86,50 +77,26 @@ layout: page
 			<h2 class="post-header">Trails</h2>
 			<span class="post-header-subtext text">mind wanderings</span>
 		</div>
-		<!-- {% for impression in site.impressions %} {{ impression.last_modified_at |
-		date: "%Y-%m-%d" }}
-		<div>
-			<a class="internal-link" href="{{ site.baseurl }}{{ impression.url }}"
-				>{{ impression.title }}</a
-			>
-		</div>
-		{% endfor %}  -->
+
 		{% assign notes_by_month = site.impressions | group_by_exp:"impression",
 		"impression.date | date: '%B %Y'" | reverse %} {% for month in notes_by_month %}
-		<span class="post-section">
-			{{ month.name }}
-			<!-- <div
-				style="
-					height: 1px;
-					width: 78px;
-					background: linear-gradient(
-						90deg,
-						#858585 0%,
-						rgba(178, 178, 178, 0) 98.33%
-					);
-					background-image: radial-gradient(
-							circle,
-							#858585 10%,
-							transparent 10.01%
-						),
-						radial-gradient(circle, #858585 10%, white 10.01%);
-					background-size: 10px 10px;
-					background-position: 0 0, 5px 5px;
-				"
-			></div> -->
-			<hr class="post-decoration"></hr>
-		</span>
-		<!-- Month and Year -->
-		{% for impression in month.items %} {{ note.last_modified_at | date:
-		"%Y-%m-%d" }}
-		<div class="post text">
-			<a
-				href="{{ impression.baseurl }}{{ impression.url }}"
-				>{{ impression.title }}</a
-			>
-		</div>
+			<span class="post-section">
+				{{ month.name }}
+				<hr class="post-decoration"></hr>
+			</span>
+			<!-- Month and Year -->
+			{% for impression in month.items | limit: 10 %} {{ note.last_modified_at | date:
+			"%Y-%m-%d" }}
+			<div class="post text">
+				<a
+					href="{{ impression.baseurl }}{{ impression.url }}"
+					>{{ impression.title }}</a
+				>
+			</div>
 		{% endfor %} {% endfor %}
-		<a href="/trails">see all</a>
+		{% if site.impressions.size > 10 %}
+			<a href="/trails">see all</a>
+		{% endif %}
 	</div>
 
 	<div class="post-group post-align">
@@ -139,28 +106,16 @@ layout: page
 		</div>
 		{% assign notes_by_month = site.notes | group_by_exp:"note", "note.date |
 		date: '%B %Y'" %} {% for month in notes_by_month %}
-		<!-- <span class="post-section" >
-			{{ month.name }}
-			<hr class="post-decoration"></hr>
-		</span> -->
-		<!-- Month and Year -->
-		{% for note in month.items %}
-		<div style="color:#649FE1" class="post text">
-			<a style="color: #649FE1" href="{{ note.baseurl }}{{ note.url }}"
-				>{{ note.title }}</a
-			>
-		</div>
-		{% endfor %} {% endfor %}
-		<a style="color: black" href="/artifacts">see all</a>
-
-
-		<!-- {% for note in site.notes %} {{ note.last_modified_at | date: "%Y-%m-%d" }}
-		<div>
-			<a class="internal-link" href="{{ note.baseurl }}{{ note.url }}"
-				>{{ note.title }}</a
-			>
-		</div>
-		{% endfor %} -->
+			{% for note in month.items  | limit: 10 %}
+			<div style="color:#649FE1" class="post text">
+				<a style="color: #649FE1" href="{{ note.baseurl }}{{ note.url }}"
+					>{{ note.title }}</a
+				>
+			</div>
+			{% endfor %} {% endfor %}
+		{% if site.impressions.size > 10 %}
+			<a style="color: black" href="/artifacts">see all</a>
+		{% endif %}
 	</div>
 </div>
 

@@ -41,7 +41,7 @@ collections:
     permalink: /:title
   impressions:
     output: true
-    permalink: /trails/:title
+    permalink: /:title
 
 post:
   template: _post.txt
