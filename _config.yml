@@ -36,10 +36,10 @@ open_external_links_in_new_tab: true
 
 collections:
   notes:
-    # output: true
+    output: true
     permalink: /:title
   impressions:
-    # output: true
+    output: true
     permalink: /:title
 
 post:

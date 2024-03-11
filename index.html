@@ -31,10 +31,10 @@ layout: page
 </div>
 
 <div class="bento bento-third">
-	<div class="bento-item bento-item-1-3"  style=" background-image: url('assets/interface.png'); background-repeat: no-repeat; background-size: cover;">
+	<div class="bento-item bento-item-1-3"  style=" background-image: url('/assets/Interface.png'); background-repeat: no-repeat; background-size: cover;">
 		<h2 class="bento-title">Interface Gallery</h2>
 	</div>
-	<div class="bento-item bento-item-3-3" style=" background-image: url('assets/bulletin3.png'); background-repeat: no-repeat; background-size: cover;">
+	<div class="bento-item bento-item-3-3" style=" background-image: url('/assets/bulletin3.png'); background-repeat: no-repeat; background-size: cover;">
 		{% for data in site.data.bulletin %}
 		<div class="bulletin-item hide">
 			{% assign bulletin_parts = data.bulletin | split: ';' %}
