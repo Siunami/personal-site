@@ -1,9 +1,9 @@
 # baseurl:
-title: Tufte-Jekyll
-subtitle: Content-centric blogging
-author: clay harmon
+title: Matthew Siu
+subtitle: Home
+author: Matthew Siu
 simple_search: http://google.com/search
-description: A Jekyll theme for content-rich sites
+description: Matthew Siu
 name: tufte
 # markdown: kramdown
 # markdown_ext: "markdown,mkdown,mkdn,mkd,md"
@@ -36,10 +36,10 @@ open_external_links_in_new_tab: true
 
 collections:
   notes:
-    output: true
+    # output: true
     permalink: /:title
   impressions:
-    output: true
+    # output: true
     permalink: /:title
 
 post:
