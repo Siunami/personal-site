@@ -5,6 +5,7 @@ author: Matthew Siu
 simple_search: http://google.com/search
 description: Matthew Siu
 name: tufte
+permalink: /:title/
 
 # markdown: kramdown
 # markdown_ext: "markdown,mkdown,mkdn,mkd,md"
