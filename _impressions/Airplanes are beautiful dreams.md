@@ -2,6 +2,7 @@
 layout: post
 title: Airplanes are beautiful dreams
 link: AirplanesAreBeautifulDreams
+permalink: /:title/
 date: 2024-01-17 20:40
 categories:
 ---
