@@ -1,11 +1,11 @@
-# baseurl:
+baseurl:
 title: Matthew Siu
 subtitle: Home
 author: Matthew Siu
 simple_search: http://google.com/search
 description: Matthew Siu
 name: tufte
-baseurl: ""
+
 # markdown: kramdown
 # markdown_ext: "markdown,mkdown,mkdn,mkd,md"
 timezone: America/New_York
