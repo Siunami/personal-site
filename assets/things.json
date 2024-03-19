@@ -1,0 +1,44 @@
+[
+	{
+		"year": "2024",
+		"things": []
+	},
+	{
+		"month": "January",
+		"things": [
+			{
+				"title": "2023 Research Log Questions",
+				"url": "/2023rlq/",
+				"categories": [],
+				"marking": "",
+				"importance": "high",
+				"collaborators": []
+			},
+			{
+				"title": "2023 Research Log Questions",
+				"url": "/2023rlq/",
+				"categories": [],
+				"marking": "",
+				"importance": "high",
+				"collaborators": []
+			}
+		]
+	},
+	{
+		"year": "2023",
+		"things": [
+			{
+				"title": "Dynamic Documents",
+				"url": "/dynamic_documents/",
+				"categories": [],
+				"marking": "",
+				"importance": "high",
+				"collaborators": [{ "Azlen": "azlen.me" }]
+			}
+		]
+	},
+	{
+		"year": "2022",
+		"things": []
+	}
+]

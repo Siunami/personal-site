@@ -108,53 +108,137 @@ layout: page
 		date: '%B %Y'" %} {% for month in notes_by_month %}
 			{% for note in month.items  | limit: 10 %}
 			<div style="color:#649FE1" class="post text">
-				<a style="color: #649FE1" href="{{ note.baseurl }}{{ note.url }}"
-					>{{ note.title }}</a
-				>
+				<a style="color: #649FE1" href="{{ note.baseurl }}{{ note.url }}">
+					{{ note.title }}
+				</a>
 			</div>
 			{% endfor %} {% endfor %}
 		{% if site.impressions.size > 10 %}
 			<a style="color: black" href="/artifacts">see all</a>
 		{% endif %}
 	</div>
+
 </div>
 
-<script>
-	let bulletinItems = document.querySelectorAll('.bulletin-item');
-	let currentBulletin = 0;
-	bulletinItems[currentBulletin].classList.remove("hide");
+<div class="things">
 
-	let downCaretDisable = document.querySelector('.caret-down').querySelector(".caret-disable");
-	let upCaretDisable = document.querySelector('.caret-up').querySelector(".caret-disable");
+</div>
+
+
+<script>
+	function createYearSection(year) {
+		return `
+			<h3>
+				${year}
+			</h3>
+		`;
+	}
+
+	function createMonthSection(monthName) {
+		return `
+			<span class="post-section">
+				${monthName}
+				<hr class="post-decoration"></hr>
+			</span>
+		`;
+	}
+
+	let t_things = document.querySelector(".things")
+	// load json
+	fetch("./assets/things.json").then((response) => {
+		return response.json()
+	}).then((data) => {
+		console.log(data)
+		data.forEach((section) => {
+			let year = section["year"];
+			let month = section["month"];
+			let things = section["things"];
+
+			if (year) {
+				// Create a new div element
+				let newDiv = document.createElement("div");
+
+				// Create the HTML structure using the createPostSection function
+				let html = createYearSection(year);
+
+				// Set the innerHTML of the new div to the created HTML structure
+				newDiv.innerHTML = html;
+
+				// Append the new div to the body of the document
+				t_things.appendChild(newDiv);
+			} else if (month) {
+				// Create a new div element
+				let newDiv = document.createElement("div");
+
+				// Create the HTML structure using the createPostSection function
+				let html = createMonthSection(month);
+
+				// Set the innerHTML of the new div to the created HTML structure
+				newDiv.innerHTML = html;
+
+				// Append the new div to the body of the document
+				t_things.appendChild(newDiv);
+			}
+
+			things.forEach((thing) => {
+				// Create a new div element
+				let newDiv = document.createElement("div");
+
+				// Create the HTML structure using the createPostSection function
+				let html = `
+					<div class="post text">
+						<a href="${thing.url}">${thing.title}</a>
+					</div>
+				`;
+
+				// Set the innerHTML of the new div to the created HTML structure
+				newDiv.innerHTML = html;
+
+				// Append the new div to the body of the document
+				t_things.appendChild(newDiv);
+			
+			})
+
+		})
+	})
+
+</script>
+<script>
+	let bb_bulletinItems = document.querySelectorAll('.bulletin-item');
+	let bb_currentBulletin = 0;
+	bb_bulletinItems[bb_currentBulletin].classList.remove("hide");
+
+	let bb_downCaretDisable = document.querySelector('.caret-down').querySelector(".caret-disable");
+	let bb_upCaretDisable = document.querySelector('.caret-up').querySelector(".caret-disable");
 
 	function toggleBulletinCarets() {
-		if (currentBulletin == 0) {
-			upCaretDisable.classList.remove("caret-hide")
-			downCaretDisable.classList.add("caret-hide")
-		} else if (currentBulletin == bulletinItems.length - 1) {
-			upCaretDisable.classList.add("caret-hide")
-			downCaretDisable.classList.remove("caret-hide")
+		if (bb_currentBulletin == 0) {
+			bb_upCaretDisable.classList.remove("caret-hide")
+			bb_downCaretDisable.classList.add("caret-hide")
+		} else if (bb_currentBulletin == bb_bulletinItems.length - 1) {
+			bb_upCaretDisable.classList.add("caret-hide")
+			bb_downCaretDisable.classList.remove("caret-hide")
 		} else {
-			upCaretDisable.classList.add("caret-hide")
-			downCaretDisable.classList.add("caret-hide")
+			bb_upCaretDisable.classList.add("caret-hide")
+			bb_downCaretDisable.classList.add("caret-hide")
 		}
 	}
 
 	toggleBulletinCarets()
-	let downCaret = document.querySelector('.caret-down').querySelector(".caret");
-	let upCaret = document.querySelector('.caret-up').querySelector(".caret");
+	let bb_downCaret = document.querySelector('.caret-down').querySelector(".caret");
+	let bb_upCaret = document.querySelector('.caret-up').querySelector(".caret");
 
-	downCaret.addEventListener('click', function() {
-		bulletinItems[currentBulletin].classList.add("hide");
-		currentBulletin = Math.min(currentBulletin + 1, bulletinItems.length - 1);
-		bulletinItems[currentBulletin].classList.remove("hide");
+	bb_downCaret.addEventListener('click', function() {
+		bb_bulletinItems[bb_currentBulletin].classList.add("hide");
+		bb_currentBulletin = Math.min(bb_currentBulletin + 1, bb_bulletinItems.length - 1);
+		bb_bulletinItems[bb_currentBulletin].classList.remove("hide");
 		toggleBulletinCarets()
 	});
 
-	upCaret.addEventListener('click', function() {
-		bulletinItems[currentBulletin].classList.add("hide");
-		currentBulletin = Math.max(currentBulletin - 1, 0);
-		bulletinItems[currentBulletin].classList.remove("hide");
+	bb_upCaret.addEventListener('click', function() {
+		bb_bulletinItems[bb_currentBulletin].classList.add("hide");
+		bb_currentBulletin = Math.max(bb_currentBulletin - 1, 0);
+		bb_bulletinItems[bb_currentBulletin].classList.remove("hide");
 		toggleBulletinCarets()
 	});
 
