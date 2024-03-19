@@ -1,14 +1,23 @@
 [
 	{
 		"year": "2024",
-		"things": []
+		"things": [
+			{
+				"title": "Interfaces Gallery",
+				"url": "/Interfaces/",
+				"categories": [],
+				"marking": "",
+				"importance": "high",
+				"collaborators": []
+			}
+		]
 	},
 	{
 		"month": "January",
 		"things": [
 			{
-				"title": "2023 Research Log Questions",
-				"url": "/2023rlq/",
+				"title": "Airplanes are beautiful dreams",
+				"url": "/AirplanesAreBeautifulDreams/",
 				"categories": [],
 				"marking": "",
 				"importance": "high",
@@ -28,17 +37,42 @@
 		"year": "2023",
 		"things": [
 			{
-				"title": "Dynamic Documents",
-				"url": "/dynamic_documents/",
+				"title": "Peek",
+				"url": "/Peek/",
 				"categories": [],
 				"marking": "",
 				"importance": "high",
-				"collaborators": [{ "Azlen": "azlen.me" }]
+				"collaborators": []
+			},
+			{
+				"title": "Dynamic Documents",
+				"url": "/DynamicDocuments/",
+				"categories": [],
+				"marking": "",
+				"importance": "high",
+				"collaborators": []
+			},
+			{
+				"title": "Worlding Comic",
+				"url": "/WorldingComic/",
+				"categories": [],
+				"marking": "",
+				"importance": "high",
+				"collaborators": []
 			}
 		]
 	},
 	{
 		"year": "2022",
-		"things": []
+		"things": [
+			{
+				"title": "Exploding text",
+				"url": "/ExplodingText/",
+				"categories": [],
+				"marking": "",
+				"importance": "high",
+				"collaborators": []
+			}
+		]
 	}
 ]

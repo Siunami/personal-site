@@ -4,26 +4,104 @@ layout: page
 
 <div class="bento bento-full">
 	<div class="letter bento-item-1-1">
-		<img style="position:absolute;z-index: 1; right: 10px; bottom: 10px; user-select: none;" src="/assets/letter.png"/>
-		<img style="position:absolute;z-index: 1; left: 10px; top: 10px; transform: rotate(180deg); user-select: none;" src="/assets/letter.png"/>
+		<img
+			style="
+				position: absolute;
+				z-index: 1;
+				right: 10px;
+				bottom: 10px;
+				user-select: none;
+			"
+			src="/assets/letter.png"
+		/>
+		<img
+			style="
+				position: absolute;
+				z-index: 1;
+				left: 10px;
+				top: 10px;
+				transform: rotate(180deg);
+				user-select: none;
+			"
+			src="/assets/letter.png"
+		/>
 
-		<div style="z-index:100; ">
+		<div style="z-index: 100">
 			<p class="text">Welcome!</p>
-			<p class="text">I'm an interface researcher interested in ways to expand what we can <i>perceive</i> and <i>understand</i>.</p>
-			<p class="text">I’ve done research at NYU focused on <i>creativity support tools</i>, developed interfaces at Midjourney and worked as an interaction designer alongside Hugh Dubberly.</p>
-			<p class="text">Over the last year, I've been building a <i>novel text editing environment</i> that can help people synthesize messy, unstructured materials. More to share soon!</p>
-			<p class="text">If you find that my work resonates with you, this is my standing invitation to reach out!</p>
+			<p class="text">
+				I'm an interface researcher interested in ways to expand what we can
+				<i>perceive</i> and <i>understand</i>.
+			</p>
+			<p class="text">
+				I’ve done research at NYU focused on <i>creativity support tools</i>,
+				developed interfaces at Midjourney and worked as an interaction designer
+				alongside Hugh Dubberly.
+			</p>
+			<p class="text">
+				Over the last year, I've been building a
+				<i>novel text editing environment</i> that can help people synthesize
+				messy, unstructured materials. More to share soon!
+			</p>
+			<p class="text">
+				If you find that my work resonates with you, this is my standing
+				invitation to reach out!
+			</p>
 
-			<div class="text" style="color:grey; display:flex; flex-direction: row; padding-left:20px;">
-				<a style="position: absolute;left:0px; top:3px;text-decoration: none; background-repeat: no-repeat; margin-top:auto; margin-bottom: auto;" href="mailto:matthewwilsonsiu@gmail.com">
-					<img style="width:auto; margin-top:auto; margin-bottom: auto;" src="/assets/mail.svg"/>
-				</a> 
+			<div
+				class="text"
+				style="
+					color: grey;
+					display: flex;
+					flex-direction: row;
+					padding-left: 20px;
+				"
+			>
+				<a
+					style="
+						position: absolute;
+						left: 0px;
+						top: 3px;
+						text-decoration: none;
+						background-repeat: no-repeat;
+						margin-top: auto;
+						margin-bottom: auto;
+					"
+					href="mailto:matthewwilsonsiu@gmail.com"
+				>
+					<img
+						style="width: auto; margin-top: auto; margin-bottom: auto"
+						src="/assets/mail.svg"
+					/>
+				</a>
 				matthewwilsonsiu@gmail.com
 			</div>
-			<div class="text" style="color:grey; display:flex; flex-direction: row; padding-left:20px;">
-				<a style="position: absolute;left:0px; top:3px;text-decoration: none; background-repeat: no-repeat; margin-top:auto; margin-bottom: auto;" href="https://twitter.com/MatthewWSiu" target="_blank">
-					<img style="width:auto; margin-top:auto; margin-bottom: auto;" src="/assets/twitter.svg"/>
-				</a> 
+			<div
+				class="text"
+				style="
+					color: grey;
+					display: flex;
+					flex-direction: row;
+					padding-left: 20px;
+				"
+			>
+				<a
+					style="
+						position: absolute;
+						left: 0px;
+						top: 3px;
+						text-decoration: none;
+						background-repeat: no-repeat;
+						margin-top: auto;
+						margin-bottom: auto;
+					"
+					href="https://twitter.com/MatthewWSiu"
+					target="_blank"
+				>
+					<img
+						style="width: auto; margin-top: auto; margin-bottom: auto"
+						src="/assets/twitter.svg"
+					/>
+				</a>
 				@MatthewWSiu
 			</div>
 		</div>
@@ -31,10 +109,24 @@ layout: page
 </div>
 
 <div class="bento bento-third">
-	<div class="bento-item bento-item-1-3"  style=" background-image: url('/assets/Interface.png'); background-repeat: no-repeat; background-size: cover;">
+	<div
+		class="bento-item bento-item-1-3"
+		style="
+			background-image: url('/assets/Interface.png');
+			background-repeat: no-repeat;
+			background-size: cover;
+		"
+	>
 		<h2 class="bento-title">Interface Gallery</h2>
 	</div>
-	<div class="bento-item bento-item-3-3" style=" background-image: url('/assets/bulletin3.png'); background-repeat: no-repeat; background-size: cover;">
+	<div
+		class="bento-item bento-item-3-3"
+		style="
+			background-image: url('/assets/bulletin3.png');
+			background-repeat: no-repeat;
+			background-size: cover;
+		"
+	>
 		{% for data in site.data.bulletin %}
 		<div class="bulletin-item hide">
 			{% assign bulletin_parts = data.bulletin | split: ';' %}
@@ -43,30 +135,55 @@ layout: page
 				<h2 class="bento-bulletin-header">Bulletin</h2>
 				<span class="bento-time">{{ data.date }}</span>
 			</span>
-	
+
 			{% for part in bulletin_parts %}
-				<span>{{ part | strip }}</span>{% unless forloop.last %}<br/><br/>{% endunless %}
-			{% endfor %}
+			<span>{{ part | strip }}</span>{% unless forloop.last %}<br /><br />{%
+			endunless %} {% endfor %}
 		</div>
 		{% endfor %}
 
-		<div id="bulletin-toggle">	
-			<div class="caret-item caret-up" style="position:relative">
+		<div id="bulletin-toggle">
+			<div class="caret-item caret-up" style="position: relative">
 				<div class="caret-disable"></div>
-				<img class="caret" style="transform: rotate(-180deg);" src="/assets/caret.svg" alt="Caret">
+				<img
+					class="caret"
+					style="transform: rotate(-180deg)"
+					src="/assets/caret.svg"
+					alt="Caret"
+				/>
 			</div>
-			<div class="caret-item caret-down" style="position:relative">
+			<div class="caret-item caret-down" style="position: relative">
 				<div class="caret-disable"></div>
-				<img class="caret" src="/assets/caret.svg" alt="Caret">
+				<img class="caret" src="/assets/caret.svg" alt="Caret" />
 			</div>
 		</div>
 	</div>
 </div>
 <div class="bento bento-half">
-	<div class="bento-item bento-item-1-2" style=" background-image: url('https://pbs.twimg.com/media/GGd5bwzX0AAi-94?format=jpg&name=large'); background-repeat: no-repeat; background-size: cover; background-position:0% 70%">
-		<a href="https://x.com/Aurumek_/status/1758507708758556899?s=20" target="_blank" class="bento-attribution">@Arumek</a>
+	<div
+		class="bento-item bento-item-1-2"
+		style="
+			background-image: url('https://pbs.twimg.com/media/GGd5bwzX0AAi-94?format=jpg&name=large');
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: 0% 70%;
+		"
+	>
+		<a
+			href="https://x.com/Aurumek_/status/1758507708758556899?s=20"
+			target="_blank"
+			class="bento-attribution"
+			>@Arumek</a
+		>
 	</div>
-	<div class="bento-item bento-item-2-2" style=" background-image: url('assets/map.png'); background-repeat: no-repeat; background-size: cover;">
+	<div
+		class="bento-item bento-item-2-2"
+		style="
+			background-image: url('assets/map.png');
+			background-repeat: no-repeat;
+			background-size: cover;
+		"
+	>
 		<h2 class="bento-title">Places</h2>
 	</div>
 </div>
@@ -74,57 +191,44 @@ layout: page
 <div class="side-by-side">
 	<div class="post-group">
 		<div style="display: flex; flex-direction: row">
-			<h2 class="post-header">Trails</h2>
-			<span class="post-header-subtext text">mind wanderings</span>
+			<h2 class="post-header">Work</h2>
+			<span class="post-header-subtext text"></span>
 		</div>
-
-		{% assign notes_by_month = site.impressions | group_by_exp:"impression",
-		"impression.date | date: '%B %Y'" | reverse %} {% for month in notes_by_month %}
-			<span class="post-section">
-				{{ month.name }}
-				<hr class="post-decoration"></hr>
-			</span>
-			<!-- Month and Year -->
-			{% for impression in month.items | limit: 10 %} {{ note.last_modified_at | date:
-			"%Y-%m-%d" }}
-			<div class="post text">
-				<a
-					href="{{ impression.baseurl }}{{ impression.url }}"
-					>{{ impression.title }}</a
-				>
-			</div>
-		{% endfor %} {% endfor %}
-		{% if site.impressions.size > 10 %}
-			<a href="/trails">see all</a>
-		{% endif %}
+		<div class="things"></div>
 	</div>
-
 	<div class="post-group post-align">
 		<div style="display: flex; flex-direction: row">
-			<h2 class="post-header">Artifacts</h2>
-			<span class="post-header-subtext text">pieces of the past</span>
+			<h2 class="post-header">Ongoing</h2>
+			<span class="post-header-subtext text"></span>
 		</div>
-		{% assign notes_by_month = site.notes | group_by_exp:"note", "note.date |
-		date: '%B %Y'" %} {% for month in notes_by_month %}
-			{% for note in month.items  | limit: 10 %}
-			<div style="color:#649FE1" class="post text">
-				<a style="color: #649FE1" href="{{ note.baseurl }}{{ note.url }}">
-					{{ note.title }}
-				</a>
-			</div>
-			{% endfor %} {% endfor %}
-		{% if site.impressions.size > 10 %}
-			<a style="color: black" href="/artifacts">see all</a>
-		{% endif %}
+		<div class="ongoing"></div>
 	</div>
-
 </div>
 
-<div class="things">
+<script>
+	let o_ongoing = document.querySelector(".ongoing");
 
-</div>
+	fetch("./assets/ongoing.json")
+		.then((response) => {
+			return response.json();
+		})
+		.then((data) => {
+			let ongoingDiv = document.querySelector(".post-align");
+			data.forEach((thing) => {
+				let newDiv = document.createElement("div");
 
+				let html = `
+				<div class="post text">
+					<a href="${thing.url}">${thing.title}</a>
+				</div>
+			`;
 
+				newDiv.innerHTML = html;
+
+				o_ongoing.appendChild(newDiv);
+			});
+		});
+</script>
 <script>
 	function createYearSection(year) {
 		return `
@@ -143,103 +247,91 @@ layout: page
 		`;
 	}
 
-	let t_things = document.querySelector(".things")
+	let t_things = document.querySelector(".things");
 	// load json
-	fetch("./assets/things.json").then((response) => {
-		return response.json()
-	}).then((data) => {
-		console.log(data)
-		data.forEach((section) => {
-			let year = section["year"];
-			let month = section["month"];
-			let things = section["things"];
-
-			if (year) {
-				// Create a new div element
-				let newDiv = document.createElement("div");
-
-				// Create the HTML structure using the createPostSection function
-				let html = createYearSection(year);
-
-				// Set the innerHTML of the new div to the created HTML structure
-				newDiv.innerHTML = html;
-
-				// Append the new div to the body of the document
-				t_things.appendChild(newDiv);
-			} else if (month) {
-				// Create a new div element
-				let newDiv = document.createElement("div");
-
-				// Create the HTML structure using the createPostSection function
-				let html = createMonthSection(month);
-
-				// Set the innerHTML of the new div to the created HTML structure
-				newDiv.innerHTML = html;
-
-				// Append the new div to the body of the document
-				t_things.appendChild(newDiv);
-			}
-
-			things.forEach((thing) => {
-				// Create a new div element
-				let newDiv = document.createElement("div");
-
-				// Create the HTML structure using the createPostSection function
-				let html = `
-					<div class="post text">
-						<a href="${thing.url}">${thing.title}</a>
-					</div>
-				`;
-
-				// Set the innerHTML of the new div to the created HTML structure
-				newDiv.innerHTML = html;
-
-				// Append the new div to the body of the document
-				t_things.appendChild(newDiv);
-			
-			})
-
+	fetch("./assets/things.json")
+		.then((response) => {
+			return response.json();
 		})
-	})
+		.then((data) => {
+			data.forEach((section) => {
+				let year = section["year"];
+				let month = section["month"];
+				let things = section["things"];
 
+				if (year) {
+					let newDiv = document.createElement("div");
+					let html = createYearSection(year);
+					newDiv.innerHTML = html;
+					t_things.appendChild(newDiv);
+				} else if (month) {
+					let newDiv = document.createElement("div");
+					let html = createMonthSection(month);
+					newDiv.innerHTML = html;
+					t_things.appendChild(newDiv);
+				}
+
+				things.forEach((thing) => {
+					let newDiv = document.createElement("div");
+
+					let html = `
+						<div class="post text">
+							<a href="${thing.url}">${thing.title}</a>
+						</div>
+					`;
+
+					newDiv.innerHTML = html;
+
+					t_things.appendChild(newDiv);
+				});
+			});
+		});
 </script>
 <script>
-	let bb_bulletinItems = document.querySelectorAll('.bulletin-item');
+	let bb_bulletinItems = document.querySelectorAll(".bulletin-item");
 	let bb_currentBulletin = 0;
 	bb_bulletinItems[bb_currentBulletin].classList.remove("hide");
 
-	let bb_downCaretDisable = document.querySelector('.caret-down').querySelector(".caret-disable");
-	let bb_upCaretDisable = document.querySelector('.caret-up').querySelector(".caret-disable");
+	let bb_downCaretDisable = document
+		.querySelector(".caret-down")
+		.querySelector(".caret-disable");
+	let bb_upCaretDisable = document
+		.querySelector(".caret-up")
+		.querySelector(".caret-disable");
 
 	function toggleBulletinCarets() {
 		if (bb_currentBulletin == 0) {
-			bb_upCaretDisable.classList.remove("caret-hide")
-			bb_downCaretDisable.classList.add("caret-hide")
+			bb_upCaretDisable.classList.remove("caret-hide");
+			bb_downCaretDisable.classList.add("caret-hide");
 		} else if (bb_currentBulletin == bb_bulletinItems.length - 1) {
-			bb_upCaretDisable.classList.add("caret-hide")
-			bb_downCaretDisable.classList.remove("caret-hide")
+			bb_upCaretDisable.classList.add("caret-hide");
+			bb_downCaretDisable.classList.remove("caret-hide");
 		} else {
-			bb_upCaretDisable.classList.add("caret-hide")
-			bb_downCaretDisable.classList.add("caret-hide")
+			bb_upCaretDisable.classList.add("caret-hide");
+			bb_downCaretDisable.classList.add("caret-hide");
 		}
 	}
 
-	toggleBulletinCarets()
-	let bb_downCaret = document.querySelector('.caret-down').querySelector(".caret");
-	let bb_upCaret = document.querySelector('.caret-up').querySelector(".caret");
+	toggleBulletinCarets();
+	let bb_downCaret = document
+		.querySelector(".caret-down")
+		.querySelector(".caret");
+	let bb_upCaret = document.querySelector(".caret-up").querySelector(".caret");
 
-	bb_downCaret.addEventListener('click', function() {
+	bb_downCaret.addEventListener("click", function () {
 		bb_bulletinItems[bb_currentBulletin].classList.add("hide");
-		bb_currentBulletin = Math.min(bb_currentBulletin + 1, bb_bulletinItems.length - 1);
+		bb_currentBulletin = Math.min(
+			bb_currentBulletin + 1,
+			bb_bulletinItems.length - 1
+		);
 		bb_bulletinItems[bb_currentBulletin].classList.remove("hide");
-		toggleBulletinCarets()
+		toggleBulletinCarets();
 	});
 
-	bb_upCaret.addEventListener('click', function() {
+	bb_upCaret.addEventListener("click", function () {
 		bb_bulletinItems[bb_currentBulletin].classList.add("hide");
 		bb_currentBulletin = Math.max(bb_currentBulletin - 1, 0);
 		bb_bulletinItems[bb_currentBulletin].classList.remove("hide");
-		toggleBulletinCarets()
+		toggleBulletinCarets();
 	});
-
 </script>

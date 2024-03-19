@@ -301,6 +301,7 @@ body, * {
 .side-by-side {
     display: flex;
     flex-direction: row;
+    
     align-items: center;
     width: auto;
     max-width: 1020px;
@@ -315,7 +316,7 @@ body, * {
 
     .post-align {
         padding-left: 10px;
-        width: calc(50% - 10px)
+        width: calc(50% - 10px);
     }
 }
 
@@ -520,7 +521,8 @@ body, * {
 
     .side-by-side {
         display: flex;
-        flex-direction: column;
+        flex-direction: column-reverse;
+        
         align-items: flex-start;
         width: auto;
         max-width: 1020px;

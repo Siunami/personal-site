@@ -1,11 +1,11 @@
 ---
-permalink: /peek/
+permalink: /Peek/
 ---
 
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>peek</title>
+	<title>fellowship conversations</title>
 	<style>
 		body {
 			font: 16px system-ui;
@@ -15,31 +15,11 @@ permalink: /peek/
 			overflow: hidden; /* prevent accidentally dragging the viewport on iOS */
 			margin: 0;
 		}
-
-		#article {
-			top: 10px;
-			right: 10px;
-			position: absolute;
-
-			padding: 5px;
-			border: 1px solid black;
-			border-radius: 5px;
-			cursor: pointer;
-		}
 	</style>
 </head>
 <body>
-	<div id="article">Original article</div>
 	<script>
-		let article = document.getElementById("article");
-		article.onclick = function f() {
-			window.open(
-				"https://sci-hub.se/https://doi.org/10.2307/1210376?curius=524",
-				"_blank"
-			);
-		};
-
-		("use strict");
+		"use strict";
 
 		// === generic scheduler & its debugger
 		let scheduledRender = false;
@@ -169,7 +149,7 @@ permalink: /peek/
 		let text =
 			"INTERVIEW\n\nI spoke with Charles Eames on several occasions during January, 1970, and the quotes in the preceding article are excerpted from those conversations. Afterward, I posed written questions to Eames, intended to capsulize and explore many of the discussions we had had, to which he responded in writing.\n\nQ: Your career has seen many permutations. At times you have been an architect, furniture designer, a craftsman, an inventor, a film-maker, and a professor. Do you see a sense of design in your own career, or does it appear to be more accidental or haphazard?\n\nA: Looking back on our work, I see no design-certainly nothing haphazard, and not much that could really be called accidental. What I think I see is a natural, though not predictable, growth toward a goal that has not ever been specified.\n\nQ: How does an Eames film originate? What do the discussions with the producer(s) entail? What determines whether you and Ray will accept or reject a proposed film?\n\nA: A film comes as a result of one of two situations. It is either a logical extension of some immediate problem we are working on, or it is something we have been wanting to do for a long time and can't put off any longer\n\nQ: On several occasions you have stated that you regard film simply as the medium through which you solve problems and explain concepts. What, for you, has made film so uniquely suited to this task?\n\nA: We have fallen for the illusion that film is a perfectly controlled medium; that after the mess of production, when it is all in the can, nothing can erode it-the image, the color, the timing, the sound, everything is under control. It is just an illusion- thoughtless reproduction, projection and presentation turn it into a mess again. Still, putting an idea on film provides the ideal discipline for whittling that idea down to size.\n\nQ: One of the most consistent techniques in your films is information-overload, that is, you habitually give more data than the mind can assimilate. What do you think is the effect of this cascading level of information on the viewer? Do you think this effect can be conditioning, that it can expand the ability to perceive? In other words, will a viewer learn more from the fifth Eames film he sees than the first, assuming they are of equal complexity?\n\nA: I don't really believe we overload, but if that is what it is, we try to use it in a way that heightens the reality of the subject, and where, if the viewer is reduced to only a sampling, that sampling will be true to the spirit of the subject. Maybe after seeing one or two the viewer learns to relax.";
 		let highlight =
-			"What I think I see is a natural, though not predictable, growth toward a goal that has not ever been specified.";
+			"A: Looking back on our work, I see no design-certainly nothing haphazard, and not much that could really be called accidental. What I think I see is a natural, though not predictable, growth toward a goal that has not ever been specified.";
 
 		let startDrag = null;
 		let currPosition = null;
@@ -291,18 +271,6 @@ permalink: /peek/
 			scheduleRender();
 		});
 
-		window.addEventListener("touchstart", (ev) => {
-			console.log("touchstart");
-			console.log(ev);
-			var touch = ev.touches[0];
-			startDrag = {
-				x: touch.clientX,
-				y: touch.clientY,
-			};
-			document.body.style.cursor = "grabbing";
-			scheduleRender();
-		});
-
 		window.addEventListener("mousemove", (ev) => {
 			if (startDrag) {
 				currPosition = {
@@ -313,28 +281,7 @@ permalink: /peek/
 			scheduleRender();
 		});
 
-		window.addEventListener("touchmove", (ev) => {
-			if (startDrag) {
-				var touch = ev.touches[0];
-
-				currPosition = {
-					x: touch.clientX,
-					y: touch.clientY,
-				};
-			}
-			scheduleRender();
-		});
-
 		window.addEventListener("mouseup", (ev) => {
-			document.body.style.cursor = "default";
-			if (startDrag) {
-				startDrag = null;
-				currPosition = null;
-			}
-			scheduleRender();
-		});
-
-		window.addEventListener("touchend", (ev) => {
 			document.body.style.cursor = "default";
 
 			if (startDrag) {

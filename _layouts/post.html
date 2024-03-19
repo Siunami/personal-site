@@ -21,7 +21,7 @@ layout: default
 	charset="utf-8"
 ></script>
 
-{% assign current_index = -1 %} {% for impression in site.impressions %} {% if
+<!-- {% assign current_index = -1 %} {% for impression in site.impressions %} {% if
 impression.title == page.title %} {% assign current_index = forloop.index %} {%
 break %} {% endif %} {% endfor %} {% if current_index > 1 %} {% assign
 previous_index = current_index | minus: 2 %}{% assign previous_title =
@@ -51,4 +51,4 @@ assign next_title = site.impressions[next_index] %}{% endif %}
 			<div>{{next_title.title}}</div>
 		</div>
 	</a>
-</div>
+</div> -->
