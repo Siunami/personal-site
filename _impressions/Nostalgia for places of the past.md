@@ -2,6 +2,7 @@
 layout: post
 title: Nostalgia for places of the past
 link: NostalgiaForPlacesOfThePast
+permalink: NostalgiaForPlacesOfThePast
 date: 2024-01-15 23:07
 categories:
 ---

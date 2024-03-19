@@ -9,7 +9,7 @@ permalink: /:title/
 
 # markdown: kramdown
 # markdown_ext: "markdown,mkdown,mkdn,mkd,md"
-timezone: America/New_York
+timezone: America/Vancouver
 excerpt_separator: <!--more--> # you can specify your own separator, of course.
 exclude:
   [
