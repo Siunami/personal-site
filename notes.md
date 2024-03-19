@@ -1,3 +1,11 @@
+---
+layout: post
+title: Notes
+permalink: /Notes/
+date: 2023-01-15 23:07
+categories:
+---
+
 {
 "January 2024": [
 
