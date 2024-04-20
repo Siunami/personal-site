@@ -3,87 +3,58 @@ layout: page
 permalink: /Interfaces/
 ---
 
-<div class="grid-container">
-	{% assign prototypes = site.data.prototypes %} {% assign total_prototypes =
-	prototypes | size %} {% assign third_of_prototypes = total_prototypes |
-	divided_by: 3 %} {% assign start_index_list2 = third_of_prototypes %} {%
-	assign start_index_list3 = third_of_prototypes | times: 2 %} {% assign list1 =
-	prototypes | slice: 0, third_of_prototypes %} {% assign list2 = prototypes |
-	slice: start_index_list2, third_of_prototypes %} {% assign list3 = prototypes
-	| slice: start_index_list3, third_of_prototypes %} {% assign lists = list1 |
-	concat: list2 | concat: list3 %}
-	<div></div>
-	{% assign string_list = "jpg,png,gif" | split: "," %}
+<div class="grid-container" id="prototypes"></div>
 
-	<div class="grid-item">
-		{% for prototype in list1 %} {% assign is_image = false %} {% for string in
-		string_list %} {% if prototype.resource contains string %} {% assign
-		is_image = true %} {% break %} {% endif %} {% endfor %} {% if is_image %}
-		<!-- Handle images -->
-		<img
-			src="{{ prototype.resource }}"
-			alt="{{ prototype.name }}"
-			class="image-dimensions"
-		/>
-		<span class="media-caption">{{ prototype.description }}</span>
-		{% else %}
-		<!-- Handle videos -->
-		<video
-			class="video-dimensions"
-			src="{{ prototype.resource }}"
-			controls
-		></video>
-		<span class="media-caption">{{ prototype.description }}</span>
-		{% endif %} {% endfor %}
-	</div>
+<script>
+	let p_prototypes = document.querySelector("#prototypes");
 
-	<div class="grid-item">
-		{% for prototype in list2 %} {% assign is_image = false %} {% for string in
-		string_list %} {% if prototype.resource contains string %} {% assign
-		is_image = true %} {% break %} {% endif %} {% endfor %} {% if is_image %}
-		<!-- Handle images -->
-		<img
-			src="{{ prototype.resource }}"
-			alt="{{ prototype.name }}"
-			class="image-dimensions"
-		/>
-		<span class="media-caption">{{ prototype.description }}</span>
-		{% else %}
-		<!-- Handle videos -->
-		<video
-			class="video-dimensions"
-			src="{{ prototype.resource }}"
-			controls
-		></video>
-		<span class="media-caption">{{ prototype.description }}</span>
-		{% endif %} {% endfor %}
-	</div>
+	fetch("../assets/proto.json")
+		.then((response) => {
+			return response.json();
+		})
+		.then((data) => {
+			data.forEach((column) => {
+				const grid_item = document.createElement("div");
+				grid_item.classList.add("grid-item");
+				column.forEach((item) => {
+					const newDiv = document.createElement("div");
+					newDiv.style.position = "relative";
 
-	<div class="grid-item">
-		{% for prototype in list3 %} {% assign is_image = false %} {% for string in
-		string_list %} {% if prototype.resource contains string %} {% assign
-		is_image = true %} {% break %} {% endif %} {% endfor %} {% if is_image %}
-		<!-- Handle images -->
-		<img
-			src="{{ prototype.resource }}"
-			alt="{{ prototype.name }}"
-			class="image-dimensions"
-		/>
-		<span class="media-caption">{{ prototype.description }}</span>
-		{% else %}
-		<!-- Handle videos -->
-		<video
-			class="video-dimensions"
-			src="{{ prototype.resource }}"
-			controls
-		></video>
-		<span class="media-caption">{{ prototype.description }}</span>
-		{% endif %} {% endfor %}
-	</div>
-</div>
+					if (item.type == "image") {
+						const img = document.createElement("img");
+						img.src = item.resource;
+						img.alt = item.name;
+						img.classList.add("prototype", "image-dimensions");
+						newDiv.appendChild(img);
+					} else {
+						const video = document.createElement("video");
+						video.src = item.resource;
+						video.autoplay = true;
+						video.loop = true;
+						video.muted = true;
+						video.classList.add("prototype", "video-dimensions");
+						newDiv.appendChild(video);
+					}
+
+					const caption = document.createElement("div");
+					caption.classList.add("prototype-caption");
+					caption.innerHTML = item.name;
+					newDiv.appendChild(caption);
+
+					grid_item.appendChild(newDiv);
+
+					p_prototypes.appendChild(grid_item);
+				});
+			});
+		});
+</script>
 
 <style>
 	.video-dimensions {
+		max-width: 300px;
+	}
+
+	.image-dimensions {
 		max-width: 300px;
 	}
 
@@ -97,19 +68,51 @@ permalink: /Interfaces/
 		display: flex;
 		flex-direction: column;
 		width: 300px;
-		margin: 10px;
+		margin-left: 12px;
 	}
 
 	.media-caption {
 		font-size: 1rem;
 	}
 
+	.prototype {
+		border: 3px solid black;
+		border-radius: 4px;
+		width: calc(100% - 6px);
+	}
+
+	.prototype-caption {
+		position: absolute;
+		bottom: 10px;
+		left: 5px;
+		padding: 4px;
+		border-radius: 4px;
+		font-size: medium;
+		background-color: rgba(0, 0, 0, 0.51);
+		color: white;
+	}
+
 	@media (max-width: 900px) {
+		/* body {
+			padding-left: 0% !important;
+		} */
+
+		.video-dimensions {
+			/* max-width: calc(100%-6px); */
+			max-width: 100%;
+		}
+
+		.image-dimensions {
+			/* max-width: calc(100%-6px); */
+			max-width: 100%;
+		}
+
 		.grid-container {
 			flex-direction: column;
 		}
 		.grid-item {
 			width: 100%;
+			margin-left: 0px;
 		}
 	}
 </style>

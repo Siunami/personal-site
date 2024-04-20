@@ -4,4 +4,4 @@ gem 'jekyll'
 gem 'rouge'
 gem 'jekyll-last-modified-at'
 gem 'nokogiri'
-# gem "tufte-pandoc-jekyll"
+gem "tufte-pandoc-jekyll"

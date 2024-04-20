@@ -192,14 +192,14 @@ layout: page
 	</div>
 </div>
 
-<div class="side-by-side">
-	<div class="post-group">
-		<div style="display: flex; flex-direction: row">
-			<h2 class="post-header">Personal Projects</h2>
-			<span class="post-header-subtext text"></span>
-		</div>
-		<div class="things"></div>
+<div class="post-group">
+	<div style="display: flex; flex-direction: row">
+		<h2 class="post-header">Works</h2>
+		<span class="post-header-subtext text"></span>
 	</div>
+	<div class="things"></div>
+</div>
+<div class="side-by-side">
 	<!-- <div class="post-group post-align">
 		<div style="display: flex; flex-direction: row">
 			<h2 class="post-header">Ongoing</h2>
@@ -209,7 +209,7 @@ layout: page
 	</div> -->
 </div>
 
-<script>
+<!-- <script>
 	let o_ongoing = document.querySelector(".ongoing");
 
 	fetch("./assets/ongoing.json")
@@ -232,19 +232,19 @@ layout: page
 				o_ongoing.appendChild(newDiv);
 			});
 		});
-</script>
+</script> -->
 <script>
 	function createYearSection(year) {
 		return `
-			<h3>
+			<div class="post-section">
 				${year}
-			</h3>
+			</div>
 		`;
 	}
 
 	function createMonthSection(monthName) {
 		return `
-			<span class="post-section">
+			<span class="post-month">
 				${monthName}
 				<hr class="post-decoration"></hr>
 			</span>
@@ -279,8 +279,9 @@ layout: page
 					let newDiv = document.createElement("div");
 
 					let html = `
-						<div class="post text">
-							<a href="${thing.url}">${thing.title}</a>
+						<div class="work-item">
+							<a class="work-link" href="${thing.url}">${thing.title}</a>
+							
 						</div>
 					`;
 

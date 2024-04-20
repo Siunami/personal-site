@@ -10,6 +10,8 @@ $url-font: "Lucida Console", "Lucida Sans Typewriter", Monaco, "Bitstream Vera S
 $text-color: #111;
 $bg-color: #fffff8;
 $contrast-color: #a00000;
+// $contrast-color: #111;
+
 $border-color: #333333;
 $link-style: underline; // choices are 'color' or 'underline'. Color option styles links with $contrast-color set above
 
@@ -123,6 +125,7 @@ body, * {
 .text {
     position:relative;
     font-family: $body-font;
+    color: $text-color;
     width:100%;
     max-width:800px;
     font-size: 1.2rem;
@@ -133,6 +136,35 @@ body, * {
     display:flex;
     flex-direction: row;
 }
+
+// .grid-container {
+//     display: grid;
+//     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+//   }
+  
+// .grid-item {
+//     margin:0px;
+//     padding:0px;
+// }
+
+// .grid-container {
+//     display: grid;
+//     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+//     grid-auto-flow: dense;
+//     gap: 10px;
+//   }
+  
+//   .grid-item img {
+//     width: 100%;
+//     height: auto;
+//   }
+  
+//   .grid-item {
+//     display: flex;
+//     flex-direction: column;
+//   }
+
+
 
 /* BULLETIN STYLING */
 .hide {
@@ -336,6 +368,17 @@ body, * {
 }
 
 .post-section {
+    font-size: 1.2rem;
+    font-style: italic;
+    margin-top: 16px;
+}
+
+.post-section:not(:first-child) {
+    margin-top: 32px;
+}
+
+
+.post-month {
     display:flex;
     flex-direction: row;
     font-size: .8rem;
@@ -357,6 +400,30 @@ body, * {
 .post {
     margin-top:8px;
     margin-bottom:8px;
+}
+
+.work-item {
+    display: flex;
+    flex-direction: row;
+    margin-top:8px;
+    margin-bottom:8px;
+
+    position:relative;
+    font-family: $body-font;
+    color: $text-color;
+    width:fit-content;
+    // max-width:800px;
+    font-size: 1.2rem;
+    margin-top:.5rem;
+}
+
+.work-link {
+    width: fit-content;
+}
+
+.work-line {
+    border-bottom: 1px solid gray;
+    width:100%;
 }
 
 .post-nav {
@@ -425,7 +492,6 @@ body, * {
 @media (max-width: 1000px) {
     .text {
         font-size: 1.5rem;
-
         margin-top: 1rem;
     }
     
@@ -471,7 +537,7 @@ body, * {
         background-color: $light-gray;
     }
 
-    .post-section {
+    .post-month {
         font-size: 1rem;
     }
 
@@ -482,6 +548,10 @@ body, * {
 
     #bulletin-toggle {
         display:none;
+    }
+
+    .work-item {
+        font-size: 1.5rem;
     }
 }
 
@@ -541,7 +611,7 @@ body, * {
         }
     }
 
-    .post-section {
+    .post-month {
         font-size: 1.2rem;
     }
     
