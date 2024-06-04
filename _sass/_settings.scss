@@ -12,10 +12,10 @@ $bg-color: #fffff8;
 $contrast-color: #a00000;
 // $contrast-color: #111;
 
-$border-color: #333333;
+$border-color: #bdbdbd66;
 $link-style: underline; // choices are 'color' or 'underline'. Color option styles links with $contrast-color set above
 
-$gray: #9b9b9b;
+$gray: #8d8d8d;
 $light-gray: #e6e6e6;
 $width: 87.5%;
 // $small-width: 92.5%;
@@ -69,34 +69,14 @@ body, * {
     height: auto;
 }
 
-.header-icon {
-    width: 20px;
-    height: 20px;
-    padding: 5px;
-    border: 1px solid $text-color;
-    border-radius: 50%;
-    margin-bottom: 10px;
-    background-color: $bg-color;
-}
-
-.header-image {
-    width: 20px;
-    height: 20px;
-    margin:auto;
-    // padding: 5px;
-    // border: 1px solid $gray;
-    // border-radius: 50%;
-    // margin-bottom: 10px;
-}
-
 .english-name {
     width: 55px;
     // border: 3px solid $light-gray;
     // border: 1px solid $gray;
     padding-right: 12px;
-    border-right: 3px solid $light-gray;
+    // border-right: 1px solid $gray;
     padding-left: 12px;
-    border-left: 3px solid $light-gray;
+    // border-left: 1px solid $gray;
     // border-radius: 4px;
 }
 
@@ -105,9 +85,9 @@ body, * {
     // border: 3px solid $light-gray;
     // border: 1px solid $gray;
     padding-right: 12px;
-    border-right: 3px solid $light-gray;
+    // border-right: 1px solid $gray;
     padding-left: 12px;
-    border-left: 3px solid $light-gray;
+    // border-left: 1px solid $gray;
 
     // border-radius: 4px;
 }
@@ -115,7 +95,8 @@ body, * {
 
 .content {
     // min-height:100vh;
-    width: $width;
+    // width: $width;
+    max-width: 1020px;
 }
 
 .section {
@@ -196,11 +177,12 @@ body, * {
     cursor: pointer;
 }
 
-
 /* BENTO */
 .bento {
-    margin-left: -10px;
+    // margin-left: -10px;
     max-width: 1020px;
+    margin-left:auto;
+    margin-right:auto;
 }
 
 .bento-full {
@@ -217,8 +199,8 @@ body, * {
 
 .letter {
     position:relative;
-    border: 1px solid $gray;
-    padding: 20px 30px;
+    border: 1px solid $border-color;
+    padding: 15px;
     border-radius: 4px;
     min-height: 150px;
     background-color: white;
@@ -259,11 +241,18 @@ body, * {
 
 .bento-item {
     position:relative;
-    border: 1px solid $gray;
-    padding: 10px;
+    border: 1px solid $border-color;
+    padding: 15px;
     border-radius: 4px;
     min-height: 150px;
     background-color: white;
+}
+
+.bento-item-no-background {
+    position:relative;
+    padding: 0px 15px;
+    border-radius: 4px;
+    // min-height: 150px;
 }
 
 .bento-title {
@@ -292,9 +281,9 @@ body, * {
     bottom: 10px;
     right: 10px;
     padding: 4px;
-    border: 1px solid $gray;
+    border: 1px solid $border-color;
     border-radius: 4px;
-    background-color: $border-color;
+    background-color: $gray;
     color: $bg-color;
     cursor: pointer;
 }
@@ -489,7 +478,13 @@ body, * {
 
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1250px) {
+    body {
+        // width: $small-width !important;
+        padding-left: 3.5% !important;
+        padding-right: 3.5% !important;
+    }
+
     .text {
         font-size: 1.5rem;
         margin-top: 1rem;
@@ -502,9 +497,9 @@ body, * {
         flex-direction: row;
     }
 
-    .english-name {
-        width: 55px;
-    }
+    // .english-name {
+    //     width: 55px;
+    // }
 
     .chinese-name {
         display: none;
@@ -516,25 +511,6 @@ body, * {
         margin-top: auto;
         display: flex;
         flex-direction: row;
-    }
-
-    .header-nav-item {
-        font-size: 1.2rem;
-        margin-right: 10px;
-        margin-top: auto;
-        margin-bottom: auto;
-        padding: 4px; 
-        // border: 1px solid $gray;
-        // border-radius: 4px;
-        border-bottom: 1px dotted $gray;
-        height: fit-content;
-        width: fit-content;
-        user-select: none;
-        cursor: pointer;
-    }
-
-    .header-nav-item:hover {
-        background-color: $light-gray;
     }
 
     .post-month {
@@ -556,18 +532,13 @@ body, * {
 }
 
 @media (max-width: 768px) {
-    body {
-        // width: $small-width !important;
-        padding-left: 3.5% !important;
-    }
-
     .content {
         width: 100% !important;
     }
 
-    .english-name {
-        width: 40px;
-    }
+    // .english-name {
+    //     width: 40px;
+    // }
 
     .bento-half {
         display:flex;
@@ -581,7 +552,7 @@ body, * {
 
     .bento-item {
         min-height: 100px;
-        font-size: 1.4rem;
+        font-size: 1.2rem;
     }
 
     .bento-time {

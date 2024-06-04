@@ -24,8 +24,21 @@
 		"year": "2024",
 		"things": [
 			{
-				"title": "Research Questions",
-				"url": "/Research Questions/",
+				"title": "2023 Research Log Questions",
+				"url": "/2023rlq/",
+				"categories": [],
+				"marking": "",
+				"importance": "high",
+				"collaborators": []
+			}
+		]
+	},
+	{
+		"month": "January",
+		"things": [
+			{
+				"title": "2023 Research Log Questions",
+				"url": "/2023rlq/",
 				"categories": [],
 				"marking": "",
 				"importance": "high",
@@ -43,12 +56,15 @@
 				"marking": "",
 				"importance": "high",
 				"collaborators": []
-			}
-		]
-	},
-	{
-		"year": "2022",
-		"things": [
+			},
+			{
+				"title": "Dynamic Documents",
+				"url": "/DynamicDocuments/",
+				"categories": [],
+				"marking": "",
+				"importance": "high",
+				"collaborators": []
+			},
 			{
 				"title": "Worlding Comic",
 				"url": "/WorldingComic/",
@@ -60,16 +76,8 @@
 		]
 	},
 	{
-		"year": "2021",
+		"year": "2022",
 		"things": [
-			{
-				"title": "Dynamic Documents",
-				"url": "/DynamicDocuments/",
-				"categories": [],
-				"marking": "",
-				"importance": "high",
-				"collaborators": []
-			},
 			{
 				"title": "Exploding text",
 				"url": "/ExplodingText/",

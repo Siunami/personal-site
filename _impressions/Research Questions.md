@@ -1,12 +1,12 @@
 ---
 layout: post
-title: 2023 Research Log Questions
-permalink: /:name/
+title: Research Questions
+permalink: /Research Questions/
 date: 2024-01-4 00:58
 categories:
 ---
 
-_Questions have a alluring quality to them. Each one is like an invitation. A call to adventure. As an end of year reflection, I pulled out every question (lightly curated) that I wrote in my research log. Reading through them reminded me of the [emotional and intellectual forces](https://michaelnotebook.com/creative_context/index.html) that drove my work this year–many still alive in me now. I'm sharing them here in case they spark something for you too._
+_Questions have a alluring quality to them. Each one is like an invitation. A call to adventure. As an end of year reflection, I pulled out every question (lightly curated) that I wrote in my research log this past year. Reading through them reminded me of the [emotional and intellectual forces](https://michaelnotebook.com/creative_context/index.html) that drove my work this year–many still alive in me now. I'm sharing them here in case they spark something for you too [✨](https://en.wikipedia.org/wiki/Oblique_Strategies)_
 
 First impression, what was interesting to you and why did you add it?
 
@@ -229,8 +229,6 @@ Or is there a clear way to say the thing I want to say that doesn't exist alread
 We need experience to validate the components of a concept how do you know what a profit generating home looks like?
 
 Does anyone else experienced this?
-
-Am I alone?
 
 And are we together in this industry experience that we call life which?
 
@@ -969,8 +967,6 @@ Like in a conversation, someone telling you about how remember you were so scare
 What are the feelings I want people to experience?
 
 So where do stories come from?
-
-The many nights spent alone in a room asking why are they alive?
 
 So can a technology do this for ourselves?
 

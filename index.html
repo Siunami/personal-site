@@ -14,7 +14,17 @@ layout: page
 			"
 			src="/assets/letter.png"
 		/>
-		<img
+		<div
+			style="
+				position: absolute;
+				z-index: 1;
+				right: 10px;
+				left: 10px;
+				border: radius 4px;
+				background-color: red;
+			"
+		></div>
+		<!-- <img
 			style="
 				position: absolute;
 				z-index: 1;
@@ -24,13 +34,17 @@ layout: page
 				user-select: none;
 			"
 			src="/assets/letter.png"
-		/>
+		/> -->
 
 		<div style="z-index: 100">
-			<p class="text">Welcome!</p>
-			<p class="text">
+			<p class="text" style="margin-top: 0px">Welcome!</p>
+			<!-- <p class="text">
 				I'm an interface researcher interested in ways to expand what we can
 				<i>perceive</i> and <i>understand</i>.
+			</p> -->
+			<p class="text">
+				I'm an interface researcher exploring new ways to interact with
+				<i>text</i> and <i>information</i>.
 			</p>
 			<p class="text">
 				I’ve done research at NYU focused on <i>creativity support tools</i>,
@@ -43,8 +57,8 @@ layout: page
 				messy, unstructured materials. More to share soon!
 			</p>
 			<p class="text">
-				If you find that my work resonates with you, this is my standing
-				invitation to reach out!
+				If my work resonates with you, this is a standing invitation to reach
+				out!
 			</p>
 
 			<div
@@ -192,47 +206,19 @@ layout: page
 	</div>
 </div>
 
-<div class="post-group">
-	<div style="display: flex; flex-direction: row">
-		<h2 class="post-header">Works</h2>
-		<span class="post-header-subtext text"></span>
+<div class="bento">
+	<div class="bento-item-no-background">
+		<br />
+		<h2 class="bento-title post-header">Index</h2>
 	</div>
-	<div class="things"></div>
-</div>
-<div class="side-by-side">
-	<!-- <div class="post-group post-align">
-		<div style="display: flex; flex-direction: row">
-			<h2 class="post-header">Ongoing</h2>
-			<span class="post-header-subtext text"></span>
-		</div>
-		<div class="ongoing"></div>
+	<!-- <div class="bento-item-no-background" style="color: gray; font-style: italic">
+		indexing... please take a look in the meantime!
 	</div> -->
+	<div class="bento-half">
+		<div class="bento-item-no-background bento-item-1-2 things"></div>
+		<div class="bento-item-no-background bento-item-2-2 ongoing-things"></div>
+	</div>
 </div>
-
-<!-- <script>
-	let o_ongoing = document.querySelector(".ongoing");
-
-	fetch("./assets/ongoing.json")
-		.then((response) => {
-			return response.json();
-		})
-		.then((data) => {
-			let ongoingDiv = document.querySelector(".post-align");
-			data.forEach((thing) => {
-				let newDiv = document.createElement("div");
-
-				let html = `
-				<div class="post text">
-					<a href="${thing.url}">${thing.title}</a>
-				</div>
-			`;
-
-				newDiv.innerHTML = html;
-
-				o_ongoing.appendChild(newDiv);
-			});
-		});
-</script> -->
 <script>
 	function createYearSection(year) {
 		return `
@@ -252,6 +238,7 @@ layout: page
 	}
 
 	let t_things = document.querySelector(".things");
+	let o_t_things = document.querySelector(".ongoing-things");
 	// load json
 	fetch("./assets/things.json")
 		.then((response) => {
@@ -263,7 +250,12 @@ layout: page
 				let month = section["month"];
 				let things = section["things"];
 
-				if (year) {
+				if (year == "ongoing") {
+					let newDiv = document.createElement("div");
+					let html = createYearSection(year);
+					newDiv.innerHTML = html;
+					o_t_things.appendChild(newDiv);
+				} else if (year) {
 					let newDiv = document.createElement("div");
 					let html = createYearSection(year);
 					newDiv.innerHTML = html;
@@ -287,7 +279,11 @@ layout: page
 
 					newDiv.innerHTML = html;
 
-					t_things.appendChild(newDiv);
+					if (year == "ongoing") {
+						o_t_things.appendChild(newDiv);
+					} else {
+						t_things.appendChild(newDiv);
+					}
 				});
 			});
 		});
