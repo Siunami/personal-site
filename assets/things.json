@@ -24,7 +24,15 @@
 		"year": "2024",
 		"things": [
 			{
-				"title": "Research Questions",
+				"title": "Visualizing attention in transformers",
+				"url": "https://x.com/MatthewWSiu/status/1778482551335829848",
+				"categories": [],
+				"marking": "",
+				"importance": "high",
+				"collaborators": []
+			},
+			{
+				"title": "Research questions",
 				"url": "/Research Questions/",
 				"categories": [],
 				"marking": "",
@@ -50,8 +58,64 @@
 		"year": "2022",
 		"things": [
 			{
-				"title": "Worlding Comic",
+				"title": "Geospatial search engine",
+				"url": "https://x.com/azlenelza/status/1588509364913983488",
+				"categories": [],
+				"marking": "",
+				"importance": "high",
+				"collaborators": []
+			},
+			{
+				"title": "Digital materials",
+				"url": "https://x.com/MatthewWSiu/status/1572711905776603143",
+				"categories": [],
+				"marking": "",
+				"importance": "high",
+				"collaborators": []
+			},
+			{
+				"title": "Color picker for words",
+				"url": "https://x.com/MatthewWSiu/status/1560725842019368962",
+				"categories": [],
+				"marking": "",
+				"importance": "high",
+				"collaborators": []
+			},
+			{
+				"title": "ChatGPT with replies",
+				"url": "https://x.com/MatthewWSiu/status/1594900264053575684",
+				"categories": [],
+				"marking": "",
+				"importance": "high",
+				"collaborators": []
+			},
+			{
+				"title": "Latent space concept explorer",
+				"url": "https://x.com/MatthewWSiu/status/1519906295603675143",
+				"categories": [],
+				"marking": "",
+				"importance": "high",
+				"collaborators": []
+			},
+			{
+				"title": "Worlding comic",
 				"url": "/WorldingComic/",
+				"categories": [],
+				"marking": "",
+				"importance": "high",
+				"collaborators": []
+			},
+			{
+				"title": "A better web browser",
+				"url": "https://x.com/MatthewWSiu/status/1584708908551061505",
+				"categories": [],
+				"marking": "",
+				"importance": "high",
+				"collaborators": []
+			},
+			{
+				"title": "Magic ink",
+				"url": "https://x.com/MatthewWSiu/status/1480702088858333186",
 				"categories": [],
 				"marking": "",
 				"importance": "high",
@@ -63,7 +127,23 @@
 		"year": "2021",
 		"things": [
 			{
-				"title": "Dynamic Documents",
+				"title": "Software poems",
+				"url": "https://x.com/MatthewWSiu/status/1752079071343976557",
+				"categories": [],
+				"marking": "",
+				"importance": "high",
+				"collaborators": []
+			},
+			{
+				"title": "Telescopic text",
+				"url": "https://x.com/MatthewWSiu/status/1329993019177791488",
+				"categories": [],
+				"marking": "",
+				"importance": "high",
+				"collaborators": []
+			},
+			{
+				"title": "Dynamic documents",
 				"url": "/DynamicDocuments/",
 				"categories": [],
 				"marking": "",
@@ -73,6 +153,43 @@
 			{
 				"title": "Exploding text",
 				"url": "/ExplodingText/",
+				"categories": [],
+				"marking": "",
+				"importance": "high",
+				"collaborators": []
+			},
+			{
+				"title": "On play",
+				"url": "https://matthewsiu.substack.com/p/on-play",
+				"categories": [],
+				"marking": "",
+				"importance": "high",
+				"collaborators": []
+			},
+			{
+				"title": "Writing, Miyazaki, and MMOs",
+				"url": "https://matthewsiu.substack.com/p/writing-miyazaki-and-mmos",
+				"categories": [],
+				"marking": "",
+				"importance": "high",
+				"collaborators": []
+			},
+			{
+				"title": "What's next for augmented intelligence",
+				"url": "https://matthewsiu.substack.com/p/whats-next-for-augmented-intelligence",
+				"categories": [],
+				"marking": "",
+				"importance": "high",
+				"collaborators": []
+			}
+		]
+	},
+	{
+		"year": "2021",
+		"things": [
+			{
+				"title": "Zoomable User Interfaces",
+				"url": "https://x.com/MatthewWSiu/status/1228155105683263490",
 				"categories": [],
 				"marking": "",
 				"importance": "high",
