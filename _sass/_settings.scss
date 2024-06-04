@@ -485,14 +485,8 @@ body, * {
 @media (max-width: 1250px) {
     
     body {
-        // width: $small-width !important;
         padding-left: 3.5% !important;
         padding-right: 3.5% !important;
-    }
-
-    .text {
-        font-size: 1.5rem;
-        margin-top: 1rem;
     }
     
     .header {
@@ -501,10 +495,6 @@ body, * {
         margin-top: 3rem;
         flex-direction: row;
     }
-
-    // .english-name {
-    //     width: 55px;
-    // }
 
     .chinese-name {
         display: none;
@@ -519,7 +509,7 @@ body, * {
     }
 
     .post-month {
-        font-size: 1rem;
+        // font-size: 1rem;
     }
 
 
@@ -531,12 +521,10 @@ body, * {
         display:none;
     }
 
-    .work-item {
-        font-size: 1.5rem;
-    }
+
 
     .bulletin-text {
-        font-size: 1.4rem;
+        // font-size: 1.4rem;
     }
 }
 
@@ -545,18 +533,24 @@ body, * {
         width: 100% !important;
     }
 
-    // .english-name {
-    //     width: 40px;
-    // }
-
+    //reversed
     .bento-half {
         display:flex;
-        flex-direction: column;
+        flex-direction: column-reverse;
     }
 
     .bento-third {
         display:flex;
         flex-direction: column;
+    }
+
+    .text {
+        font-size: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    .work-item {
+        font-size: 1.5rem;
     }
 
     .bento-item {
@@ -600,7 +594,7 @@ body, * {
         font-size: 1.2rem;
     }
 
-    // .bulletin-text {
-    //     font-size: 1.4rem;
-    // }
+    .bulletin-text {
+        font-size: 1.4rem;
+    }
 }
