@@ -148,6 +148,10 @@ body, * {
 
 
 /* BULLETIN STYLING */
+.bulletin-text {
+    font-size: 1rem;
+}
+
 .hide {
     display: none;
 }
@@ -479,6 +483,7 @@ body, * {
 }
 
 @media (max-width: 1250px) {
+    
     body {
         // width: $small-width !important;
         padding-left: 3.5% !important;
@@ -528,6 +533,10 @@ body, * {
 
     .work-item {
         font-size: 1.5rem;
+    }
+
+    .bulletin-text {
+        font-size: 1.4rem;
     }
 }
 
@@ -590,4 +599,8 @@ body, * {
         margin-top:auto;
         font-size: 1.2rem;
     }
+
+    // .bulletin-text {
+    //     font-size: 1.4rem;
+    // }
 }

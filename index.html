@@ -153,8 +153,8 @@ layout: page
 			</span>
 
 			{% for part in bulletin_parts %}
-			<span>{{ part | strip }}</span>{% unless forloop.last %}<br /><br />{%
-			endunless %} {% endfor %}
+			<span class="bulletin-text">{{ part | strip }}</span>{% unless
+			forloop.last %}<br /><br />{% endunless %} {% endfor %}
 		</div>
 		{% endfor %}
 
