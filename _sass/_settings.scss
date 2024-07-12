@@ -29,6 +29,7 @@ $width: 87.5%;
 body, * {
     margin: 0;
     padding: 0;
+    font-size: 1.2rem;
 }
 
 
@@ -71,31 +72,19 @@ body, * {
 
 .english-name {
     width: 55px;
-    // border: 3px solid $light-gray;
-    // border: 1px solid $gray;
-    padding-right: 12px;
-    // border-right: 1px solid $gray;
-    padding-left: 12px;
-    // border-left: 1px solid $gray;
-    // border-radius: 4px;
+    margin-left: 15px;
+    margin-top: 15px;
+    margin-bottom: -5px;
 }
 
 .chinese-name {
     width: 55px;
-    // border: 3px solid $light-gray;
-    // border: 1px solid $gray;
-    padding-right: 12px;
-    // border-right: 1px solid $gray;
-    padding-left: 12px;
-    // border-left: 1px solid $gray;
-
-    // border-radius: 4px;
+    padding-right: 15px;
+    padding-left: 15px;
 }
 
 
 .content {
-    // min-height:100vh;
-    // width: $width;
     max-width: 1020px;
 }
 
@@ -118,38 +107,10 @@ body, * {
     flex-direction: row;
 }
 
-// .grid-container {
-//     display: grid;
-//     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-//   }
-  
-// .grid-item {
-//     margin:0px;
-//     padding:0px;
-// }
-
-// .grid-container {
-//     display: grid;
-//     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-//     grid-auto-flow: dense;
-//     gap: 10px;
-//   }
-  
-//   .grid-item img {
-//     width: 100%;
-//     height: auto;
-//   }
-  
-//   .grid-item {
-//     display: flex;
-//     flex-direction: column;
-//   }
-
-
 
 /* BULLETIN STYLING */
 .bulletin-text {
-    font-size: 1rem;
+    font-size: 1.1rem;
 }
 
 .hide {
@@ -183,7 +144,6 @@ body, * {
 
 /* BENTO */
 .bento {
-    // margin-left: -10px;
     max-width: 1020px;
     margin-left:auto;
     margin-right:auto;
@@ -361,7 +321,7 @@ body, * {
 }
 
 .post-section {
-    font-size: 1.2rem;
+    // font-size: 1.2rem;
     font-style: italic;
     margin-top: 16px;
 }
@@ -395,7 +355,7 @@ body, * {
     margin-bottom:8px;
 }
 
-.work-item {
+.index-item {
     display: flex;
     flex-direction: row;
     margin-top:8px;
@@ -406,17 +366,12 @@ body, * {
     color: $text-color;
     width:fit-content;
     // max-width:800px;
-    font-size: 1.2rem;
+    // font-size: 1.2rem;
     margin-top:.5rem;
 }
 
-.work-link {
+.index-link {
     width: fit-content;
-}
-
-.work-line {
-    border-bottom: 1px solid gray;
-    width:100%;
 }
 
 .post-nav {
@@ -453,10 +408,6 @@ body, * {
     // font-size: 1.5rem;
 }
 
-// .next {
-//     margin-left: auto;
-// }
-
 .post-large-section {
     font-size: 2rem;
 }
@@ -479,12 +430,30 @@ body, * {
     margin-bottom: 0px;
     padding-right: 0px;
     width: fit-content;
+}
 
+#preview-box {
+    position: fixed;
+    /// interact none
+    
+    width: calc(100% - 12rem);
+    background-color:white;
+    padding: 1rem;
+    border: 1px solid $border-color;
+    border-radius: 4px;
+    left: calc(6rem);
+    z-index: 1;
+
+    user-select: none;
+    display:none;
 }
 
 @media (max-width: 1250px) {
-    
-    body {
+    body, * {
+        font-size: 1.5rem; /* Increase base font size on small screens */
+    }
+
+    body { 
         padding-left: 3.5% !important;
         padding-right: 3.5% !important;
     }
@@ -508,10 +477,6 @@ body, * {
         flex-direction: row;
     }
 
-    .post-month {
-        // font-size: 1rem;
-    }
-
 
     .bento-time {
         margin-bottom: 2px;
@@ -520,15 +485,13 @@ body, * {
     #bulletin-toggle {
         display:none;
     }
-
-
-
-    .bulletin-text {
-        // font-size: 1.4rem;
-    }
 }
 
 @media (max-width: 768px) {
+    // body {
+    //     font-size: 1.5rem; /* Increase base font size on small screens */
+    // }
+
     .content {
         width: 100% !important;
     }
@@ -549,14 +512,14 @@ body, * {
         margin-top: 1rem;
     }
 
-    .work-item {
+    .index-item {
         font-size: 1.5rem;
     }
 
-    .bento-item {
-        min-height: 100px;
-        font-size: 1.2rem;
-    }
+    // .bento-item {
+    //     min-height: 100px;
+    //     font-size: 1.4rem;
+    // }
 
     .bento-time {
         margin-bottom: 0px;
@@ -585,16 +548,21 @@ body, * {
         }
     }
 
-    .post-month {
-        font-size: 1.2rem;
-    }
+    // .post-month {
+    //     font-size: 1.2rem;
+    // }
     
     .post-header-subtext {
         margin-top:auto;
         font-size: 1.2rem;
     }
 
-    .bulletin-text {
-        font-size: 1.4rem;
+    #preview-box {
+        width: calc(100% - 6rem);
+        left: calc(2rem);
     }
+
+    // .bulletin-text {
+    //     font-size: 1rem;
+    // }
 }

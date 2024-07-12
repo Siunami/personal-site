@@ -2,6 +2,15 @@
 layout: page
 ---
 
+<style>
+	/* canvas {
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: -1;
+		display: block;
+	} */
+</style>
 <div class="bento bento-full">
 	<div class="letter bento-item-1-1">
 		<img
@@ -219,7 +228,12 @@ layout: page
 		<div class="bento-item-no-background bento-item-2-2 ongoing-things"></div>
 	</div>
 </div>
+
+<div id="preview-box"></div>
+
 <script>
+	let previewBox = document.getElementById("preview-box");
+
 	function createYearSection(year) {
 		return `
 			<div class="post-section">
@@ -271,13 +285,65 @@ layout: page
 					let newDiv = document.createElement("div");
 
 					let html = `
-						<div class="work-item">
-							<a class="work-link" href="${thing.url}">${thing.title}</a>
-							
+						<div class="index-item">
+							<a class="index-link" href="${thing.url}">${thing.title}</a>
 						</div>
 					`;
 
 					newDiv.innerHTML = html;
+
+					// newDiv.addEventListener("mouseover", function (ev) {
+					// 	// let bbox = newDiv.getBoundingClientRect();
+
+					// 	// previewBox.style.display = "block";
+					// 	// previewBox.innerHTML = `
+					// 	// 	<div class="preview-item">
+					// 	// 		<img src="assets/attention_visualization.png" class="preview-image" />
+					// 	// 	</div>
+					// 	// `;
+					// 	// // get mouse coordinates
+					// 	// console.log(ev.clientX, ev.clientY);
+
+					// 	// console.log(window.innerHeight);
+					// 	// console.log(window.innerWidth);
+					// 	// let firstHalf = ev.clientY > window.innerHeight / 2;
+					// 	// let previewBoxBbox = previewBox.getBoundingClientRect();
+
+					// 	// if (firstHalf) {
+					// 	// 	previewBox.style.top =
+					// 	// 		ev.clientY - (previewBoxBbox.height + 15) + "px";
+					// 	// } else {
+					// 	// 	previewBox.style.top =
+					// 	// 		ev.clientY + (previewBoxBbox.height - 20) + "px";
+					// 	// }
+
+					// 	previewBox.style.display = "block";
+					// 	previewBox.innerHTML = `
+					// 		<div class="preview-item">
+					// 			<img id="previewImage" src="assets/attention_visualization.png" class="preview-image" />
+					// 		</div>
+					// 	`;
+
+					// 	const previewImage = document.getElementById("previewImage");
+
+					// 	previewImage.addEventListener("load", function () {
+					// 		let bbox = newDiv.getBoundingClientRect();
+					// 		let previewBoxBbox = previewBox.getBoundingClientRect();
+
+					// 		let firstHalf = ev.clientY > window.innerHeight / 2;
+
+					// 		if (firstHalf) {
+					// 			previewBox.style.top =
+					// 				bbox.top - (previewBoxBbox.height + 5) + "px";
+					// 		} else {
+					// 			previewBox.style.top = bbox.top + 25 + "px";
+					// 		}
+					// 	});
+					// });
+
+					// newDiv.addEventListener("mouseout", function () {
+					// 	previewBox.style.display = "none";
+					// });
 
 					if (year == "ongoing") {
 						o_t_things.appendChild(newDiv);
@@ -336,3 +402,103 @@ layout: page
 		toggleBulletinCarets();
 	});
 </script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script> -->
+<!-- <script>
+	// Initialize scene, camera, and renderer
+	const scene = new THREE.Scene();
+	const camera = new THREE.PerspectiveCamera(
+		75,
+		window.innerWidth / window.innerHeight,
+		0.1,
+		1000
+	);
+	const renderer = new THREE.WebGLRenderer({ alpha: true }); // Enable transparency
+	renderer.setSize(window.innerWidth, window.innerHeight);
+	document.body.appendChild(renderer.domElement);
+
+	// Add ambient light
+	const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+	scene.add(ambientLight);
+
+	camera.position.z = 5;
+
+	// Handle window resize
+	window.addEventListener("resize", () => {
+		camera.aspect = window.innerWidth / window.innerHeight;
+		camera.updateProjectionMatrix();
+		renderer.setSize(window.innerWidth, window.innerHeight);
+	});
+
+	// SVG data for the leaf
+	const svgData = `
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+			<path d="M50,0 C75,25 75,75 50,100 C25,75 25,25 50,0 Z" fill="#A9DFBF"/>
+			<path d="M50,10 C65,30 65,70 50,90 C35,70 35,30 50,10 Z" fill="#229954"/>
+		</svg>
+	`;
+
+	// Convert SVG to a Data URL
+	const svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+	const svgUrl = URL.createObjectURL(svgBlob);
+
+	// Load texture from SVG URL
+	const leafTexture = new THREE.TextureLoader().load(svgUrl, () => {
+		URL.revokeObjectURL(svgUrl); // Clean up after the texture is loaded
+	});
+
+	const leafMaterial = new THREE.MeshBasicMaterial({
+		map: leafTexture,
+		transparent: true,
+	});
+	const leaves = [];
+
+	// Function to create a leaf
+	function createLeaf() {
+		const geometry = new THREE.PlaneGeometry(0.2, 0.2);
+		const leaf = new THREE.Mesh(geometry, leafMaterial);
+		leaf.position.set(
+			(Math.random() - 0.5) * 10,
+			Math.random() * 10,
+			(Math.random() - 0.5) * 10
+		);
+		leaf.rotation.z = Math.random() * Math.PI;
+		leaf.userData = {
+			speed: 0.002 + Math.random() * 0.003, // Slower falling speed
+			amplitude: 0.2 + Math.random() * 0.3, // Subtle rocking motion
+			frequency: 0.2 + Math.random() * 0.3,
+			phase: Math.random() * Math.PI * 2,
+			angularSpeed: 0.002 + Math.random() * 0.003,
+		};
+		scene.add(leaf);
+		leaves.push(leaf);
+	}
+
+	// Create multiple leaves
+	for (let i = 0; i < 100; i++) {
+		createLeaf();
+	}
+
+	// Animate the leaves
+	function animate() {
+		requestAnimationFrame(animate);
+
+		leaves.forEach((leaf) => {
+			leaf.position.y -= leaf.userData.speed;
+			leaf.position.x +=
+				Math.sin(
+					leaf.userData.frequency * leaf.position.y + leaf.userData.phase
+				) *
+				leaf.userData.amplitude *
+				0.01;
+			leaf.rotation.z += leaf.userData.angularSpeed;
+
+			if (leaf.position.y < -5) {
+				leaf.position.y = -5;
+			}
+		});
+
+		renderer.render(scene, camera);
+	}
+
+	animate();
+</script> -->

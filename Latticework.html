@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>
+			Latticework: Unifying annotation and freeform text editing for augmented
+			sensemaking
+		</title>
+		<style>
+			body {
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+					Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+				line-height: 1.6;
+				color: #333;
+				/* max-width: 800px;
+				margin: 0 auto;
+				padding: 20px; */
+				max-width: none;
+				margin: 0;
+				padding: 0;
+			}
+
+			.banner-container {
+				width: 100%;
+			}
+
+			.banner {
+				background-image: url("latticework.png");
+				background-size: cover;
+				background-position: center;
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-end;
+				min-height: 300px;
+				padding: 40px;
+				box-sizing: border-box;
+				color: white;
+				position: relative;
+			}
+
+			.banner::before {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: linear-gradient(
+					to bottom,
+					rgba(0, 0, 0, 0.3) 0%,
+					rgba(0, 0, 0, 0.2) 70%,
+					rgba(255, 255, 255, 0.1) 90%,
+					rgba(255, 255, 255, 1) 100%
+				);
+				z-index: 1;
+			}
+			.banner > * {
+				position: relative;
+				z-index: 2;
+			}
+
+			.banner h1 {
+				margin-bottom: 0em; /* Reduce bottom margin of h1 */
+			}
+
+			.banner .description {
+				margin-top: 0; /* Remove top margin of description */
+				margin-bottom: 1em; /* Add some space between description and authors */
+			}
+
+			.banner h1,
+			.banner .description,
+			.banner .authors {
+				text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+			}
+
+			.banner a {
+				color: white;
+			}
+
+			main {
+				/* Add padding to the main content */
+				max-width: 800px;
+				margin: 0 auto;
+				padding: 20px;
+			}
+
+			h1 {
+				margin-bottom: 0;
+			}
+			.description {
+				font-style: italic;
+				margin-bottom: 10px;
+			}
+			.authors {
+				font-size: 1em;
+			}
+			h2 {
+				border-bottom: 1px solid #ddd;
+				padding-bottom: 10px;
+				margin-top: 40px;
+			}
+			a {
+				color: #0066cc;
+				text-decoration: none;
+			}
+			a:hover {
+				text-decoration: underline;
+			}
+			.table-container {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-between;
+			}
+			table {
+				border-collapse: collapse;
+				margin-bottom: 20px;
+				max-width: 100%;
+				table-layout: fixed;
+				width: 100%;
+			}
+			th,
+			td {
+				border: 1px solid #ddd;
+				padding: 8px;
+				text-align: left;
+				word-wrap: break-word;
+				overflow-wrap: break-word;
+			}
+			th {
+				background-color: #f2f2f2;
+			}
+
+			code {
+				background-color: #f4f4f4;
+				padding: 2px 4px;
+				border-radius: 4px;
+			}
+
+			pre {
+				background-color: #f8f8f8;
+				border: 1px solid #ddd;
+				border-radius: 4px;
+				margin-bottom: 20px;
+			}
+			/* .language-markdown {
+				background-color: #f8f8f8;
+				border: 1px solid #ddd;
+				border-radius: 4px;
+				padding: 15px;
+				margin-bottom: 20px;
+			} */
+
+			.highlight-yellow {
+				background-color: yellow;
+			}
+
+			.highlight-lightblue {
+				background-color: lightblue;
+			}
+
+			.highlight-lightcoral {
+				background-color: lightcoral;
+			}
+
+			.video-container {
+				position: relative;
+				padding-bottom: 56.25%; /* Increased aspect ratio */
+				height: 0;
+				overflow: hidden;
+				max-width: 110%; /* Allows the video to extend beyond the text width */
+				margin: 30px -5%; /* Centers the wider video and adds vertical spacing */
+			}
+			.video-container iframe {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+			}
+
+			@media screen and (max-width: 768px) {
+				.banner {
+					min-height: 200px;
+					padding: 20px;
+				}
+
+				main {
+					padding: 10px;
+				}
+
+				h1 {
+					font-size: 24px !important;
+				}
+
+				.description {
+					font-size: 14px !important;
+				}
+
+				.authors {
+					font-size: 12px !important;
+				}
+
+				.table-container {
+					flex-direction: column !important;
+				}
+
+				.table-container table {
+					width: 100% !important;
+				}
+
+				.video-container {
+					max-width: 100% !important;
+					margin: 20px 0 !important;
+				}
+			}
+
+			.row-container {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-between;
+				margin-bottom: 20px;
+			}
+
+			.table-container,
+			pre {
+				width: 48%;
+				margin-top: 0px;
+				/* margin-bottom: 0; */
+			}
+
+			@media (min-width: 768px) {
+				/* .table-container table {
+					width: 48%;
+				} */
+
+				pre {
+					width: calc(48% - 20px);
+					padding: 10px;
+				}
+			}
+
+			@media (max-width: 768px) {
+				.row-container {
+					flex-direction: column;
+				}
+
+				.table-container,
+				pre {
+					width: calc(100% - 20px);
+					padding: 10px;
+					/* margin-bottom: 20px; */
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="banner-container">
+			<div class="banner">
+				<h1>Latticework</h1>
+				<p class="description">
+					Unifying annotation and freeform text editing for augmented
+					sensemaking
+				</p>
+				<p class="authors">
+					<a href="https://www.matthewsiu.com">Matthew Siu</a> and
+					<a href="https://andymatuschak.org">Andy Matuschak</a>; June 2024
+				</p>
+			</div>
+		</div>
+
+		<main>
+			<!-- Markdown content will be inserted here -->
+		</main>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.2/marked.min.js"></script>
+		<script>
+			// Fetch the Markdown content and render it
+			fetch("latticework.md")
+				.then((response) => response.text())
+				.then((markdown) => {
+					const parsedContent = marked.parse(markdown);
+					const mainElement = document.querySelector("main");
+					mainElement.innerHTML = parsedContent;
+
+					// Apply highlights to the language-markdown element
+					const markdownPreview =
+						mainElement.querySelector(".language-markdown");
+					if (markdownPreview) {
+						const highlightRules = [
+							{ regex: /## Stone fruit/g, class: "highlight-yellow" },
+							{
+								regex: /In season June-August \^sfs/g,
+								class: "highlight-lightblue",
+							},
+							{ regex: /strawberries/g, class: "highlight-lightcoral" },
+						];
+
+						highlightRules.forEach((rule) => {
+							markdownPreview.innerHTML = markdownPreview.innerHTML.replace(
+								rule.regex,
+								`<span class="${rule.class}">$&</span>`
+							);
+						});
+					}
+
+					// Replace YouTube link with embedded video
+					const youtubeLink = mainElement.querySelector(
+						'a[href^="https://youtu.be/"]'
+					);
+					if (youtubeLink) {
+						const videoId = youtubeLink.href.split("/").pop();
+						const videoContainer = document.createElement("div");
+						videoContainer.className = "video-container";
+						videoContainer.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+						youtubeLink.parentNode.replaceChild(videoContainer, youtubeLink);
+					}
+
+					// Group adjacent tables and pre tags
+					const mainContent = mainElement.children;
+					let currentContainer = null;
+
+					for (let i = 0; i < mainContent.length; i++) {
+						const element = mainContent[i];
+
+						if (element.tagName === "TABLE" || element.tagName === "PRE") {
+							if (!currentContainer) {
+								currentContainer = document.createElement("div");
+								currentContainer.className = "row-container";
+								element.parentNode.insertBefore(currentContainer, element);
+							}
+
+							if (element.tagName === "TABLE") {
+								let tableContainer = document.createElement("div");
+								tableContainer.className = "table-container";
+								tableContainer.appendChild(element);
+								currentContainer.appendChild(tableContainer);
+							} else {
+								currentContainer.appendChild(element);
+							}
+						} else {
+							if (currentContainer) {
+								// Check if there's only one child in the container
+								if (currentContainer.children.length === 1) {
+									currentContainer.firstChild.style.width = "calc(100% - 20px)";
+								}
+							}
+							currentContainer = null;
+						}
+					}
+
+					// Check the last container if it exists
+					if (currentContainer && currentContainer.children.length === 1) {
+						currentContainer.firstChild.style.width = "calc(100% - 20px)";
+					}
+
+					// Highlight first word in specific table cells with different colors
+					const firstTable = document.querySelector("table");
+					if (firstTable) {
+						const rows = firstTable.querySelectorAll("tr");
+						const highlightColors = {
+							2: "yellow",
+							3: "lightblue",
+							4: "lightcoral",
+						};
+						for (let i = 2; i < 5; i++) {
+							if (rows[i]) {
+								const firstCell = rows[i].querySelector("td");
+								if (firstCell) {
+									const text = firstCell.textContent;
+									const firstWord = text.split(" ")[0];
+									firstCell.innerHTML = `<strong style="background-color: ${
+										highlightColors[i]
+									};">${firstWord}</strong> ${text.slice(firstWord.length)}`;
+								}
+							}
+						}
+					}
+				});
+		</script>
+	</body>
+</html>
