@@ -1,5 +1,4 @@
-## Introduction
-
+<!-- prettier-ignore-start -->
 You’re in the middle of a large project, and you’re stuck. You’re staring at a pile of long, unstructured documents (journals, lab notebooks, meeting notes) with a sense that the clues you need are buried somewhere within. But there’s simply too much to keep in your head as you scroll. Instead, you hatch a plan. If you could find the important snippets and gather them into one place, it would be easier to see everything at once, to notice patterns, and to figure out what to do no ext.
 
 So you create a new working document, and as you read through your unstructured notes, you copy and paste key passages into it. But this process is cumbersome and disorienting: you’re constantly moving both your attention and your cursor between these documents, deciding where to put each new snippet, losing your place in your unstructured notes. The snippets in your working document are isolated from their original context, so it can be hard to remember what each means and why it matters. And as snippets pile up, your fresh document can easily produce the same kind of overwhelm you were trying to escape.
@@ -20,8 +19,10 @@ Latticework’s main goal, then, is to enable fluid movement between these forag
 
 In the introduction, we described two different workflows people might use to capture what’s important from a messy pile of material: highlighting key snippets in a source document, and copying key snippets into a working document. Highlighting is more convenient when foraging, while copying prepares a manipulable canvas for sensemaking. Latticework unifies these operations, so that you can use whichever is most convenient in the moment, while retaining the benefits of the other.
 
+<!-- image-pair: highlight.png -->
 When you highlight a snippet in a source document, a linked copy of that snippet is inserted into your working document, open in the opposite pane. Then, when you shift to sensemaking, you can rearrange the link within that document as you would any ordinary text.
 
+<!-- image-pair: copy_paste.png -->
 Once you’ve done some sensemaking, it may be more convenient to use the other workflow. Suppose that you see an important snippet as you scan through a source document, and you know just where it should go in your emerging structure. If you highlight the snippet, a link will be inserted at the bottom of the working document, which isn’t quite what you want. Instead, you can select the snippet, invoke the “Copy Snippet Link” command (Command+Option+C), and paste into the working document wherever you’d like. Then—unlike in a typical copy-and-paste workflow—you’ll see that snippet highlighted in the source document, so that you can keep track of your work as you continue reading.
 
 You’ll get the same result no matter which direction you go—a highlight in the source document and a snippet link in the working document. Conceptually, highlighting doesn’t actually modify the source document. Highlights are a dynamic style applied to all the snippets linked in your working document. So if you delete a snippet link, the corresponding highlight will disappear, too.
@@ -30,6 +31,7 @@ You’ll get the same result no matter which direction you go—a highlight in t
 
 While you’re gathering these snippets, you may also want to capture observations about them. Each workflow has a natural way to handle this. If you’re reading a source document with a highlighter, you can write comments in the margins. If you’re copying snippets into a working document, you can type observations alongside them. As with highlighting and copying, Latticework makes these operations interchangeable.
 
+<!-- image-pair: comments.png -->
 When you create a comment on some text in a source document, Latticework inserts your comment alongside a snippet link in your working document. The same is true in reverse. If you’re focused on your working document, you can type observations next to a snippet link, and those remarks will appear at the snippet’s location in its source document. You’ll get the same result no matter which direction you go, so you can always view and edit comments from either the source document or your working document.
 
 As with highlighting, comments don’t modify the source document. Instead, Latticework comments are like editable “portals” into your working document. This approach frees comments from the margins of source documents, so that they can be re-arranged and manipulated like any other text in your working document.
@@ -42,6 +44,7 @@ Clicking a snippet link in a working document will navigate to that snippet with
 
 You can also navigate backwards, from highlights in a source document to the corresponding snippet links in your working document. These “backlinks” likewise open in the opposite pane by default, to avoid disrupting the source document you were reading.
 
+<!-- image-pair: peeking.png -->
 Latticework uses a similar pane-aware interaction to support quick peeking into the context surrounding a link or backlink. While hovering over a link with the Command key held, the opposite pane will display a preview of the destination. The preview disappears when you move your cursor away or release the Command key. Or, if you want to dig deeper into that spot, you can click to make the navigation stick.
 
 This design is similar to typical popover-based link previews. But in those designs, if you start reading the preview’s text, then click the link to navigate, the text moves to a new location and reflows. Latticework’s pane-based preview design ensures that the preview’s text doesn’t move upon navigation, so you can keep reading without losing your place.
@@ -50,6 +53,7 @@ This design is similar to typical popover-based link previews. But in those desi
 
 Alongside disorientation, working memory overload is one of the biggest problems when distilling these large unstructured documents. We believe that’s why people in these situations so often try to collect everything important into once place: that way, everything can be viewed at once, and it’s possible to notice connections and themes without relying on working memory. Unfortunately, as snippets accumulate, the working document itself can become quite long—leaving you stuck scrolling around, trying to remember where everything is.
 
+<!-- image-pair: collapse.png -->
 To help with this challenge, Latticework makes it possible to “collapse” snippet links. By default, snippet links show the full content of the snippet. But as you work with your snippets—paraphrasing, recontextualizing, and distilling them—you may find that you no longer need to see the full text all the time. Your own comments have superseded the original material. In these cases, you can click the snippet link while holding Shift to collapse it to a small icon. You can still view or preview its full contents by clicking or hovering. Shift-clicking again will restore its expanded form.
 
 Collapsed links are particularly useful when you have long snippets. But they also make it easy to capture a simple citation, a compact link to supporting material with extra context.
@@ -206,3 +210,4 @@ In our projects, important ideas aren’t confined to plaintext notes. Inspirati
 Thanks to Alicia Guo, Gytis Daujotas, Max Krieger, Peter van Hardenberg, Robert Ochshorn, and Victoria Kim for helpful comments on drafts of this report. Also to Jacky Zhao, Jon Bo, Kasra Koushan, Spencer Chang and others for their feedback at different stages of the research process.
 
 This work was supported by Andy’s [Patreon community](https://patreon.com/quantumcountry). You can [become a member](https://patreon.com/quantumcountry) to help make more work like this possible. You'll get in-depth monthly essays, previews of prototypes, and events like seminars and unconferences.
+<!-- prettier-ignore-end -->

@@ -17,12 +17,10 @@ permalink: /Latticework/
 					Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 				line-height: 1.6;
 				color: #333;
-				/* max-width: 800px;
-				margin: 0 auto;
-				padding: 20px; */
 				max-width: none;
 				margin: 0;
 				padding: 0;
+				font-size: 18px; /* Increased font size */
 			}
 
 			.banner-container {
@@ -30,7 +28,7 @@ permalink: /Latticework/
 			}
 
 			.banner {
-				background-image: url("latticework.png");
+				background-image: url("/Latticework/latticework.png");
 				background-size: cover;
 				background-position: center;
 				display: flex;
@@ -85,7 +83,7 @@ permalink: /Latticework/
 
 			main {
 				/* Add padding to the main content */
-				max-width: 800px;
+				max-width: 700px; /* Reduced max-width */
 				margin: 0 auto;
 				padding: 20px;
 			}
@@ -140,6 +138,8 @@ permalink: /Latticework/
 				background-color: #f4f4f4;
 				padding: 2px 4px;
 				border-radius: 4px;
+				word-wrap: break-word;
+				overflow-wrap: break-word;
 			}
 
 			pre {
@@ -147,14 +147,13 @@ permalink: /Latticework/
 				border: 1px solid #ddd;
 				border-radius: 4px;
 				margin-bottom: 20px;
+				white-space: pre-wrap; /* CSS 3 */
+				white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+				white-space: -pre-wrap; /* Opera 4-6 */
+				white-space: -o-pre-wrap; /* Opera 7 */
+				word-wrap: break-word; /* Internet Explorer 5.5+ */
+				overflow-x: auto;
 			}
-			/* .language-markdown {
-				background-color: #f8f8f8;
-				border: 1px solid #ddd;
-				border-radius: 4px;
-				padding: 15px;
-				margin-bottom: 20px;
-			} */
 
 			.highlight-yellow {
 				background-color: yellow;
@@ -218,6 +217,10 @@ permalink: /Latticework/
 					max-width: 100% !important;
 					margin: 20px 0 !important;
 				}
+
+				body {
+					font-size: 16px; /* Slightly smaller font size for mobile */
+				}
 			}
 
 			.row-container {
@@ -257,6 +260,41 @@ permalink: /Latticework/
 					/* margin-bottom: 20px; */
 				}
 			}
+
+			.image-pair-section {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				margin-bottom: 20px;
+			}
+
+			.image-pair-text {
+				flex: 1;
+				min-width: 300px;
+				padding-right: 20px;
+			}
+
+			.image-pair-image {
+				flex: 1;
+				min-width: 300px;
+				max-width: 100%;
+			}
+
+			.image-pair-image img {
+				max-width: 100%;
+				height: auto;
+			}
+
+			@media screen and (max-width: 768px) {
+				.image-pair-section {
+					flex-direction: column;
+				}
+
+				.image-pair-text {
+					padding-right: 0;
+					margin-bottom: 20px;
+				}
+			}
 		</style>
 	</head>
 	<body>
@@ -281,9 +319,28 @@ permalink: /Latticework/
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.2/marked.min.js"></script>
 		<script>
 			// Fetch the Markdown content and render it
-			fetch("latticework.md")
+			fetch("/Latticework/Latticework.md")
 				.then((response) => response.text())
 				.then((markdown) => {
+					// Process the markdown to handle image pairs
+					markdown = markdown.replace(
+						/<!-- image-pair: (.*?) -->\n(.*?)(?=\n\n|$)/gs,
+						(match, imageName, text) => {
+							// Parse the text content with marked to handle Markdown syntax
+							const parsedText = marked.parse(text.trim());
+							return `<div class="image-pair-section">
+  <div class="image-pair-text">
+    ${parsedText}
+  </div>
+  <div class="image-pair-image">
+    <img src="/Latticework/${imageName}" alt="Illustration for ${text
+								.trim()
+								.slice(0, 50)}..." loading="lazy">
+  </div>
+</div>`;
+						}
+					);
+
 					const parsedContent = marked.parse(markdown);
 					const mainElement = document.querySelector("main");
 					mainElement.innerHTML = parsedContent;
