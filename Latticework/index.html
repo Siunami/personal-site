@@ -1,7 +1,3 @@
----
-permalink: /Latticework/
----
-
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -20,7 +16,7 @@ permalink: /Latticework/
 				max-width: none;
 				margin: 0;
 				padding: 0;
-				font-size: 18px; /* Increased font size */
+				font-size: 18px;
 			}
 
 			.banner-container {
@@ -28,12 +24,13 @@ permalink: /Latticework/
 			}
 
 			.banner {
-				background-image: url("/Latticework/latticework.png");
+				background-image: url("/Latticework/cover.png");
 				background-size: cover;
 				background-position: center;
 				display: flex;
 				flex-direction: column;
-				justify-content: flex-end;
+				justify-content: center;
+				align-items: flex-start;
 				min-height: 300px;
 				padding: 40px;
 				box-sizing: border-box;
@@ -48,33 +45,53 @@ permalink: /Latticework/
 				left: 0;
 				right: 0;
 				bottom: 0;
-				background: linear-gradient(
-					to bottom,
-					rgba(0, 0, 0, 0.3) 0%,
-					rgba(0, 0, 0, 0.2) 70%,
-					rgba(255, 255, 255, 0.1) 90%,
-					rgba(255, 255, 255, 1) 100%
-				);
+				background-image: inherit;
+				background-size: inherit;
+				background-position: inherit;
 				z-index: 1;
 			}
-			.banner > * {
-				position: relative;
+
+			.banner::after {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: linear-gradient(
+					to bottom,
+					rgba(255, 255, 255, 0.1) 80%,
+					rgba(255, 255, 255, 1) 100%
+				);
 				z-index: 2;
 			}
 
+			.banner-content {
+				width: min(700px, 100%); /* match centered layout of body column */
+				margin: 0 auto;
+			}
+
+			.banner > * {
+				position: relative;
+				z-index: 3;
+			}
+
 			.banner h1 {
-				margin-bottom: 0em; /* Reduce bottom margin of h1 */
+				margin-bottom: 0em;
+				margin-top: 0em;
+				font-size: 4em;
+				line-height: 1.15;
 			}
 
 			.banner .description {
-				margin-top: 0; /* Remove top margin of description */
-				margin-bottom: 1em; /* Add some space between description and authors */
+				margin-top: 0;
+				margin-bottom: 1em;
 			}
 
 			.banner h1,
 			.banner .description,
 			.banner .authors {
-				text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+				text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.9);
 			}
 
 			.banner a {
@@ -82,8 +99,7 @@ permalink: /Latticework/
 			}
 
 			main {
-				/* Add padding to the main content */
-				max-width: 700px; /* Reduced max-width */
+				max-width: 700px;
 				margin: 0 auto;
 				padding: 20px;
 			}
@@ -91,30 +107,44 @@ permalink: /Latticework/
 			h1 {
 				margin-bottom: 0;
 			}
+
 			.description {
-				font-style: italic;
+				font-weight: 600;
+				letter-spacing: 0.01em;
+				font-size: 1.1em;
 				margin-bottom: 10px;
 			}
+
 			.authors {
-				font-size: 1em;
+				font-size: 1.1em;
 			}
+
 			h2 {
 				border-bottom: 1px solid #ddd;
 				padding-bottom: 10px;
 				margin-top: 40px;
 			}
+
+			h3 {
+				margin-top: 40px;
+				margin-bottom: 20px;
+			}
+
 			a {
 				color: #0066cc;
 				text-decoration: none;
 			}
+
 			a:hover {
 				text-decoration: underline;
 			}
+
 			.table-container {
 				display: flex;
 				flex-wrap: wrap;
 				justify-content: space-between;
 			}
+
 			table {
 				border-collapse: collapse;
 				margin-bottom: 20px;
@@ -122,6 +152,7 @@ permalink: /Latticework/
 				table-layout: fixed;
 				width: 100%;
 			}
+
 			th,
 			td {
 				border: 1px solid #ddd;
@@ -130,6 +161,7 @@ permalink: /Latticework/
 				word-wrap: break-word;
 				overflow-wrap: break-word;
 			}
+
 			th {
 				background-color: #f2f2f2;
 			}
@@ -147,11 +179,11 @@ permalink: /Latticework/
 				border: 1px solid #ddd;
 				border-radius: 4px;
 				margin-bottom: 20px;
-				white-space: pre-wrap; /* CSS 3 */
-				white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-				white-space: -pre-wrap; /* Opera 4-6 */
-				white-space: -o-pre-wrap; /* Opera 7 */
-				word-wrap: break-word; /* Internet Explorer 5.5+ */
+				white-space: pre-wrap;
+				white-space: -moz-pre-wrap;
+				white-space: -pre-wrap;
+				white-space: -o-pre-wrap;
+				word-wrap: break-word;
 				overflow-x: auto;
 			}
 
@@ -169,12 +201,13 @@ permalink: /Latticework/
 
 			.video-container {
 				position: relative;
-				padding-bottom: 56.25%; /* Increased aspect ratio */
+				padding-bottom: 56.25%;
 				height: 0;
 				overflow: hidden;
-				max-width: 110%; /* Allows the video to extend beyond the text width */
-				margin: 30px -5%; /* Centers the wider video and adds vertical spacing */
+				max-width: 110%;
+				margin: 30px -5%;
 			}
+
 			.video-container iframe {
 				position: absolute;
 				top: 0;
@@ -183,26 +216,81 @@ permalink: /Latticework/
 				height: 100%;
 			}
 
+			.row-container {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-between;
+				margin-bottom: 20px;
+			}
+
+			.table-container,
+			pre {
+				width: 48%;
+				margin-top: 0px;
+			}
+
+			.image-pair-section {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: flex-start;
+				margin-bottom: 20px;
+			}
+
+			.image-pair-section + .image-pair-section {
+				margin-top: 40px;
+			}
+
+			.image-pair-text {
+				flex: 0.6;
+				min-width: 300px;
+				padding-right: 20px;
+			}
+
+			/* We let the section container have the top/bottom margin; we don't want to duplicate it. */
+			.image-pair-text :first-child {
+				margin-top: 0;
+			}
+			.image-pair-text :last-child {
+				margin-bottom: 0;
+			}
+
+			.image-pair-image {
+				flex: 0.4;
+				min-width: 300px;
+				max-width: 100%;
+			}
+
+			.image-pair-image img {
+				max-width: 100%;
+				height: auto;
+			}
+
+			/* Media Queries */
 			@media screen and (max-width: 768px) {
+				body {
+					font-size: 16px;
+				}
+
 				.banner {
 					min-height: 200px;
-					padding: 20px;
+					padding: 12px;
 				}
 
 				main {
-					padding: 10px;
+					padding: 12px;
 				}
 
 				h1 {
-					font-size: 24px !important;
+					font-size: 36px !important;
 				}
 
 				.description {
-					font-size: 14px !important;
+					font-size: 16px !important;
+					line-height: 1.35;
 				}
 
 				.authors {
-					font-size: 12px !important;
+					font-size: 16px !important;
 				}
 
 				.table-container {
@@ -218,37 +306,6 @@ permalink: /Latticework/
 					margin: 20px 0 !important;
 				}
 
-				body {
-					font-size: 16px; /* Slightly smaller font size for mobile */
-				}
-			}
-
-			.row-container {
-				display: flex;
-				flex-wrap: wrap;
-				justify-content: space-between;
-				margin-bottom: 20px;
-			}
-
-			.table-container,
-			pre {
-				width: 48%;
-				margin-top: 0px;
-				/* margin-bottom: 0; */
-			}
-
-			@media (min-width: 768px) {
-				/* .table-container table {
-					width: 48%;
-				} */
-
-				pre {
-					width: calc(48% - 20px);
-					padding: 10px;
-				}
-			}
-
-			@media (max-width: 768px) {
 				.row-container {
 					flex-direction: column;
 				}
@@ -257,37 +314,11 @@ permalink: /Latticework/
 				pre {
 					width: calc(100% - 20px);
 					padding: 10px;
-					/* margin-bottom: 20px; */
 				}
-			}
 
-			.image-pair-section {
-				display: flex;
-				flex-wrap: wrap;
-				align-items: center;
-				margin-bottom: 20px;
-			}
-
-			.image-pair-text {
-				flex: 1;
-				min-width: 300px;
-				padding-right: 20px;
-			}
-
-			.image-pair-image {
-				flex: 1;
-				min-width: 300px;
-				max-width: 100%;
-			}
-
-			.image-pair-image img {
-				max-width: 100%;
-				height: auto;
-			}
-
-			@media screen and (max-width: 768px) {
 				.image-pair-section {
 					flex-direction: column;
+					align-items: center;
 				}
 
 				.image-pair-text {
@@ -295,20 +326,29 @@ permalink: /Latticework/
 					margin-bottom: 20px;
 				}
 			}
+
+			@media (min-width: 768px) {
+				pre {
+					width: calc(48% - 20px);
+					padding: 10px;
+				}
+			}
 		</style>
 	</head>
 	<body>
 		<div class="banner-container">
 			<div class="banner">
-				<h1>Latticework</h1>
-				<p class="description">
-					Unifying annotation and freeform text editing for augmented
-					sensemaking
-				</p>
-				<p class="authors">
-					<a href="https://www.matthewsiu.com">Matthew Siu</a> and
-					<a href="https://andymatuschak.org">Andy Matuschak</a>; June 2024
-				</p>
+				<div class="banner-content">
+					<h1>Latticework</h1>
+					<p class="description">
+						Unifying annotation and freeform text editing for augmented
+						sensemaking
+					</p>
+					<p class="authors">
+						<a href="https://www.matthewsiu.com">Matthew Siu</a> and
+						<a href="https://andymatuschak.org">Andy Matuschak</a>; June 2024
+					</p>
+				</div>
 			</div>
 		</div>
 
@@ -323,6 +363,7 @@ permalink: /Latticework/
 				.then((response) => response.text())
 				.then((markdown) => {
 					// Process the markdown to handle image pairs
+					// <!-- image-pair: highlight.png -->
 					markdown = markdown.replace(
 						/<!-- image-pair: (.*?) -->\n(.*?)(?=\n\n|$)/gs,
 						(match, imageName, text) => {

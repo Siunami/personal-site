@@ -1,5 +1,5 @@
 <!-- prettier-ignore-start -->
-You’re in the middle of a large project, and you’re stuck. You’re staring at a pile of long, unstructured documents (journals, lab notebooks, meeting notes) with a sense that the clues you need are buried somewhere within. But there’s simply too much to keep in your head as you scroll. Instead, you hatch a plan. If you could find the important snippets and gather them into one place, it would be easier to see everything at once, to notice patterns, and to figure out what to do no ext.
+You’re in the middle of a large project, and you’re stuck. You’re staring at a pile of long, unstructured documents (journals, lab notebooks, meeting notes) with a sense that the clues you need are buried somewhere within. But there’s simply too much to keep in your head as you scroll. Instead, you hatch a plan. If you could find the important snippets and gather them into one place, it would be easier to see everything at once, to notice patterns, and to figure out what to do next.
 
 So you create a new working document, and as you read through your unstructured notes, you copy and paste key passages into it. But this process is cumbersome and disorienting: you’re constantly moving both your attention and your cursor between these documents, deciding where to put each new snippet, losing your place in your unstructured notes. The snippets in your working document are isolated from their original context, so it can be hard to remember what each means and why it matters. And as snippets pile up, your fresh document can easily produce the same kind of overwhelm you were trying to escape.
 
@@ -210,4 +210,8 @@ In our projects, important ideas aren’t confined to plaintext notes. Inspirati
 Thanks to Alicia Guo, Gytis Daujotas, Max Krieger, Peter van Hardenberg, Robert Ochshorn, and Victoria Kim for helpful comments on drafts of this report. Also to Jacky Zhao, Jon Bo, Kasra Koushan, Spencer Chang and others for their feedback at different stages of the research process.
 
 This work was supported by Andy’s [Patreon community](https://patreon.com/quantumcountry). You can [become a member](https://patreon.com/quantumcountry) to help make more work like this possible. You'll get in-depth monthly essays, previews of prototypes, and events like seminars and unconferences.
+
+## Appendix
+
+While we've made this research prototype [available on GitHub](https://github.com/Siunami/Latticework), it's important to note that it doesn't fully implement all the features described in this report. We're sharing it primarily as a reference implementation that provided us insights during the research process.
 <!-- prettier-ignore-end -->
