@@ -6,8 +6,7 @@
 				"title": "Interfaces Gallery",
 				"url": "/Interfaces/",
 				"categories": [],
-				"marking": "",
-				"importance": "high",
+				"marking": "star",
 				"collaborators": []
 			},
 			{
@@ -15,7 +14,6 @@
 				"url": "/Places/",
 				"categories": [],
 				"marking": "",
-				"importance": "high",
 				"collaborators": []
 			}
 		]
@@ -28,7 +26,6 @@
 				"url": "https://x.com/MatthewWSiu/status/1778482551335829848",
 				"categories": [],
 				"marking": "",
-				"importance": "high",
 				"collaborators": []
 			},
 			{
@@ -36,7 +33,6 @@
 				"url": "/Research Questions/",
 				"categories": [],
 				"marking": "",
-				"importance": "high",
 				"collaborators": []
 			}
 		]
@@ -50,8 +46,14 @@
 				"url": "/Peek/",
 				"categories": [],
 				"marking": "",
-				"importance": "high",
 				"collaborators": []
+			},
+			{
+				"title": "Latticework",
+				"url": "/Latticework/",
+				"categories": [],
+				"marking": "star",
+				"collaborators": ["Andy"]
 			}
 		]
 	},
@@ -63,23 +65,20 @@
 				"url": "https://x.com/azlenelza/status/1588509364913983488",
 				"categories": [],
 				"marking": "",
-				"importance": "high",
-				"collaborators": []
+				"collaborators": ["Azlen"]
 			},
 			{
 				"title": "Digital materials",
 				"url": "https://x.com/MatthewWSiu/status/1572711905776603143",
 				"categories": [],
-				"marking": "",
-				"importance": "high",
+				"marking": "star",
 				"collaborators": []
 			},
 			{
 				"title": "Color picker for words",
 				"url": "https://x.com/MatthewWSiu/status/1560725842019368962",
 				"categories": [],
-				"marking": "",
-				"importance": "high",
+				"marking": "star",
 				"collaborators": []
 			},
 			{
@@ -87,7 +86,6 @@
 				"url": "https://x.com/MatthewWSiu/status/1594900264053575684",
 				"categories": [],
 				"marking": "",
-				"importance": "high",
 				"collaborators": []
 			},
 			{
@@ -95,7 +93,6 @@
 				"url": "https://x.com/MatthewWSiu/status/1519906295603675143",
 				"categories": [],
 				"marking": "",
-				"importance": "high",
 				"collaborators": []
 			},
 			{
@@ -103,7 +100,6 @@
 				"url": "/WorldingComic/",
 				"categories": [],
 				"marking": "",
-				"importance": "high",
 				"collaborators": []
 			},
 			{
@@ -111,15 +107,13 @@
 				"url": "https://x.com/MatthewWSiu/status/1584708908551061505",
 				"categories": [],
 				"marking": "",
-				"importance": "high",
 				"collaborators": []
 			},
 			{
 				"title": "Magic ink",
 				"url": "https://x.com/MatthewWSiu/status/1480702088858333186",
 				"categories": [],
-				"marking": "",
-				"importance": "high",
+				"marking": "star",
 				"collaborators": []
 			}
 		]
@@ -132,7 +126,6 @@
 				"url": "https://x.com/MatthewWSiu/status/1752079071343976557",
 				"categories": [],
 				"marking": "",
-				"importance": "high",
 				"collaborators": []
 			},
 			{
@@ -140,7 +133,6 @@
 				"url": "https://x.com/MatthewWSiu/status/1329993019177791488",
 				"categories": [],
 				"marking": "",
-				"importance": "high",
 				"collaborators": []
 			},
 			{
@@ -148,7 +140,6 @@
 				"url": "/DynamicDocuments/",
 				"categories": [],
 				"marking": "",
-				"importance": "high",
 				"collaborators": []
 			},
 			{
@@ -156,7 +147,6 @@
 				"url": "/ExplodingText/",
 				"categories": [],
 				"marking": "",
-				"importance": "high",
 				"collaborators": []
 			},
 			{
@@ -164,7 +154,6 @@
 				"url": "https://matthewsiu.substack.com/p/on-play",
 				"categories": [],
 				"marking": "",
-				"importance": "high",
 				"collaborators": []
 			},
 			{
@@ -172,7 +161,6 @@
 				"url": "https://matthewsiu.substack.com/p/writing-miyazaki-and-mmos",
 				"categories": [],
 				"marking": "",
-				"importance": "high",
 				"collaborators": []
 			},
 			{
@@ -180,7 +168,6 @@
 				"url": "https://matthewsiu.substack.com/p/whats-next-for-augmented-intelligence",
 				"categories": [],
 				"marking": "",
-				"importance": "high",
 				"collaborators": []
 			}
 		]
@@ -193,7 +180,6 @@
 				"url": "https://x.com/MatthewWSiu/status/1228155105683263490",
 				"categories": [],
 				"marking": "",
-				"importance": "high",
 				"collaborators": []
 			}
 		]

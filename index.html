@@ -53,15 +53,15 @@ layout: page
 			</p> -->
 			<p class="text">
 				I'm an interface researcher interested in how technology can support
-				understanding and discovery.
+				deeper understanding and playful discovery.
 			</p>
 			<p class="text">
-				I’ve done research at NYU focused on <i>creativity support tools</i>,
+				I've done research at NYU focused on <i>creativity support tools</i>,
 				developed interfaces at Midjourney and worked as an interaction designer
 				alongside Hugh Dubberly.
 			</p>
 			<p class="text">
-				Recently, I've been designing
+				With Andy Matuschak, I designed
 				<a href="/Latticework">Latticework</a>, a text editing environment aimed
 				to help people synthesize freeform, unstructured documents.
 			</p>
@@ -140,12 +140,12 @@ layout: page
 			background-size: cover;
 			cursor: pointer;
 		"
-		onclick="window.location.href = '/Interfaces/'"
+		onclick="window.open('https://arc.net/l/quote/sfutjspb', '_blank')"
 	>
 		<h2 class="bento-title">Interface Gallery</h2>
 	</div>
 	<div
-		class="bento-item bento-item-3-3"
+		class="bento-item bento-item-3-3 bulletin-bento-item"
 		style="
 			background-image: url('/assets/bulletin3.png');
 			background-repeat: no-repeat;
@@ -155,15 +155,16 @@ layout: page
 		{% for data in site.data.bulletin %}
 		<div class="bulletin-item hide">
 			{% assign bulletin_parts = data.bulletin | split: ';' %}
+			<div class="bulletin-content">
+				<span class="flex-row bento-title">
+					<h2 class="bento-bulletin-header">Bulletin</h2>
+					<span class="bento-time">{{ data.date }}</span>
+				</span>
 
-			<span class="flex-row bento-title">
-				<h2 class="bento-bulletin-header">Bulletin</h2>
-				<span class="bento-time">{{ data.date }}</span>
-			</span>
-
-			{% for part in bulletin_parts %}
-			<span class="bulletin-text">{{ part | strip }}</span>{% unless
-			forloop.last %}<br /><br />{% endunless %} {% endfor %}
+				{% for part in bulletin_parts %}
+				<span class="bulletin-text">{{ part | strip }}</span>{% unless
+				forloop.last %}<br /><br />{% endunless %} {% endfor %}
+			</div>
 		</div>
 		{% endfor %}
 
@@ -209,7 +210,7 @@ layout: page
 			background-size: cover;
 			cursor: pointer;
 		"
-		onclick="window.location.href = '/Places/'"
+		onclick="window.open('https://felt.com/map/Places-9Ag4bBexWQJ6IUpH9BzhvqyB?loc=39.09,-140.53,3.56z', '_blank')"
 	>
 		<h2 class="bento-title">Places</h2>
 	</div>
@@ -251,108 +252,82 @@ layout: page
 		`;
 	}
 
-	let t_things = document.querySelector(".things");
-	let o_t_things = document.querySelector(".ongoing-things");
-	// load json
-	fetch("./assets/things.json")
-		.then((response) => {
+	async function generateThings() {
+		console.log("hjello");
+		let t_things = document.querySelector(".things");
+		let o_t_things = document.querySelector(".ongoing-things");
+		// load json
+		let data = await fetch("./assets/things.json").then((response) => {
 			return response.json();
-		})
-		.then((data) => {
-			data.forEach((section) => {
-				let year = section["year"];
-				let month = section["month"];
-				let things = section["things"];
+		});
+		let collaborators = await fetch("./assets/collaborators.json").then(
+			(response) => {
+				return response.json();
+			}
+		);
 
-				if (year == "ongoing") {
-					let newDiv = document.createElement("div");
-					let html = createYearSection(year);
-					newDiv.innerHTML = html;
-					o_t_things.appendChild(newDiv);
-				} else if (year) {
-					let newDiv = document.createElement("div");
-					let html = createYearSection(year);
-					newDiv.innerHTML = html;
-					t_things.appendChild(newDiv);
-				} else if (month) {
-					let newDiv = document.createElement("div");
-					let html = createMonthSection(month);
-					newDiv.innerHTML = html;
-					t_things.appendChild(newDiv);
-				}
+		data.forEach((section) => {
+			let year = section["year"];
+			let month = section["month"];
+			let things = section["things"];
 
-				things.forEach((thing) => {
-					let newDiv = document.createElement("div");
+			if (year == "ongoing") {
+				let newDiv = document.createElement("div");
+				let html = createYearSection(year);
+				newDiv.innerHTML = html;
+				o_t_things.appendChild(newDiv);
+			} else if (year) {
+				let newDiv = document.createElement("div");
+				let html = createYearSection(year);
+				newDiv.innerHTML = html;
+				t_things.appendChild(newDiv);
+			} else if (month) {
+				let newDiv = document.createElement("div");
+				let html = createMonthSection(month);
+				newDiv.innerHTML = html;
+				t_things.appendChild(newDiv);
+			}
 
-					let html = `
-						<div class="index-item">
+			things.forEach((thing) => {
+				let newDiv = document.createElement("div");
+				let marker = thing.marking;
+				let collaboratorsHtml = thing.collaborators
+					.map((collaborator) => {
+						let collaborator_url = collaborators[collaborator];
+						return `<a style="color: gray; font-style: italic;" href="${collaborator_url}" target="_blank">${collaborator}</a>`;
+					})
+					.join(", ");
+
+				let html = `
+						<div class="index-item" style="position: relative;">
+							${
+								marker === "star"
+									? `
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="position: absolute; left: -20px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
+									<path d="M12 2l2.4 7.4h7.6l-6 4.6 2.4 7.4-6-4.6-6 4.6 2.4-7.4-6-4.6h7.6z"/>
+								</svg>`
+									: ""
+							}
 							<a class="index-link" href="${thing.url}">${thing.title}</a>
+							${
+								collaboratorsHtml
+									? ` <span style="color: gray; font-style: italic;margin-left: 5px;" class="collaborators"> w/ ${collaboratorsHtml}</span>`
+									: ""
+							}
 						</div>
 					`;
 
-					newDiv.innerHTML = html;
+				newDiv.innerHTML = html;
 
-					// newDiv.addEventListener("mouseover", function (ev) {
-					// 	// let bbox = newDiv.getBoundingClientRect();
-
-					// 	// previewBox.style.display = "block";
-					// 	// previewBox.innerHTML = `
-					// 	// 	<div class="preview-item">
-					// 	// 		<img src="assets/attention_visualization.png" class="preview-image" />
-					// 	// 	</div>
-					// 	// `;
-					// 	// // get mouse coordinates
-					// 	// console.log(ev.clientX, ev.clientY);
-
-					// 	// console.log(window.innerHeight);
-					// 	// console.log(window.innerWidth);
-					// 	// let firstHalf = ev.clientY > window.innerHeight / 2;
-					// 	// let previewBoxBbox = previewBox.getBoundingClientRect();
-
-					// 	// if (firstHalf) {
-					// 	// 	previewBox.style.top =
-					// 	// 		ev.clientY - (previewBoxBbox.height + 15) + "px";
-					// 	// } else {
-					// 	// 	previewBox.style.top =
-					// 	// 		ev.clientY + (previewBoxBbox.height - 20) + "px";
-					// 	// }
-
-					// 	previewBox.style.display = "block";
-					// 	previewBox.innerHTML = `
-					// 		<div class="preview-item">
-					// 			<img id="previewImage" src="assets/attention_visualization.png" class="preview-image" />
-					// 		</div>
-					// 	`;
-
-					// 	const previewImage = document.getElementById("previewImage");
-
-					// 	previewImage.addEventListener("load", function () {
-					// 		let bbox = newDiv.getBoundingClientRect();
-					// 		let previewBoxBbox = previewBox.getBoundingClientRect();
-
-					// 		let firstHalf = ev.clientY > window.innerHeight / 2;
-
-					// 		if (firstHalf) {
-					// 			previewBox.style.top =
-					// 				bbox.top - (previewBoxBbox.height + 5) + "px";
-					// 		} else {
-					// 			previewBox.style.top = bbox.top + 25 + "px";
-					// 		}
-					// 	});
-					// });
-
-					// newDiv.addEventListener("mouseout", function () {
-					// 	previewBox.style.display = "none";
-					// });
-
-					if (year == "ongoing") {
-						o_t_things.appendChild(newDiv);
-					} else {
-						t_things.appendChild(newDiv);
-					}
-				});
+				if (year == "ongoing") {
+					o_t_things.appendChild(newDiv);
+				} else {
+					t_things.appendChild(newDiv);
+				}
 			});
 		});
+	}
+	generateThings();
 </script>
 <script>
 	let bb_bulletinItems = document.querySelectorAll(".bulletin-item");
@@ -402,103 +377,3 @@ layout: page
 		toggleBulletinCarets();
 	});
 </script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script> -->
-<!-- <script>
-	// Initialize scene, camera, and renderer
-	const scene = new THREE.Scene();
-	const camera = new THREE.PerspectiveCamera(
-		75,
-		window.innerWidth / window.innerHeight,
-		0.1,
-		1000
-	);
-	const renderer = new THREE.WebGLRenderer({ alpha: true }); // Enable transparency
-	renderer.setSize(window.innerWidth, window.innerHeight);
-	document.body.appendChild(renderer.domElement);
-
-	// Add ambient light
-	const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-	scene.add(ambientLight);
-
-	camera.position.z = 5;
-
-	// Handle window resize
-	window.addEventListener("resize", () => {
-		camera.aspect = window.innerWidth / window.innerHeight;
-		camera.updateProjectionMatrix();
-		renderer.setSize(window.innerWidth, window.innerHeight);
-	});
-
-	// SVG data for the leaf
-	const svgData = `
-		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-			<path d="M50,0 C75,25 75,75 50,100 C25,75 25,25 50,0 Z" fill="#A9DFBF"/>
-			<path d="M50,10 C65,30 65,70 50,90 C35,70 35,30 50,10 Z" fill="#229954"/>
-		</svg>
-	`;
-
-	// Convert SVG to a Data URL
-	const svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
-	const svgUrl = URL.createObjectURL(svgBlob);
-
-	// Load texture from SVG URL
-	const leafTexture = new THREE.TextureLoader().load(svgUrl, () => {
-		URL.revokeObjectURL(svgUrl); // Clean up after the texture is loaded
-	});
-
-	const leafMaterial = new THREE.MeshBasicMaterial({
-		map: leafTexture,
-		transparent: true,
-	});
-	const leaves = [];
-
-	// Function to create a leaf
-	function createLeaf() {
-		const geometry = new THREE.PlaneGeometry(0.2, 0.2);
-		const leaf = new THREE.Mesh(geometry, leafMaterial);
-		leaf.position.set(
-			(Math.random() - 0.5) * 10,
-			Math.random() * 10,
-			(Math.random() - 0.5) * 10
-		);
-		leaf.rotation.z = Math.random() * Math.PI;
-		leaf.userData = {
-			speed: 0.002 + Math.random() * 0.003, // Slower falling speed
-			amplitude: 0.2 + Math.random() * 0.3, // Subtle rocking motion
-			frequency: 0.2 + Math.random() * 0.3,
-			phase: Math.random() * Math.PI * 2,
-			angularSpeed: 0.002 + Math.random() * 0.003,
-		};
-		scene.add(leaf);
-		leaves.push(leaf);
-	}
-
-	// Create multiple leaves
-	for (let i = 0; i < 100; i++) {
-		createLeaf();
-	}
-
-	// Animate the leaves
-	function animate() {
-		requestAnimationFrame(animate);
-
-		leaves.forEach((leaf) => {
-			leaf.position.y -= leaf.userData.speed;
-			leaf.position.x +=
-				Math.sin(
-					leaf.userData.frequency * leaf.position.y + leaf.userData.phase
-				) *
-				leaf.userData.amplitude *
-				0.01;
-			leaf.rotation.z += leaf.userData.angularSpeed;
-
-			if (leaf.position.y < -5) {
-				leaf.position.y = -5;
-			}
-		});
-
-		renderer.render(scene, camera);
-	}
-
-	animate();
-</script> -->
