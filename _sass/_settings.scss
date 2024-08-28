@@ -20,11 +20,6 @@ $light-gray: #e6e6e6;
 $width: 87.5%;
 // $small-width: 92.5%;
 
-// .body {
-//     margin:0px;
-//     padding:0px;
-// }
-
 
 body, * {
     margin: 0;
@@ -349,9 +344,11 @@ body, * {
 }
 
 .post-section {
-    // font-size: 1.2rem;
+    // font-size: 2rem;
     font-style: italic;
-    margin-top: 16px;
+    margin-top: 36px;
+    font-weight: 500;
+    // text-decoration: underline;
 }
 
 .post-section:not(:first-child) {

@@ -3,7 +3,7 @@
 		"year": "ongoing",
 		"things": [
 			{
-				"title": "Interfaces Gallery",
+				"title": "Interface Gallery",
 				"url": "/Interfaces/",
 				"categories": [],
 				"marking": "star",
@@ -11,7 +11,7 @@
 			},
 			{
 				"title": "Places",
-				"url": "/Places/",
+				"url": "https://felt.com/map/Places-9Ag4bBexWQJ6IUpH9BzhvqyB?loc=39.09,-140.53,3.56z",
 				"categories": [],
 				"marking": "",
 				"collaborators": []
