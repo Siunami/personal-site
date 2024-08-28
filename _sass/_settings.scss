@@ -174,9 +174,9 @@ body, * {
 .bento-full {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 16px;
     grid-auto-rows: minmax(140px, auto);
-    margin-bottom: 12px;
+    margin-bottom: 16px;
 }
 
 .bento-item-1-1 {
@@ -186,8 +186,8 @@ body, * {
 .letter {
     position:relative;
     border: 1px solid $border-color;
-    padding: 15px;
-    border-radius: 4px;
+    padding: 16px;
+    border-radius: 8px;
     min-height: 150px;
     background-color: white;
 }
@@ -195,9 +195,9 @@ body, * {
 .bento-half {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 16px;
     grid-auto-rows: minmax(140px, auto);
-    margin-bottom: 12px;
+    margin-bottom: 16px;
 
 }
 
@@ -212,9 +212,9 @@ body, * {
 .bento-third {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    gap: 16px;
     grid-auto-rows: minmax(140px, auto);
-    margin-bottom: 12px;
+    margin-bottom: 16px;
 }
 
 .bento-item-1-3 {
@@ -228,8 +228,9 @@ body, * {
 .bento-item {
     position:relative;
     border: 1px solid $border-color;
-    padding: 15px;
-    border-radius: 4px;
+    padding: 16px;
+    border-radius: 8px;
+
     min-height: 150px;
     max-height: 150px;
     background-color: white;
@@ -237,9 +238,8 @@ body, * {
 
 .bento-item-no-background {
     position:relative;
-    padding: 0px 15px;
-    border-radius: 4px;
-    // min-height: 150px;
+    padding: 16px 16px 0px;
+    min-height: 0px;
 }
 
 .bento-title {
@@ -343,8 +343,8 @@ body, * {
     margin-left:10px;
 }
 
-.first-post-section {
-    margin-top: -16px;
+.first-section {
+    margin-top: 0px !important;
 }
 
 .post-section {

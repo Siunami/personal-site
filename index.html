@@ -17,33 +17,12 @@ layout: page
 			style="
 				position: absolute;
 				z-index: 1;
-				right: 10px;
-				bottom: 10px;
+				right: 16px;
+				bottom: 16px;
 				user-select: none;
 			"
 			src="/assets/letter.png"
 		/>
-		<div
-			style="
-				position: absolute;
-				z-index: 1;
-				right: 10px;
-				left: 10px;
-				border: radius 4px;
-				background-color: red;
-			"
-		></div>
-		<!-- <img
-			style="
-				position: absolute;
-				z-index: 1;
-				left: 10px;
-				top: 10px;
-				transform: rotate(180deg);
-				user-select: none;
-			"
-			src="/assets/letter.png"
-		/> -->
 
 		<div style="z-index: 100">
 			<p class="text" style="margin-top: 0px">Welcome!</p>
@@ -217,13 +196,12 @@ layout: page
 </div>
 
 <div class="bento">
-	<div class="bento-item-no-background">
-		<br />
-		<h2 class="bento-title post-header">Index</h2>
-	</div>
 	<!-- <div class="bento-item-no-background" style="color: gray; font-style: italic">
 		indexing... please take a look in the meantime!
 	</div> -->
+	<div class="bento-item-no-background">
+		<h2 class="bento-title post-header">Index</h2>
+	</div>
 	<div class="bento-half">
 		<div class="bento-item-no-background bento-item-1-2 things"></div>
 		<div class="bento-item-no-background bento-item-2-2 ongoing-things"></div>
@@ -235,9 +213,9 @@ layout: page
 <script>
 	let previewBox = document.getElementById("preview-box");
 
-	function createYearSection(year) {
+	function createYearSection(year, isFirst) {
 		return `
-			<div class="post-section">
+			<div class="post-section ${isFirst ? "first-section" : ""}">
 				${year}
 			</div>
 		`;
@@ -255,18 +233,17 @@ layout: page
 	async function generateThings() {
 		let t_things = document.querySelector(".things");
 		let o_t_things = document.querySelector(".ongoing-things");
+
 		// load json
 		let data = await fetch("./assets/things.json").then((response) => {
 			return response.json();
 		});
+
 		let collaborators = await fetch("./assets/collaborators.json").then(
 			(response) => {
 				return response.json();
 			}
 		);
-
-		let firstYear = true;
-		let firstMonth = true;
 
 		data.forEach((section, index) => {
 			let year = section["year"];
@@ -275,21 +252,14 @@ layout: page
 
 			if (year == "ongoing") {
 				let newDiv = document.createElement("div");
-				let html = createYearSection(year);
+				let html = createYearSection(year, true);
 				newDiv.innerHTML = html;
-				if (firstYear) {
-					newDiv.classList.add("first-post-section");
-					firstYear = false;
-				}
 				o_t_things.appendChild(newDiv);
 			} else if (year) {
 				let newDiv = document.createElement("div");
-				let html = createYearSection(year);
+				let html = createYearSection(year, t_things.children.length === 0);
 				newDiv.innerHTML = html;
-				if (firstMonth) {
-					newDiv.classList.add("first-post-section");
-					firstMonth = false;
-				}
+
 				t_things.appendChild(newDiv);
 			} else if (month) {
 				let newDiv = document.createElement("div");
