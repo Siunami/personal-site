@@ -343,16 +343,16 @@ body, * {
     margin-left:10px;
 }
 
+.first-post-section {
+    margin-top: -16px;
+}
+
 .post-section {
     // font-size: 2rem;
     font-style: italic;
-    margin-top: 36px;
+    margin-top: 32px;
     font-weight: 500;
     // text-decoration: underline;
-}
-
-.post-section:not(:first-child) {
-    margin-top: 32px;
 }
 
 

@@ -265,7 +265,10 @@ layout: page
 			}
 		);
 
-		data.forEach((section) => {
+		let firstYear = true;
+		let firstMonth = true;
+
+		data.forEach((section, index) => {
 			let year = section["year"];
 			let month = section["month"];
 			let things = section["things"];
@@ -274,11 +277,19 @@ layout: page
 				let newDiv = document.createElement("div");
 				let html = createYearSection(year);
 				newDiv.innerHTML = html;
+				if (firstYear) {
+					newDiv.classList.add("first-post-section");
+					firstYear = false;
+				}
 				o_t_things.appendChild(newDiv);
 			} else if (year) {
 				let newDiv = document.createElement("div");
 				let html = createYearSection(year);
 				newDiv.innerHTML = html;
+				if (firstMonth) {
+					newDiv.classList.add("first-post-section");
+					firstMonth = false;
+				}
 				t_things.appendChild(newDiv);
 			} else if (month) {
 				let newDiv = document.createElement("div");
