@@ -131,9 +131,9 @@ body, * {
     max-height: 150px;
 }
 
-.bulletin-text {
-    font-size: 1.1rem;
-}
+// .bulletin-text {
+//     font-size: 1.1rem;
+// }
 
 .hide {
     display: none;
@@ -537,6 +537,11 @@ body, * {
         margin-top: 1rem;
     }
 
+    .text > * {
+        font-family: $body-font;
+        font-size: 1.5rem;
+    }
+
     .index-item {
         font-size: 1.5rem;
     }
@@ -586,8 +591,4 @@ body, * {
         width: calc(100% - 6rem);
         left: calc(2rem);
     }
-
-    // .bulletin-text {
-    //     font-size: 1rem;
-    // }
 }

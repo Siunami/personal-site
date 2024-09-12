@@ -1,47 +1,55 @@
 - name: Multimedia annotations
   description: Getting context for particular terms and concepts on hover.
   resource: /assets/prototypes/multimedia annotations.mp4
+  url: https://x.com/MatthewWSiu/status/1398125662506864641
   type: video
 
 - name: Google maps for language
   description: A method for exploring idea space in the early stages of a research process
   resource: /assets/prototypes/google maps.jpg
+  url: https://x.com/MatthewWSiu/status/1519906295603675143
   type: image
 
 - name: Dynamic elements for essays
   description: Exploring methods for communicating complex mental models in a piece of text.
   resource: /assets/prototypes/dynamic_timeline.mp4
+  url: https://x.com/MatthewWSiu/status/1398125698611441675
   type: video
 
 - name: Malleable digital materials
   description: Exploring a more malleable digital substrate that can be shaped and manipulated to see the materials in different ways
   resource: /assets/prototypes/Malleable_Materials.mp4
+  url: https://x.com/MatthewWSiu/status/1572711905776603143
   type: video
 
 - name: Color picker for language
   description: A color picker for language
   resource: /assets/prototypes/Language Picker.mp4
+  url: https://x.com/MatthewWSiu/status/1560725842019368962
   type: video
 
 - name: Telescopic text
   description: A method for expanding to show extra details on demand
   resource: /assets/prototypes/telescopic.mp4
-  # link: interhackt.space
+  url: https://x.com/MatthewWSiu/status/1329993019177791488
   type: video
 
 - name: Dynamic image gallery
   description: Image gallery viewed in different ways
   resource: /assets/prototypes/image_gallery.mp4
+  url: https://x.com/MatthewWSiu/status/1368680641378852865
   type: video
 
 - name: Peek
   description: Peek to get more context
   resource: /assets/prototypes/Peek.mp4
+  url: https://x.com/MatthewWSiu/status/1707170067295986137
   type: video
 
 - name: Globe search
   description: A geospatial search interface, offering unexpected, surprising and delightful resources
   resource: /assets/prototypes/Map Search.mp4
+  url: https://x.com/azlenelza/status/1588509364913983488
   type: video
 
 - name: Graph explorer
@@ -52,6 +60,7 @@
 - name: Chat with follow-up Qs
   description: Question asking service using LLMs that supports follow up replies
   resource: /assets/prototypes/question and replies.mp4
+  url: https://x.com/MatthewWSiu/status/1594900264053575684
   type: video
 
 - name: Exploding text
