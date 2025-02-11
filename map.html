@@ -1,0 +1,760 @@
+---
+permalink: /local-map/
+---
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Local map</title>
+		<meta
+			name="viewport"
+			content="initial-scale=1,maximum-scale=1,user-scalable=no"
+		/>
+		<link
+			href="https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css"
+			rel="stylesheet"
+		/>
+		<script src="https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js"></script>
+		<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.1-dev/mapbox-gl-geocoder.min.js"></script>
+		<link
+			rel="stylesheet"
+			href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.1-dev/mapbox-gl-geocoder.css"
+			type="text/css"
+		/>
+		<style>
+			body {
+				margin: 0;
+				padding: 0;
+				font-family: -apple-system, "system-ui", "Segoe UI", Roboto, Inter;
+			}
+			#map {
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 0px;
+				width: calc(100%);
+			}
+
+			#center-dot {
+				position: absolute;
+				width: 12px;
+				height: 12px;
+				background-color: #666666;
+				border: 2px solid #ffffff;
+				border-radius: 50%;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				pointer-events: none;
+				z-index: 999;
+				opacity: 0.8;
+			}
+			#coordinates {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, 20px);
+				background-color: rgba(0, 0, 0, 0.7);
+				color: white;
+				padding: 5px 10px;
+				border-radius: 4px;
+				font-size: 12px;
+				z-index: 999;
+				pointer-events: none;
+			}
+			#locate-button {
+				position: absolute;
+				right: 10px;
+				top: 10px;
+			}
+			.locate-icon {
+				width: 29px;
+				height: 29px;
+				background: none;
+				border: none;
+				cursor: pointer;
+				padding: 6px;
+				background-image: url('data:image/svg+xml;charset=utf-8,%3Csvg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z" fill="%23333"/%3E%3C/svg%3E');
+			}
+			.locate-icon:hover {
+				background-color: #f0f0f0;
+			}
+			.search-button {
+				display: flex;
+				position: fixed;
+				left: calc(50%);
+				transform: translateX(-50%);
+				top: 12px;
+				align-items: center;
+				gap: 6px;
+				padding: 8px 12px;
+				background-color: #f0f0f0;
+				border: 1px solid #ddd;
+				border-radius: 15px;
+				cursor: pointer;
+				font-size: 14px;
+				font-weight: bold;
+				color: gray;
+				transition: all 0.2s ease, opacity 0.3s ease;
+				opacity: 1;
+			}
+			.search-button:hover {
+				background-color: #e0e0e0;
+				border-color: #ccc;
+			}
+			.search-button svg {
+				opacity: 0.7;
+			}
+			.search-controls {
+				padding: 10px;
+				background-color: #f0f0f0;
+				border-bottom: 1px solid #ddd;
+			}
+			.fixed-marker {
+				position: absolute;
+				width: 15px;
+				height: 15px;
+				background-color: #4b7d3a;
+				border-radius: 50%;
+				cursor: pointer;
+				z-index: 999999;
+				transform: translate3d(0, 0, 0);
+				transform-origin: center;
+				pointer-events: auto;
+				position: relative;
+				will-change: transform;
+
+				padding: 10px;
+				margin: -10px;
+				background-clip: content-box;
+				border-radius: 50%;
+
+				&::after {
+					content: "";
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					width: 15px;
+					height: 15px;
+					border: 2px solid #ffffff;
+					border-radius: 50%;
+					pointer-events: none;
+					transform: translate(-50%, -50%);
+					transition: width 0.2s, height 0.2s;
+				}
+			}
+			.fixed-marker-hover {
+				width: 18px;
+				height: 18px;
+				background-color: #4b7d3a;
+				padding: 10px;
+				margin: -10px;
+
+				&::after {
+					width: 18px !important;
+					height: 18px !important;
+				}
+			}
+			.fixed-marker-highlighted {
+				width: 20px;
+				height: 20px;
+				background-color: #ff4444;
+			}
+			#wiki-frame-container {
+				position: fixed;
+				top: 5vh;
+				left: 50px;
+				width: 400px;
+				height: 90vh;
+				background: white;
+				box-shadow: 2px -2px 5px rgba(0, 0, 0, 0.2);
+				z-index: 1000;
+				display: none;
+				border-radius: 20px;
+				/* Optimize animations */
+				will-change: transform;
+				transform: translate3d(0, 0, 0);
+			}
+
+			/* Add this media query for smaller screens */
+			@media (max-width: 768px) {
+				#wiki-frame-container {
+					left: 20px;
+					right: 20px;
+					width: auto; /* Override fixed width */
+					margin: 0 auto;
+				}
+				.mapboxgl-ctrl-top-right {
+					/* Center the geocoder control */
+					right: 50% !important;
+					transform: translateX(50%);
+					top: 10px !important;
+					left: auto;
+				}
+
+				.mapboxgl-ctrl-geocoder {
+					/* Ensure the geocoder input is properly sized */
+					min-width: 300px !important;
+				}
+
+				.search-button {
+					top: 85px;
+				}
+			}
+
+			/* Add this media query for even smaller screens */
+			@media (max-width: 480px) {
+				#wiki-frame-container {
+					left: 10px;
+					right: 10px;
+					top: 10px;
+					height: calc(100vh - 20px);
+				}
+				.mapboxgl-ctrl-geocoder {
+					min-width: calc(100vw - 40px) !important;
+					max-width: calc(100vw - 40px) !important;
+				}
+			}
+
+			#wiki-frame {
+				width: 100%;
+				height: 100%;
+				border: none;
+				border-radius: 20px;
+			}
+			.wiki-close-btn {
+				position: absolute;
+				right: 10px;
+				top: 10px;
+				background: white;
+				border: none;
+				font-size: 20px;
+				cursor: pointer;
+				padding: 8px 12px;
+				border-radius: 4px;
+				z-index: 1001;
+				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+			}
+			.wiki-close-btn:hover {
+				background: #f0f0f0;
+			}
+			.fixed-marker-label {
+				position: absolute;
+				color: #4b7d3a;
+				padding: 4px 8px;
+				border-radius: 4px;
+				font-size: 14px;
+				font-weight: 600;
+				white-space: nowrap;
+				pointer-events: none;
+				transform: translate(-50%, -130%);
+				z-index: 1000000;
+				transition: color 0.2s;
+
+				/* Text outline - using only supported properties */
+				/*-webkit-text-stroke: 0.1px white;
+				text-shadow: -0.1px -0.1px 0 white, 0.1px -0.1px 0 white,
+					-0.1px 0.1px 0 white, 0.1px 0.1px 0 white;*/
+			}
+
+			.fixed-marker-highlighted .fixed-marker-label {
+				color: #ff4444;
+			}
+			.search-button.loading {
+				pointer-events: none;
+				opacity: 0.7;
+			}
+			.search-button .spinner {
+				display: none;
+				width: 18px;
+				height: 18px;
+				border: 2px solid #f3f3f3;
+				border-top: 2px solid blue;
+				border-radius: 50%;
+				animation: spin 1s linear infinite;
+			}
+			.search-button.loading .spinner {
+				display: block;
+			}
+			.search-button.loading svg,
+			.search-button.loading span {
+				display: none;
+			}
+			@keyframes spin {
+				0% {
+					transform: rotate(0deg);
+				}
+				100% {
+					transform: rotate(360deg);
+				}
+			}
+			.search-button.hidden {
+				opacity: 0;
+				pointer-events: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wiki-frame-container">
+			<button class="wiki-close-btn" onclick="closeWikiFrame()">×</button>
+			<iframe id="wiki-frame"></iframe>
+		</div>
+		<div id="map"></div>
+
+		<button class="search-button" onclick="searchCurrentLocation()">
+			<div class="spinner"></div>
+			<!-- <svg viewBox="0 0 24 24" width="18" height="18">
+				<path
+					fill="currentColor"
+					d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+				/>
+			</svg> -->
+			<span>Search This Area</span>
+		</button>
+		<script>
+			// Let a good thing live, don't do it
+			const accessToken =
+				"pk.eyJ1IjoibWF0dGhld3NpdSIsImEiOiJjbTRuYmVvY2swNnFkMmtvcTY3eDJjZTBwIn0.43ZPiwlsCs6Vh9vDeG0HhA";
+			mapboxgl.accessToken = accessToken;
+			const map = new mapboxgl.Map({
+				container: "map",
+				// style: "mapbox://styles/siunami/cm4kkqrkl016501rc0p92afrw",
+				style: "mapbox://styles/matthewsiu/cm4nxja0d004i01refdvpcoz9",
+				zoom: 12,
+				center: [-122.4194, 37.765],
+			});
+
+			async function fetchNearbyLocations(lat, lng) {
+				try {
+					// Fetch data from multiple offsets
+					const offsets = [0];
+					const promises = offsets.map((offset) => {
+						const originalUrl = `https://wikinearby.toolforge.org/api/nearby?q=${lat},${lng}&lang=en&offset=${offset}`;
+						const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(
+							originalUrl
+						)}`;
+						return fetch(proxyUrl).then((response) => response.json());
+					});
+
+					// Wait for all requests to complete
+					const results = await Promise.all(promises);
+
+					// Combine all lists into a single array
+					const combinedList = results.reduce((acc, result) => {
+						return acc.concat(result.list);
+					}, []);
+
+					return combinedList;
+				} catch (error) {
+					console.error("Error fetching nearby locations:", error);
+					return [];
+				}
+			}
+
+			// Store markers globally so we can reference them
+			let currentMarkers = [];
+
+			function clearMarkers() {
+				currentMarkers.forEach((marker) => {
+					if (marker.container) {
+						marker.container.remove();
+					}
+				});
+				currentMarkers = [];
+			}
+
+			function createMarker(location, index) {
+				const el = document.createElement("div");
+				el.className = "fixed-marker";
+
+				// Create label element
+				const label = document.createElement("div");
+				label.className = "fixed-marker-label";
+				label.textContent = location.page.replace(/_/g, " ");
+				el.appendChild(label);
+
+				el.addEventListener("click", () => {
+					handleLocationClick(location.lon, location.lat, location.page, index);
+
+					const locationItem = document.querySelector(
+						`.location-item[data-index="${index}"]`
+					);
+					if (locationItem) {
+						locationItem.scrollIntoView({
+							behavior: "smooth",
+							block: "center",
+						});
+					}
+				});
+
+				// Create a marker container that's positioned relative to the map
+				const markerContainer = document.createElement("div");
+				markerContainer.style.position = "absolute";
+				markerContainer.style.left = "0";
+				markerContainer.style.top = "0";
+				markerContainer.style.width = "100%";
+				markerContainer.style.height = "100%";
+				markerContainer.style.pointerEvents = "none";
+				markerContainer.style.overflow = "visible";
+				el.style.pointerEvents = "auto";
+
+				markerContainer.appendChild(el);
+				document
+					.querySelector(".mapboxgl-canvas-container")
+					.appendChild(markerContainer);
+
+				return {
+					element: el,
+					container: markerContainer,
+					coordinates: [parseFloat(location.lon), parseFloat(location.lat)],
+					update: () => {
+						const point = map.project([
+							parseFloat(location.lon),
+							parseFloat(location.lat),
+						]);
+						markerContainer.style.transform = `translate3d(${point.x}px, ${point.y}px, 0)`;
+					},
+				};
+			}
+
+			function updateLocationsList(locations) {
+				clearMarkers();
+
+				locations.forEach((location, index) => {
+					const marker = createMarker(location, index);
+					currentMarkers.push(marker);
+				});
+
+				updateMarkerPositions();
+			}
+
+			let selectedLocationIndex = null; // Track currently selected location
+
+			function highlightMarker(index) {
+				if (currentMarkers[index]) {
+					const label = currentMarkers[index].element.querySelector(
+						".fixed-marker-label"
+					);
+					if (label) {
+						label.style.display = "block";
+					}
+					const locationItem = document.querySelector(
+						`.location-item[data-index="${index}"]`
+					);
+					if (locationItem) {
+						locationItem.classList.add("location-item-highlighted");
+					}
+				}
+			}
+
+			function unhighlightMarker(index) {
+				if (index !== selectedLocationIndex && currentMarkers[index]) {
+					const label = currentMarkers[index].element.querySelector(
+						".fixed-marker-label"
+					);
+					if (label) {
+						label.style.display = "none";
+					}
+					const locationItem = document.querySelector(
+						`.location-item[data-index="${index}"]`
+					);
+					if (locationItem) {
+						locationItem.classList.remove("location-item-highlighted");
+					}
+				}
+			}
+
+			// Apparently this is getting deprecated :(
+			async function getCurrentLocation(center) {
+				try {
+					const response = await fetch(
+						`https://api.mapbox.com/geocoding/v5/mapbox.places/${center.lng},${center.lat}.json?access_token=${accessToken}&types=place`
+					);
+
+					const data = await response.json();
+					console.log(data);
+					return data.features.length > 0; // Returns true if we're over a city
+				} catch (error) {
+					console.error("Error checking location:", error);
+					return false;
+				}
+			}
+
+			async function searchCurrentLocation(center = map.getCenter()) {
+				const searchButton = document.querySelector(".search-button");
+				searchButton.classList.add("loading");
+
+				try {
+					const currentZoom = map.getZoom();
+
+					const locations = await fetchNearbyLocations(center.lat, center.lng);
+
+					if (locations.length > 0) {
+						// Create bounds that contain all points
+						const bounds = new mapboxgl.LngLatBounds();
+						locations.forEach((location) => {
+							bounds.extend([
+								parseFloat(location.lon),
+								parseFloat(location.lat),
+							]);
+						});
+
+						// Fit map to bounds with padding
+						map.fitBounds(bounds, {
+							padding: 50, // Adds 50px padding around the bounds
+							duration: 1000,
+							maxZoom: 17, // Prevent zooming in too close
+						});
+
+						updateLocationsList(locations);
+						searchButton.classList.add("hidden");
+					}
+				} finally {
+					searchButton.classList.remove("loading");
+				}
+			}
+
+			function handleLocationClick(lon, lat, pageName, index) {
+				// First unhighlight all markers
+				currentMarkers.forEach((marker) => {
+					marker.element.classList.remove("fixed-marker-highlighted");
+				});
+
+				// Update selected index and highlight new selection
+				selectedLocationIndex = index;
+
+				// Add highlight class to the selected marker
+				if (currentMarkers[index]) {
+					currentMarkers[index].element.classList.add(
+						"fixed-marker-highlighted"
+					);
+				}
+
+				highlightMarker(index);
+
+				const wikiUrl = `https://en.m.wikipedia.org/wiki/${pageName}`;
+				document.getElementById("wiki-frame").src = wikiUrl;
+				document.getElementById("wiki-frame-container").style.display = "block";
+				document.body.classList.add("wiki-open");
+
+				window.dispatchEvent(new Event("resize"));
+			}
+
+			function closeWikiFrame() {
+				document.getElementById("wiki-frame-container").style.display = "none";
+				document.getElementById("wiki-frame").src = "";
+				document.body.classList.remove("wiki-open");
+
+				// Clear current selection and remove highlights
+				if (selectedLocationIndex !== null) {
+					if (currentMarkers[selectedLocationIndex]) {
+						currentMarkers[selectedLocationIndex].element.classList.remove(
+							"fixed-marker-highlighted"
+						);
+						const label = currentMarkers[
+							selectedLocationIndex
+						].element.querySelector(".fixed-marker-label");
+						if (label) {
+							label.style.display = "none";
+						}
+					}
+
+					const item = document.querySelector(
+						`.location-item[data-index="${selectedLocationIndex}"]`
+					);
+					if (item) {
+						item.classList.remove("location-item-highlighted");
+					}
+				}
+
+				// Trigger a resize event to ensure the map adjusts properly
+				window.dispatchEvent(new Event("resize"));
+			}
+
+			function getLabelBounds(label) {
+				const rect = label.getBoundingClientRect();
+				return {
+					left: rect.left,
+					right: rect.right,
+					top: rect.top,
+					bottom: rect.bottom,
+					width: rect.width,
+					height: rect.height,
+				};
+			}
+
+			function doLabelsOverlap(bounds1, bounds2) {
+				return !(
+					bounds1.right < bounds2.left ||
+					bounds1.left > bounds2.right ||
+					bounds1.bottom < bounds2.top ||
+					bounds1.top > bounds2.bottom
+				);
+			}
+
+			function updateLabelVisibility() {
+				// Get all visible labels and sort them by priority
+				const labels = currentMarkers
+					.map((marker, index) => ({
+						element: marker.element.querySelector(".fixed-marker-label"),
+						isHighlighted: marker.element.classList.contains(
+							"fixed-marker-highlighted"
+						),
+						bounds: null,
+						index,
+					}))
+					.sort((a, b) => {
+						// Prioritize highlighted labels
+						if (a.isHighlighted !== b.isHighlighted) {
+							return a.isHighlighted ? -1 : 1;
+						}
+						// Then prioritize by index (maintain stable order)
+						return a.index - b.index;
+					});
+
+				// Calculate bounds once for each label
+				labels.forEach((label) => {
+					label.element.style.display = "block";
+					label.bounds = getLabelBounds(label.element);
+				});
+
+				// Use spatial partitioning - divide viewport into grid cells
+				const gridSize = 100; // pixels
+				const grid = new Map();
+
+				// Process labels in priority order
+				labels.forEach((label) => {
+					const bounds = label.bounds;
+
+					// Calculate grid cells this label intersects with
+					const startX = Math.floor(bounds.left / gridSize);
+					const endX = Math.floor(bounds.right / gridSize);
+					const startY = Math.floor(bounds.top / gridSize);
+					const endY = Math.floor(bounds.bottom / gridSize);
+
+					let hasOverlap = false;
+
+					// Check only relevant grid cells for overlaps
+					gridCheck: for (let x = startX; x <= endX; x++) {
+						for (let y = startY; y <= endY; y++) {
+							const key = `${x},${y}`;
+							const cell = grid.get(key) || [];
+
+							// Check for overlaps with labels in this cell
+							for (const otherLabel of cell) {
+								if (doLabelsOverlap(bounds, otherLabel.bounds)) {
+									hasOverlap = true;
+									break gridCheck;
+								}
+							}
+						}
+					}
+
+					if (hasOverlap) {
+						label.element.style.display = "none";
+					} else {
+						// Add label to all cells it intersects
+						for (let x = startX; x <= endX; x++) {
+							for (let y = startY; y <= endY; y++) {
+								const key = `${x},${y}`;
+								if (!grid.has(key)) grid.set(key, []);
+								grid.get(key).push(label);
+							}
+						}
+					}
+				});
+			}
+
+			// Add this throttle function at the start of your script
+			function throttle(func, limit) {
+				let inThrottle;
+				return function (...args) {
+					if (!inThrottle) {
+						func.apply(this, args);
+						inThrottle = true;
+						setTimeout(() => (inThrottle = false), limit);
+					}
+				};
+			}
+
+			// Replace the updateMarkerPositions function
+			function updateMarkerPositions() {
+				currentMarkers.forEach((marker) => marker.update());
+				// Throttle the label visibility update to run at most once every 100ms
+				throttledUpdateLabelVisibility();
+			}
+
+			// Add the throttled version of updateLabelVisibility
+			const throttledUpdateLabelVisibility = throttle(
+				updateLabelVisibility,
+				100
+			);
+
+			// Initial load of locations
+			map.once("load", async () => {
+				await searchCurrentLocation();
+				updateMarkerPositions(); // Ensure initial positioning
+			});
+
+			map.on("load", () => {
+				// Add the geocoder
+				const geocoder = new MapboxGeocoder({
+					accessToken: mapboxgl.accessToken,
+					mapboxgl: mapboxgl,
+					marker: false, // Disable default marker
+					placeholder: "Search for a location",
+					zoom: 14, // Set zoom level for results
+				});
+
+				// Add geocoder to the map
+				map.addControl(geocoder, "top-right");
+
+				// Handle geocoder result
+				geocoder.on("result", async (e) => {
+					const coordinates = e.result.center; // [lng, lat]
+
+					// Fly to the location
+					map.flyTo({
+						center: coordinates,
+						zoom: 14,
+						speed: 2.4,
+						essential: true,
+					});
+
+					// Wait for the movement to finish then search the area
+					map.once("moveend", async () => {
+						await searchCurrentLocation();
+					});
+				});
+			});
+
+			// Update the map move event handler
+			map.on("move", () => {
+				// Show search button when map moves
+				const searchButton = document.querySelector(".search-button");
+				searchButton.classList.remove("hidden");
+
+				// Update marker positions
+				updateMarkerPositions();
+			});
+
+			map.on("zoom", updateMarkerPositions);
+			map.on("idle", updateMarkerPositions);
+
+			// Add cleanup on map movement
+			map.on("movestart", () => {
+				// Hide all labels during movement to reduce processing
+				currentMarkers.forEach((marker) => {
+					const label = marker.element.querySelector(".fixed-marker-label");
+					if (label) label.style.display = "none";
+				});
+			});
+
+			// Add an error handler to help debug
+			map.on("error", (e) => {
+				console.error("Mapbox error:", e);
+			});
+		</script>
+	</body>
+</html>

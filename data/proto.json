@@ -1,0 +1,106 @@
+[
+	[
+		{
+			"name": "Multimedia annotations",
+			"description": "Getting context for particular terms and concepts on hover.",
+			"resource": "/assets/prototypes/multimedia_annotations.mp4",
+			"type": "video",
+			"url": "https://x.com/MatthewWSiu/status/1398125662506864641"
+		},
+		{
+			"name": "Google maps for language",
+			"description": "A method for exploring idea space in the early stages of a research process",
+			"resource": "/assets/prototypes/google maps.jpg",
+			"type": "image",
+			"url": "https://x.com/MatthewWSiu/status/1519906295603675143"
+		},
+		{
+			"name": "Dynamic elements for essays",
+			"description": "Exploring methods for communicating complex mental models in a piece of text.",
+			"resource": "/assets/prototypes/dynamic_timeline.mp4",
+			"type": "video",
+			"url": "https://x.com/MatthewWSiu/status/1398125698611441675"
+		},
+		{
+			"name": "Malleable digital materials",
+			"description": "Exploring a more malleable digital substrate that can be shaped and manipulated to see the materials in different ways",
+			"resource": "/assets/prototypes/Malleable_Materials.mp4",
+			"type": "video",
+			"url": "https://x.com/MatthewWSiu/status/1572711905776603143"
+		},
+		{
+			"name": "Dreams",
+			"description": "An interface that resurfaces contents of a collection over time",
+			"resource": "/assets/prototypes/Dreams.mp4",
+			"type": "video",
+			"url": null
+		}
+	],
+	[
+		{
+			"name": "Color picker for language",
+			"description": "A color picker for language",
+			"resource": "/assets/prototypes/Language Picker.mp4",
+			"type": "video",
+			"url": "https://x.com/MatthewWSiu/status/1560725842019368962"
+		},
+		{
+			"name": "Telescopic text",
+			"description": "A method for expanding to show extra details on demand",
+			"resource": "/assets/prototypes/telescopic.mp4",
+			"type": "video",
+			"url": "https://x.com/MatthewWSiu/status/1329993019177791488"
+		},
+		{
+			"name": "Dynamic image gallery",
+			"description": "Image gallery viewed in different ways",
+			"resource": "/assets/prototypes/image_gallery.mp4",
+			"type": "video",
+			"url": "https://x.com/MatthewWSiu/status/1368680641378852865"
+		},
+		{
+			"name": "Peek",
+			"description": "Peek to get more context",
+			"resource": "/assets/prototypes/Peek.mp4",
+			"type": "video",
+			"url": "https://x.com/MatthewWSiu/status/1707170067295986137"
+		},
+		{
+			"name": "Globe search",
+			"description": "A geospatial search interface, offering unexpected, surprising and delightful resources",
+			"resource": "/assets/prototypes/Map_Search.mp4",
+			"type": "video",
+			"url": "https://x.com/azlenelza/status/1588509364913983488"
+		}
+	],
+	[
+		{
+			"name": "Graph explorer",
+			"description": "A graph explorer for chinese language",
+			"resource": "/assets/prototypes/graph_explorer.mp4",
+			"type": "video",
+			"url": null
+		},
+		{
+			"name": "Chat with follow-up Qs",
+			"description": "Question asking service using LLMs that supports follow up replies",
+			"resource": "/assets/prototypes/question and replies.mp4",
+			"type": "video",
+			"url": "https://x.com/MatthewWSiu/status/1594900264053575684"
+		},
+		{
+			"name": "Exploding text",
+			"description": "Exploding text",
+			"resource": "/assets/prototypes/exploding text.gif",
+			"type": "image",
+			"url": null
+		},
+		{
+			"name": "Visual storytelling",
+			"description": "A storytelling engine that finds visuals to match a story",
+			"resource": "/assets/prototypes/Visual stories.mp4",
+			"type": "video",
+			"url": null
+		}
+	]
+]

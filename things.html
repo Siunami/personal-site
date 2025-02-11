@@ -1,0 +1,374 @@
+---
+permalink: /things/
+layout: default
+---
+
+<div id="container"></div>
+<div id="link-viewer"></div>
+
+<script>
+	fetch("/data/things.json")
+		.then((response) => response.json())
+		.then((data) => {
+			console.log(data);
+			const container = document.getElementById("container");
+			data.forEach((item) => {
+				const div = document.createElement("div");
+				let mediaHTML = "";
+				if (item.media && item.media.length > 0) {
+					mediaHTML = item.media
+						.map((url, index) => {
+							const extension = url.split(".").pop().toLowerCase();
+							if (extension === "mp4") {
+								return `<video class="media" preload="metadata" controls>
+										<source src="${url}" type="video/mp4"/>
+										Your browser does not support the video tag.
+									</video>`;
+							} else if (["jpg", "jpeg", "png", "gif"].includes(extension)) {
+								return `<div id="${url}"><img class="media" src="${url}" alt="Media for ${item.title}" onclick="expandImage('${url}')"></div>`;
+							} else {
+								return `<p>Unsupported media type: ${url}</p>`;
+							}
+						})
+						.join("");
+				}
+				// Process array of links
+				const linksHTML = item.url
+					.map((url, i) => `<a href="${url}" target="_blank">[${i}]</a>`)
+					.join("<br>");
+				let htmlContent = "";
+
+				if (item.title && item.title.trim() !== "") {
+					htmlContent += `<h2>${item.title}</h2>`;
+				}
+
+				if (item.media && item.media.length > 0) {
+					htmlContent += `<div class="media-container">${mediaHTML}</div>`;
+				}
+
+				if (item.description && item.description.trim() !== "") {
+					htmlContent += `<p class="reaction">${item.description}</p>`;
+				}
+
+				if (item.url && item.url.length > 0) {
+					htmlContent += `<div class="url">${linksHTML}</div>`;
+				}
+
+				div.innerHTML = htmlContent;
+				div.className = "item";
+				container.appendChild(div);
+			});
+		})
+		.catch((error) => {
+			console.error("Error fetching data:", error);
+			document.getElementById("container").innerHTML =
+				"<li>Error loading data</li>";
+		});
+
+	function expandImage(imageSrc) {
+		const containerElement = document.getElementById(imageSrc);
+		if (containerElement) {
+			const imageElement = containerElement.querySelector("img");
+			if (imageElement) {
+				const originalBbox = imageElement.getBoundingClientRect();
+
+				// Create ghost div for original position
+				const ghostDiv = document.createElement("div");
+				ghostDiv.style.width = `${originalBbox.width}px`;
+				ghostDiv.style.height = `${originalBbox.height}px`;
+				ghostDiv.style.display = "inline-block";
+				ghostDiv.style.marginBottom = "5px";
+
+				// Insert ghost div and move image
+				imageElement.parentNode.insertBefore(ghostDiv, imageElement);
+				document.body.appendChild(imageElement);
+
+				// Style the image
+				imageElement.style.position = "fixed";
+				imageElement.style.top = `${originalBbox.top}px`;
+				imageElement.style.left = `${originalBbox.left}px`;
+				imageElement.style.width = `${originalBbox.width}px`;
+				imageElement.style.height = `${originalBbox.height}px`;
+				imageElement.style.zIndex = "1000";
+				imageElement.style.transition = "all 0.3s ease";
+
+				const modal = document.createElement("div");
+				modal.className = "modal";
+				document.body.appendChild(modal);
+
+				const modalGhostDiv = document.createElement("div");
+
+				// Calculate dimensions based on aspect ratio
+				const viewportWidth = window.innerWidth;
+				const viewportHeight = window.innerHeight;
+				const imageAspectRatio = originalBbox.width / originalBbox.height;
+
+				let newWidth, newHeight;
+				const maxWidth = viewportWidth * 0.9;
+				const maxHeight = viewportHeight * 0.9;
+
+				if (imageAspectRatio > maxWidth / maxHeight) {
+					// Image is wider relative to the screen
+					newWidth = maxWidth;
+					newHeight = newWidth / imageAspectRatio;
+				} else {
+					// Image is taller relative to the screen
+					newHeight = maxHeight;
+					newWidth = newHeight * imageAspectRatio;
+				}
+
+				// Ensure the image fits within the viewport
+				if (newWidth > maxWidth) {
+					newWidth = maxWidth;
+					newHeight = newWidth / imageAspectRatio;
+				}
+				if (newHeight > maxHeight) {
+					newHeight = maxHeight;
+					newWidth = newHeight * imageAspectRatio;
+				}
+
+				modalGhostDiv.style.width = `${newWidth}px`;
+				modalGhostDiv.style.height = `${newHeight}px`;
+				modal.appendChild(modalGhostDiv);
+
+				const modalGhostDivBbox = modalGhostDiv.getBoundingClientRect();
+
+				// Trigger the transition
+				setTimeout(() => {
+					imageElement.style.top = `${modalGhostDivBbox.top}px`;
+					imageElement.style.left = `${modalGhostDivBbox.left}px`;
+					imageElement.style.width = `${modalGhostDivBbox.width}px`;
+					imageElement.style.height = `${modalGhostDivBbox.height}px`;
+					modal.style.backgroundColor = "rgba(0, 0, 0, 0.9)";
+				}, 50);
+
+				modal.addEventListener("click", function (event) {
+					if (event.target === modal) {
+						closeExpandedImage(modal, imageElement, ghostDiv, containerElement);
+					}
+				});
+
+				document.addEventListener("keydown", function (event) {
+					console.log(event.code);
+					if (event.code === "Space" && modal.parentNode) {
+						event.preventDefault(); // Prevent page scrolling
+						closeExpandedImage(modal, imageElement, ghostDiv, containerElement);
+					}
+				});
+			} else {
+				console.error("Image not found inside container:", imageSrc);
+			}
+		} else {
+			console.error("Container element not found:", imageSrc);
+		}
+	}
+
+	// Add this new event listener for Shift+P
+	document.addEventListener("keydown", function (event) {
+		if (event.shiftKey && event.code === "KeyP") {
+			event.preventDefault(); // Prevent default behavior
+			moveBodyUp();
+		}
+	});
+
+	function moveBodyUp() {
+		const linkViewer = document.getElementById("link-viewer");
+		const windowHeight = window.innerHeight;
+		linkViewer.style.transition = "top 0.5s ease-in-out";
+
+		if (linkViewer.style.top === "20vh") {
+			linkViewer.style.top = "100vh";
+		} else {
+			linkViewer.style.top = "20vh";
+		}
+		// Move the link-viewer up
+	}
+
+	function closeExpandedImage(modal, imageElement, ghostDiv, containerElement) {
+		const originalBbox = ghostDiv.getBoundingClientRect();
+
+		// Reset the image to its original position and size
+		imageElement.style.transition = "all 0.3s ease";
+		imageElement.style.top = `${originalBbox.top}px`;
+		imageElement.style.left = `${originalBbox.left}px`;
+		imageElement.style.width = `${originalBbox.width}px`;
+		imageElement.style.height = `${originalBbox.height}px`;
+
+		// Fade out the modal
+		modal.style.backgroundColor = "rgba(0, 0, 0, 0)";
+
+		// After the transition, clean up
+		imageElement.addEventListener(
+			"transitionend",
+			function cleanup() {
+				// Remove the transition to prevent unwanted animations
+				imageElement.style.transition = "";
+
+				// Reset other styles
+				imageElement.style.position = "";
+				imageElement.style.zIndex = "";
+				imageElement.style.maxWidth = "";
+				imageElement.style.maxHeight = "";
+
+				// Move the image back to its original container
+				containerElement.insertBefore(imageElement, ghostDiv);
+
+				// Remove the ghost div and modal
+				ghostDiv.remove();
+				modal.remove();
+
+				// Remove this event listener
+				imageElement.removeEventListener("transitionend", cleanup);
+			},
+			{ once: true }
+		);
+	}
+</script>
+
+<style>
+	#container {
+		display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
+		padding: 0;
+		height: calc(100vh - 20px);
+	}
+	#container .item {
+		margin-bottom: 10px;
+		padding: 10px;
+		margin: 10px;
+		font-size: 1rem;
+		max-width: 400px;
+		width: auto;
+	}
+
+	#container .item > h2 {
+		margin-top: 0px !important;
+	}
+
+	#container .item > p,
+	a,
+	b,
+	blockquote {
+		font-size: 1rem;
+	}
+
+	#container .item > blockquote {
+		border-left: 0.25rem solid rgb(84, 84, 84);
+		padding-left: 0.5rem;
+		line-height: 115%;
+	}
+
+	.reaction {
+		font-size: 1rem;
+		color: #666;
+		width: 100%;
+		line-height: 115%;
+	}
+	.url {
+		display: flex;
+		flex-direction: row;
+		margin-top: 10px;
+	}
+
+	.media {
+		border-radius: 4px;
+	}
+	.media-container {
+		margin-top: 10px;
+	}
+	.media-container img,
+	.media-container video {
+		max-width: 100%;
+		height: auto;
+		margin-bottom: 5px;
+		transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+	}
+	.media-container video {
+		display: block;
+	}
+	.media-container img {
+		cursor: pointer;
+	}
+
+	.modal {
+		position: fixed;
+		z-index: 1;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0);
+		transition: background-color 0.3s ease;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	#link-viewer {
+		position: fixed;
+		top: 100vh; /* Position it just below the viewport */
+		left: 0;
+		width: 100%;
+		height: 80vh;
+		background-color: rgba(
+			0,
+			255,
+			0,
+			0.95
+		); /* Semi-transparent white background */
+		transition: top 0.3s ease-in-out; /* Smooth transition for sliding in/out */
+		z-index: 1000; /* Ensure it's above other content */
+		overflow-y: auto; /* Allow scrolling if content exceeds height */
+	}
+
+	/* Mobile-specific styles */
+	@media screen and (max-width: 768px) {
+		#container {
+			height: auto;
+			flex-direction: column;
+			flex-wrap: nowrap;
+		}
+
+		#container .item {
+			margin: 0 0 20px 0;
+			padding: 15px;
+			font-size: 1.1rem;
+			width: auto;
+		}
+
+		#container .item > h2 {
+			font-size: 1.6rem;
+			margin-bottom: 10px;
+		}
+
+		#container .item > p,
+		#container .item > a,
+		#container .item > b,
+		#container .item > blockquote {
+			font-size: 1.1rem;
+			line-height: 1.4;
+		}
+
+		.reaction {
+			font-size: 1.1rem;
+			line-height: 1.4;
+		}
+
+		.url {
+			flex-wrap: wrap;
+		}
+
+		.url a {
+			margin: 0 5px 0px 0;
+			text-decoration: none;
+			color: #333;
+			font-size: 1.1rem;
+		}
+
+		.media-container img,
+		.media-container video {
+			margin-bottom: 15px;
+		}
+	}
+</style>

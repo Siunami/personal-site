@@ -1,0 +1,98 @@
+[
+	{
+		"title": "Lumalabs image prompt bar",
+		"date": "10/13/24",
+		"url": [],
+		"media": [
+			"/assets/things/luma+image+add.mp4",
+			"/assets/things/luma+info.mp4"
+		],
+		"description": "I like their treatment of the digital materiality of the images. Tossing them above the bar with a slight tilt makes it feel lighter, less formal, less at stake and benefits the feeling of remixing something<br/><br/>Also the way they introduce the video descriptions of pan actions after a short delay. Enough time that a familiar user won't see the tutorial, but someone who is hovering over it confused will almost immediately see it."
+	},
+	{
+		"title": "The Design of Everyday Things",
+		"date": "10/13/24",
+		"url": [],
+		"media": [],
+		"description": "<blockquote>Good design requires good communication, especially from machine to person, indicating what actions are possible, what is happening, and what is about to happen</blockquote>"
+	},
+	{
+		"title": "The communal science lab",
+		"date": "10/13/24",
+		"url": ["https://dynamicland.org/2024/The_communal_science_lab.pdf"],
+		"media": [],
+		"description": "<blockquote>The greatest leaps in the progress of civilization have come from new forms for seeing and discussing ideas — written language, mathematical notation, interactive computing — which we might broadly call \"user interfaces\".</blockquote><br/><blockquote>An interface gives physical form to invisible concepts, and in science, invisible and intangible concepts abound.</blockquote>"
+	},
+	{
+		"title": "Maeda Laws of Simplicity",
+		"date": "10/13/24",
+		"url": ["https://lawsofsimplicity.com/"],
+		"media": ["/assets/things/Maeda Laws of Simplicity.png"],
+		"description": "Thought provoking, provides directions for improving designs, some overlap with Dieter Rams <br/><br/> Generally, am curious to find more \"rules\" like this to use simply as prompts that might suggest interesting design/research directions."
+	},
+	{
+		"title": "Dieter Rams 10 Principles",
+		"date": "10/13/24",
+		"url": [
+			"https://www.vitsoe.com/us/about/good-design",
+			"https://vimeo.com/ondemand/ramsfilm"
+		],
+		"media": ["/assets/things/Dieter Rams 10 Principles Original Digital.jpg"],
+		"description": "Sitting with these. What still feels relevant to interaction design? What principles should be added? Perhaps Maeda's <a target=\"_blank\" href=\"https://lawsofsimplicity.com/\">Laws of Simplicity</a>?"
+	},
+	{
+		"title": "OP-1 Teenage Engineering",
+		"date": "10/13/24",
+		"url": [
+			"https://teenage.engineering/products/op-1/original/modules",
+			"https://teenage.engineering/_img/63bfeac1a9917e66c8ba8bd6_original.pdf"
+		],
+		"media": [
+			"/assets/things/op1-interfaces.png",
+			"/assets/things/op1-interfaces 2.png",
+			"/assets/things/op1-interfaces 3.png",
+			"/assets/things/op1-manual.mp4"
+		],
+		"description": "Both functional and beautiful interface design. See <a target=\"_blank\"href=\"https://www.youtube.com/watch?v=SHoDUCAd4-I\">Tombola</a> for one of my favorites. <br/><br/>Inspiring to see how expressive they can make a limited set of physical controls. Reminds me of Dieter Rams' principle, \"Good design is as little design as possible\"."
+	},
+	{
+		"title": "Studio Moniker + Coinbase brand identity",
+		"date": "10/13/24",
+		"url": ["https://monikersf.com/project/coinbase"],
+		"media": [
+			"/assets/things/moniker_coinbase design language.png",
+			"/assets/things/Moniker+language.mp4"
+		],
+		"description": "I like the brightness and boldness of the typography, color and geometries. The interfaces give everything a slightly futuristic energy + the digital billboard type transitions"
+	},
+	{
+		"title": "Push pop press - interactive book",
+		"date": "10/13/24",
+		"url": [
+			"https://www.ted.com/talks/mike_matas_a_next_generation_digital_book?subtitle=en"
+		],
+		"media": ["https://d3m4za3hz6xwxs.cloudfront.net/videos/04/00.mp4"],
+		"description": "Big picture + <a target=\"_blank\" href=\"https://infovis-wiki.net/wiki/Details_on_demand\">details on demand</a>, <i><b>persistent digital materiality</b></i>, interactive images + figures that are slightly off the page to signifier interactivity, information communicated through interaction allowing for <i><b>interactive analysis</b></i>"
+	},
+	{
+		"title": "Active video player",
+		"date": "10/13/24",
+		"url": ["http://glench.com/EyesOnThePrize/"],
+		"media": ["/assets/things/active+video+player.png"],
+		"description": "Using multiple representations to give context to the video narrative. All of them are synchronized, and help answer questions + build a better model of the narrative. A kind of <a href=\"https://dynamicland.org/archive/2023/DNA_nanotechnology_timeline\" target=\"_blank\">peripheral vision</a>."
+	},
+	{
+		"title": "Hyperbind",
+		"date": "10/13/24",
+		"url": ["https://dynamicland.org/archive/2015/Hyperbind"],
+		"media": ["/assets/things/link+scroll.mp4"],
+		"description": "\"As you scroll through the webpage in the left pane, each of its links appears in the right pane.\"<br/><br/>I like the idea of reducing the friction to view referenced materials while avoiding the overwhelm of having 100s of links open as tabs. \n\n\"scrolling and opening links in a single gesture\""
+	},
+	{
+		"title": "Visual Program Behavior",
+		"date": "10/13/24",
+		"url": ["http://glench.com/MarilynMaloney/"],
+		"media": ["/assets/things/visual+program+behavior.mp4"],
+		"description": "The realization that such a simple rule was behind what I would have assumed was quite complex. Very promising to walk through a complex process like this and grasp how it works almost immediately."
+	}
+]

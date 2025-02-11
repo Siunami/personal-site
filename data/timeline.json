@@ -1,0 +1,218 @@
+[
+	{
+		"year": "ongoing",
+		"things": [
+			{
+				"title": "Interface Gallery",
+				"url": "/Interfaces/",
+				"categories": [],
+				"marking": ["star"],
+				"collaborators": []
+			},
+			{
+				"title": "Places",
+				"url": "https://felt.com/map/Places-9Ag4bBexWQJ6IUpH9BzhvqyB?loc=39.09,-140.53,3.56z",
+				"categories": [],
+				"marking": [],
+				"collaborators": []
+			},
+			{
+				"title": "Things",
+				"url": "/things/",
+				"categories": [],
+				"marking": [],
+				"collaborators": []
+			}
+		]
+	},
+	{
+		"year": "2024",
+		"things": [
+			{
+				"title": "Local Map",
+				"url": "/local-map/",
+				"categories": [],
+				"marking": ["star"],
+				"collaborators": []
+			},
+			{
+				"title": "Browse videos by faces",
+				"url": "https://x.com/MatthewWSiu/status/1866637299271995750",
+				"categories": [],
+				"marking": [""],
+				"collaborators": []
+			},
+			{
+				"title": "Adjacent Possible",
+				"url": "/adjacent-possible/",
+				"categories": [],
+				"marking": ["star"],
+				"collaborators": []
+			},
+			{
+				"title": "Visualizing attention in transformers",
+				"url": "https://x.com/MatthewWSiu/status/1778482551335829848",
+				"categories": [],
+				"marking": ["twitter"],
+				"collaborators": []
+			},
+			{
+				"title": "Latticework",
+				"url": "/Latticework/",
+				"categories": [],
+				"marking": ["star"],
+				"collaborators": ["Andy"]
+			},
+			{
+				"title": "Research questions",
+				"url": "/Research Questions/",
+				"categories": [],
+				"marking": [],
+				"collaborators": []
+			}
+		]
+	},
+	{
+		"year": "2023",
+		"description": "In bloom",
+		"things": [
+			{
+				"title": "Peek",
+				"url": "/Peek/",
+				"categories": [],
+				"marking": [],
+				"collaborators": [],
+				"preview": "/assets/prototypes/peek.mp4"
+			}
+		]
+	},
+	{
+		"year": "2022",
+		"things": [
+			{
+				"title": "Geospatial search engine",
+				"url": "https://x.com/azlenelza/status/1588509364913983488",
+				"categories": [],
+				"marking": ["twitter"],
+				"collaborators": ["Azlen"],
+				"preview": "/assets/prototypes/Map_Search.mp4"
+			},
+			{
+				"title": "Digital materials",
+				"url": "https://x.com/MatthewWSiu/status/1572711905776603143",
+				"categories": [],
+				"marking": ["star", "twitter"],
+				"collaborators": [],
+				"preview": "/assets/prototypes/Malleable_Materials.mp4"
+			},
+			{
+				"title": "Color picker for words",
+				"url": "https://x.com/MatthewWSiu/status/1560725842019368962",
+				"categories": [],
+				"marking": ["star", "twitter"],
+				"collaborators": [],
+				"preview": "/assets/prototypes/Language Picker.mp4"
+			},
+			{
+				"title": "ChatGPT with replies",
+				"url": "https://x.com/MatthewWSiu/status/1594900264053575684",
+				"categories": [],
+				"marking": ["twitter"],
+				"collaborators": [],
+				"preview": "/assets/prototypes/question and replies.mp4"
+			},
+			{
+				"title": "Latent space concept explorer",
+				"url": "https://x.com/MatthewWSiu/status/1519906295603675143",
+				"categories": [],
+				"marking": ["twitter"],
+				"collaborators": [],
+				"preview": "/assets/prototypes/google maps.jpg"
+			},
+			{
+				"title": "Worlding comic",
+				"url": "/WorldingComic/",
+				"categories": [],
+				"marking": [],
+				"collaborators": []
+			},
+			{
+				"title": "A better web browser",
+				"url": "https://x.com/MatthewWSiu/status/1584708908551061505",
+				"categories": [],
+				"marking": ["twitter"],
+				"collaborators": []
+			},
+			{
+				"title": "Magic ink thread",
+				"url": "https://x.com/MatthewWSiu/status/1480702088858333186",
+				"categories": [],
+				"marking": ["star", "twitter"],
+				"collaborators": []
+			}
+		]
+	},
+	{
+		"year": "2021",
+		"things": [
+			{
+				"title": "Software poems",
+				"url": "https://x.com/MatthewWSiu/status/1752079071343976557",
+				"categories": [],
+				"marking": ["twitter"],
+				"collaborators": []
+			},
+			{
+				"title": "Telescopic text",
+				"url": "https://x.com/MatthewWSiu/status/1329993019177791488",
+				"categories": [],
+				"marking": ["twitter"],
+				"collaborators": [],
+				"preview": "/assets/prototypes/telescopic.mp4"
+			},
+			{
+				"title": "Dynamic documents",
+				"url": "/DynamicDocuments/",
+				"categories": [],
+				"marking": [],
+				"collaborators": [],
+				"preview": "/assets/prototypes/multimedia_annotations.mp4"
+			},
+			{
+				"title": "Exploding text",
+				"url": "/ExplodingText/",
+				"categories": [],
+				"marking": [],
+				"collaborators": []
+			},
+			{
+				"title": "On play",
+				"url": "https://matthewsiu.substack.com/p/on-play",
+				"categories": [],
+				"marking": [],
+				"collaborators": []
+			},
+			{
+				"title": "Writing, Miyazaki, and MMOs",
+				"url": "https://matthewsiu.substack.com/p/writing-miyazaki-and-mmos",
+				"categories": [],
+				"marking": [],
+				"collaborators": []
+			},
+			{
+				"title": "What's next for augmented intelligence",
+				"url": "https://matthewsiu.substack.com/p/whats-next-for-augmented-intelligence",
+				"categories": [],
+				"marking": [],
+				"collaborators": []
+			},
+			{
+				"title": "Zoomable User Interfaces",
+				"url": "https://x.com/MatthewWSiu/status/1228155105683263490",
+				"categories": [],
+				"marking": ["twitter"],
+				"collaborators": []
+			}
+		]
+	}
+]

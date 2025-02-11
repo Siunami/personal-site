@@ -1,0 +1,22 @@
+{
+	"headers": [
+		{
+			"source": "/assets/walks/(.*).png",
+			"headers": [
+				{
+					"key": "Content-Type",
+					"value": "image/png"
+				}
+			]
+		},
+		{
+			"source": "/assets/walks/(.*)/(.*).png",
+			"headers": [
+				{
+					"key": "Content-Type",
+					"value": "image/png"
+				}
+			]
+		}
+	]
+}
