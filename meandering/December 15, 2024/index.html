@@ -1,0 +1,743 @@
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<style>
+			@font-face {
+				font-family: "Comic Neue";
+				src: url("/assets/fonts/Comic_Neue/ComicNeue-Regular.ttf")
+					format("truetype");
+				font-weight: normal;
+				font-style: normal;
+			}
+
+			@font-face {
+				font-family: "Comic Neue";
+				src: url("/assets/fonts/Comic_Neue/ComicNeue-Bold.ttf")
+					format("truetype");
+				font-weight: bold;
+				font-style: normal;
+			}
+
+			@font-face {
+				font-family: "Comic Neue";
+				src: url("/assets/fonts/Comic_Neue/ComicNeue-Italic.ttf")
+					format("truetype");
+				font-weight: normal;
+				font-style: italic;
+			}
+
+			@font-face {
+				font-family: "Comic Neue";
+				src: url("/assets/fonts/Comic_Neue/ComicNeue-Light.ttf")
+					format("truetype");
+				font-weight: 300;
+				font-style: normal;
+			}
+
+			@font-face {
+				font-family: "Komika";
+				src: url("/assets/fonts/komika_text/KOMTXT__.ttf") format("truetype");
+				font-weight: normal;
+				font-style: normal;
+			}
+
+			@font-face {
+				font-family: "Quicksand";
+				src: url("/assets/fonts/Quicksand/Quicksand-VariableFont_wght.ttf")
+					format("truetype-variations");
+				font-weight: 300 400 500 600 700;
+			}
+
+			/*
+				#66a0d3 0%,
+				#5f99cc 15%,
+				#66a0d3 25%,
+				#f0f0e6 45%,
+				#fcf6e6 50%,
+				#7a8ea1 55%,
+				#7ab3d4 65%,
+				#6faac9 70%,
+				#333333 75%,
+				#2d2d2d 85%,
+				#333333 90%,
+				#2a2a2a 95%,
+				#333333 100%
+			*/
+
+			/*
+				#66a0d3 0%,
+				#5f99cc 15%,
+				#66a0d3 25%,
+			*/
+
+			/*
+					#66a0d3 0%,
+					#5f99cc 15%,
+					#66a0d3 25%,
+					#f0f0e6 45%,
+					#fcf6e6 50%,
+					#7a8ea1 55%,
+					#7ab3d4 65%,
+					#6faac9 70%,
+					#333333 75%,
+					#2d2d2d 85%,
+					#333333 90%,
+					#2a2a2a 95%,
+					#333333 100%
+			*/
+
+			body {
+				background: linear-gradient(
+					180deg,
+					#87c0f5 0%,
+					#7db3e6 15%,
+					#87c0f5 25%,
+					#f4f4ec 45%,
+					#fcf9ec 50%,
+					#9ca3c3 55%,
+					#97bfec 65%,
+					#7daecc 70%,
+					#555555 75%,
+					#4f4f4f 85%,
+					#555555 90%,
+					#4d4d4d 95%,
+					#555555 100%
+				);
+				font-family: "Lato", sans-serif;
+				overflow-x: hidden;
+			}
+
+			.container {
+				width: calc(100% - 20px);
+				font-family: "Lato", sans-serif;
+				background-color: rgba(255, 255, 255, 0.2);
+				margin: 10px;
+				margin-top: -10px;
+				margin-bottom: -10px;
+				min-height: calc(100vh + 20px);
+			}
+
+			.title {
+				position: fixed;
+				bottom: 20px;
+				left: 40px;
+				font-size: 18px;
+				font-weight: 600;
+				color: rgb(72, 72, 72);
+				text-shadow: 0 1px #fff, 1px 0 #fff, 0 -1px #fff, -1px 0 #fff;
+				z-index: 1000;
+				display: flex;
+				flex-direction: column;
+				gap: 15px;
+				align-items: left;
+			}
+
+			.minute-block {
+				position: relative;
+				width: 100%;
+				min-height: 20px;
+				font-size: 12px;
+				padding: 10px;
+				color: #666;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 10px;
+				box-sizing: border-box;
+			}
+
+			.image {
+				position: absolute;
+				max-width: 300px;
+				width: auto;
+				height: auto;
+				max-height: 400px;
+				transition: transform 0.2s;
+				box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+			}
+
+			.text-content {
+				position: absolute;
+				width: 300px;
+				color: #333;
+				text-align: left;
+				font-size: 16px;
+				padding: 10px;
+				background-color: #f5f5f5;
+				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+			}
+
+			.time-label {
+				position: absolute;
+				left: 5px;
+				top: 3px;
+				color: #66666600;
+				font-size: 16px;
+			}
+
+			.time-tick {
+				position: absolute;
+				left: 5px;
+				top: 10px;
+				width: 10px;
+				height: 1px;
+				background-color: #66666600;
+			}
+
+			.content-wrapper {
+				position: relative;
+				left: 0;
+				overflow: visible;
+			}
+
+			.clock {
+				position: fixed;
+				top: 20px;
+				right: 40px;
+				font-size: 18px;
+				font-weight: 600;
+				color: rgb(72, 72, 72);
+				text-shadow: 0 1px #fff, 1px 0 #fff, 0 -1px #fff, -1px 0 #fff;
+				z-index: 1000;
+			}
+
+			.bold-text {
+				font-weight: bold;
+			}
+			.light-text {
+				font-weight: 300;
+			}
+			.italic-text {
+				font-style: italic;
+			}
+
+			@media (max-width: 768px) {
+				.container {
+					width: 100%;
+					margin: 0px;
+					margin-top: -10px;
+					margin-bottom: -10px;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					min-height: calc(100vh + 20px);
+				}
+
+				.minute-block {
+					width: 100%;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+				}
+
+				.content-wrapper {
+					transform: none !important;
+					width: 100% !important;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+				}
+
+				.image {
+					position: relative;
+					max-width: 90vw;
+					margin: 10px auto;
+					left: auto !important;
+					right: auto !important;
+					display: block;
+				}
+
+				.text-content {
+					position: relative;
+					width: 85vw;
+					margin: 10px auto;
+					left: auto !important;
+					right: auto !important;
+				}
+
+				.title {
+					left: 20px;
+					bottom: 10px;
+				}
+
+				.clock {
+					right: 20px;
+					top: 10px;
+				}
+			}
+		</style>
+		<script>
+			async function loadXMPFiles() {
+				try {
+					const walkPath = "December-15-2024";
+					const response = await fetch(
+						`/assets/walks/${encodeURIComponent(walkPath)}/files.json`
+					);
+					const data = await response.json();
+					return data;
+				} catch (error) {
+					console.error("Error loading files:", error);
+					return [];
+				}
+			}
+
+			async function loadTextJson() {
+				try {
+					const walkPath = "December-15-2024";
+					const response = await fetch(
+						`/assets/walks/${encodeURIComponent(walkPath)}/text.json`
+					);
+					const data = await response.json();
+					return data;
+				} catch (error) {
+					console.error("Error loading text.json:", error);
+					return [];
+				}
+			}
+
+			async function initializeData() {
+				try {
+					// Load both data sources in parallel
+					const [xmpData, textData] = await Promise.all([
+						loadXMPFiles(),
+						loadTextJson(),
+					]);
+
+					// Combine the arrays
+					const combinedData = [...xmpData, ...textData];
+
+					// Sort by dateCreated
+					const sortedData = combinedData.sort((a, b) => {
+						const dateA = new Date(a.dateCreated);
+						const dateB = new Date(b.dateCreated);
+						return dateA - dateB;
+					});
+
+					return sortedData;
+				} catch (error) {
+					console.error("Error initializing data:", error);
+					return [];
+				}
+			}
+
+			let sortedData;
+
+			function getTimeIncrements(sortedData) {
+				// Modify the timestamps conversion to handle any timezone
+				const timestamps = sortedData.map((item) => {
+					// First create date in local timezone
+					const localDate = new Date(item.dateCreated);
+					// Convert to PST/PDT
+					return new Date(
+						localDate.toLocaleString("en-US", {
+							timeZone: "America/Los_Angeles",
+							year: "numeric",
+							month: "numeric",
+							day: "numeric",
+							hour: "numeric",
+							minute: "numeric",
+							second: "numeric",
+							hour12: false,
+						})
+					);
+				});
+
+				const earliest = new Date(Math.min(...timestamps));
+				const latest = new Date(Math.max(...timestamps));
+
+				// Round down earliest to previous 5 minute mark
+				const startTime = new Date(earliest);
+				startTime.setMinutes(Math.floor(startTime.getMinutes() / 5) * 5);
+				startTime.setSeconds(0);
+				startTime.setMilliseconds(0);
+
+				// Round up latest to next 5 minute mark
+				const endTime = new Date(latest);
+				endTime.setMinutes(Math.ceil(endTime.getMinutes() / 5) * 5);
+				endTime.setSeconds(0);
+				endTime.setMilliseconds(0);
+
+				// Generate array of 5-minute increments
+				const timeIncrements = [];
+				let currentTime = new Date(startTime);
+
+				while (currentTime <= endTime) {
+					timeIncrements.push(new Date(currentTime));
+					currentTime.setMinutes(currentTime.getMinutes() + 5);
+				}
+
+				return {
+					startTime,
+					endTime,
+					timeIncrements,
+				};
+			}
+
+			function renderTimeBlocks(startTime, endTime) {
+				const container = document.querySelector(".container");
+				let currentTime = new Date(startTime);
+				let direction = 1;
+				let offset = 0;
+
+				while (currentTime <= endTime) {
+					const div = document.createElement("div");
+					div.className = "minute-block";
+
+					// Calculate and store offset
+					if (currentTime > startTime) {
+						offset += direction * 1;
+						if (offset >= 13) {
+							direction = -1;
+						} else if (offset <= -13) {
+							direction = 1;
+						}
+					}
+					div.setAttribute("data-offset", offset);
+
+					const timeString = currentTime.toLocaleString("en-US", {
+						timeZone: "America/Los_Angeles",
+						hour: "numeric",
+						minute: "2-digit",
+						hour12: true,
+					});
+
+					// Add time label or tick
+					if (currentTime.getMinutes() % 5 === 0) {
+						const timeLabel = document.createElement("div");
+						timeLabel.className = "time-label";
+						timeLabel.textContent = timeString;
+						div.appendChild(timeLabel);
+					} else {
+						const timeTick = document.createElement("div");
+						timeTick.className = "time-tick";
+						div.appendChild(timeTick);
+					}
+
+					div.setAttribute("data-time", timeString);
+					container.appendChild(div);
+
+					currentTime = new Date(currentTime.getTime() + 60000);
+				}
+			}
+
+			function appendContentToBlocks(sortedData) {
+				const isMobile = window.innerWidth <= 768;
+				console.log(isMobile);
+
+				const groupedItems = {};
+				sortedData.forEach((item) => {
+					// Similar fix for consistent timezone handling
+					const localDate = new Date(item.dateCreated);
+					const timeString = localDate.toLocaleString("en-US", {
+						timeZone: "America/Los_Angeles",
+						hour: "numeric",
+						minute: "2-digit",
+						hour12: true,
+					});
+
+					if (!groupedItems[timeString]) {
+						groupedItems[timeString] = [];
+					}
+					groupedItems[timeString].push(item);
+				});
+
+				Object.entries(groupedItems).forEach(([timeString, items]) => {
+					const block = document.querySelector(
+						`.minute-block[data-time="${timeString}"]`
+					);
+					if (block) {
+						const wrapper = document.createElement("div");
+						wrapper.className = "content-wrapper";
+						wrapper.style.position = "relative";
+						wrapper.style.width = "100vw";
+						wrapper.style.height = "auto";
+						wrapper.style.left = "0";
+						wrapper.style.transform = "none";
+
+						// Get offset from the block's data attribute
+						const offset = block.getAttribute("data-offset");
+						wrapper.style.transform = `translateX(${offset}vw)`;
+
+						// Determine overlap strategy based on number of items
+						const isSmallGroup = items.length <= 2;
+						//const overlapFactor = isSmallGroup ? 0.1 : 0.5; // Less overlap for 2 or fewer items
+						const overlapFactor = 0.5;
+
+						// Track positions for both images and text
+						const imagePositions = [];
+						const usedTextPositions = [];
+
+						// First append images and track their positions
+						items.forEach((item, index) => {
+							if (item.filename) {
+								const img = document.createElement("img");
+								img.className = "image";
+
+								const minImageSpacing = 250;
+								const maxOverlap = 50;
+								let left, top;
+								let attempts = 0;
+								const maxAttempts = 15;
+
+								// Calculate base positions using a wider spiral pattern
+								const calculateBasePosition = (index, totalItems) => {
+									// Much wider spiral parameters
+									const angle = index * (Math.PI / 2); // Quarter circle segments for wider spread
+									const radius = 300 + index * 100; // Larger base radius and increment
+									const spiralX = 50 + (Math.cos(angle) * radius) / 2; // Much wider horizontal spread
+									const spiralY = 200 + (Math.sin(angle) * radius) / 4; // Reduced vertical spread
+
+									return {
+										left: spiralX,
+										top: spiralY,
+									};
+								};
+
+								do {
+									if (items.length === 1) {
+										// Center the single image
+										left = 50; // Center horizontally (50vw)
+										top = 100; // Fixed vertical position
+									} else if (isSmallGroup) {
+										// For 2 or fewer items, keep moderate separation
+										const positions = [
+											{ left: 30, top: 100 }, // First image
+											{ left: 45, top: 150 }, // Second image closer together
+										];
+
+										left = positions[index].left;
+										top = positions[index].top + (Math.random() * 60 - 30);
+									} else {
+										// Tighter horizontal grouping
+										const horizontalPositions = [40, 50, 60]; // Much closer together
+										left =
+											horizontalPositions[index % horizontalPositions.length];
+										// Add small random horizontal variance
+										left += Math.random() * 4 - 2; // Reduced from ±3 to ±2 vw variation
+
+										// Keep vertical separation to prevent overlap
+										top = 100 + index * 50 + (Math.random() * 60 - 30); // Reduced from ±50 to ±30
+									}
+
+									// Tighter overlap checking
+									const overlaps = imagePositions.some((pos) => {
+										const horizontalOverlap = Math.abs(left - pos.left) < 15; // Reduced from 25
+										const verticalOverlap =
+											Math.abs(top - pos.top) < 400 - maxOverlap;
+										return horizontalOverlap && verticalOverlap;
+									});
+
+									attempts++;
+
+									if (overlaps && attempts < maxAttempts) {
+										// Smaller adjustments when overlapping
+										left += 10; // Reduced from 30
+										if (left > 60) left = 400; // Keep within tighter bounds
+										top += Math.random() * 50 - 25;
+									}
+
+									if (!overlaps || attempts >= maxAttempts) break;
+								} while (true);
+
+								if (isMobile) {
+									// Simplified mobile positioning
+									img.style.position = "relative";
+									img.style.left = "auto";
+									img.style.top = "auto";
+									img.style.transform = `rotate(${Math.random() * 4 - 2}deg)`;
+									img.style.zIndex = index;
+								} else {
+									// Existing desktop positioning logic
+									img.style.position = "absolute";
+									img.style.left = `${left}vw`;
+									img.style.top = `${top}px`;
+									img.style.transform = `translateX(${offset}vw) rotate(${
+										Math.random() * 4 - 2
+									}deg)`;
+									img.style.zIndex = Math.floor(top / 100);
+								}
+
+								const walkPath = "December-15-2024";
+
+								img.src = `/assets/walks/${encodeURIComponent(
+									walkPath
+								)}/${encodeURIComponent(item.filename)}`;
+								img.onerror = function (e) {
+									console.error(`Failed to load image: ${img.src}`);
+									this.style.display = "none";
+								};
+								img.loading = "lazy";
+
+								// Set image type
+								if (item.filename.toLowerCase().endsWith(".png")) {
+									img.type = "image/png";
+								} else if (
+									item.filename.toLowerCase().endsWith(".jpg") ||
+									item.filename.toLowerCase().endsWith(".jpeg")
+								) {
+									img.type = "image/jpeg";
+								} else if (item.filename.toLowerCase().endsWith(".heic")) {
+									img.type = "image/heic";
+								}
+
+								// Track image position
+								imagePositions.push({
+									left: left,
+									top: top,
+									width: 300,
+									height: 400,
+								});
+
+								wrapper.appendChild(img);
+							}
+						});
+
+						// Then handle text blocks with controlled overlap
+						items.forEach((item, index) => {
+							if (item.text) {
+								const textDiv = document.createElement("div");
+								textDiv.className = "text-content";
+								textDiv.textContent = item.text;
+
+								const minVerticalSpacing = 220;
+								const minHorizontalSpacing = 350;
+								const allowedImageOverlap = 100; // pixels of allowed overlap at bottom of images
+
+								let left = 15 + Math.random() * 30;
+								let top = 50;
+								let attempts = 0;
+								const maxAttempts = 15;
+
+								while (attempts < maxAttempts) {
+									// Check overlap with other text blocks
+									const textOverlaps = usedTextPositions.some((pos) => {
+										const verticalOverlap =
+											Math.abs(pos.top - top) < minVerticalSpacing;
+										const horizontalOverlap =
+											Math.abs(parseFloat(pos.left) - left) <
+											minHorizontalSpacing;
+										return verticalOverlap && horizontalOverlap;
+									});
+
+									// Check overlap with images, allowing slight overlap at bottom
+									const imageOverlaps = imagePositions.some((img) => {
+										const horizontalOverlap =
+											left + 30 > img.left && left < img.left + img.width;
+
+										// Allow overlap only at bottom portion of image
+										const verticalOverlap =
+											top < img.top + img.height - allowedImageOverlap &&
+											top > img.top;
+
+										return horizontalOverlap && verticalOverlap;
+									});
+
+									if (!textOverlaps && !imageOverlaps) {
+										break;
+									}
+
+									attempts++;
+									if (attempts % 2 === 0) {
+										top += minVerticalSpacing;
+										left = 15 + Math.random() * 30;
+									} else {
+										left = ((left + 30) % 30) + 15;
+									}
+								}
+
+								usedTextPositions.push({ top, left });
+
+								if (isMobile) {
+									// Simplified mobile text positioning
+									textDiv.style.position = "relative";
+									textDiv.style.left = "auto";
+									textDiv.style.top = "auto";
+									textDiv.style.transform = `rotate(${
+										Math.random() * 2 - 1
+									}deg)`;
+									textDiv.style.zIndex = index;
+								} else {
+									// Existing desktop text positioning logic
+									textDiv.style.position = "absolute";
+									textDiv.style.left = `${left}%`;
+									textDiv.style.top = `${top}px`;
+									const rotationAmount = attempts > 0 ? 1 : 3;
+									textDiv.style.transform = `rotate(${
+										Math.random() * rotationAmount - rotationAmount / 2
+									}deg)`;
+								}
+
+								wrapper.appendChild(textDiv);
+							}
+						});
+
+						// Adjust wrapper height based on overlap strategy
+						const heightMultiplier = isSmallGroup ? 1 : overlapFactor;
+						wrapper.style.minHeight = `${
+							items.length * 150 * heightMultiplier + 100
+						}px`;
+
+						block.appendChild(wrapper);
+					}
+				});
+			}
+
+			function updateClock(startTime, endTime) {
+				const clock = document.querySelector(".clock");
+				const container = document.querySelector(".container");
+				let animationFrameId = null;
+
+				function updateTime() {
+					const scrollPosition = window.scrollY;
+					const totalHeight = container.scrollHeight - window.innerHeight;
+					const scrollPercentage = Math.min(scrollPosition / totalHeight, 1);
+
+					const totalTime = endTime - startTime;
+					const currentTime = new Date(
+						startTime.getTime() + totalTime * scrollPercentage
+					);
+
+					clock.textContent = currentTime.toLocaleString("en-US", {
+						timeZone: "America/Los_Angeles",
+						hour: "numeric",
+						minute: "2-digit",
+						hour12: true,
+					});
+
+					animationFrameId = null;
+				}
+
+				window.addEventListener("scroll", () => {
+					if (!animationFrameId) {
+						animationFrameId = window.requestAnimationFrame(updateTime);
+					}
+				});
+
+				// Set initial time
+				clock.textContent = startTime.toLocaleString("en-US", {
+					timeZone: "America/Los_Angeles",
+					hour: "numeric",
+					minute: "2-digit",
+					hour12: true,
+				});
+			}
+
+			document.addEventListener("DOMContentLoaded", async (ev) => {
+				sortedData = await initializeData();
+				const timeData = getTimeIncrements(sortedData);
+				renderTimeBlocks(timeData.startTime, timeData.endTime);
+				appendContentToBlocks(sortedData);
+				updateClock(timeData.startTime, timeData.endTime);
+			});
+		</script>
+	</head>
+	<body>
+		<div class="title">
+			<div>SF → Pacifica</div>
+
+			<div>December 15, 2024</div>
+		</div>
+		<div class="clock"></div>
+		<div class="container"></div>
+	</body>
+</html>

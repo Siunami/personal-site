@@ -1,0 +1,1082 @@
+---
+permalink: /mondrian/
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Mondrian Grid Interface</title>
+		<style>
+			body {
+				font: 16px system-ui;
+				user-select: none;
+				-webkit-user-select: none;
+				background-color: #111;
+				margin: 0;
+				overflow: hidden;
+				color: white;
+				font-family: sans-serif;
+			}
+
+			.container {
+				position: relative;
+				width: 100vw;
+				height: 100vh;
+				overflow: hidden;
+			}
+
+			.grid-container {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background-color: #222;
+			}
+
+			.cell {
+				position: absolute;
+				overflow: hidden;
+				border: 4px solid #000; /* Default border size matches default gap size */
+				box-sizing: border-box;
+				transition: background-color 0.8s ease, border-width 0.2s ease;
+			}
+
+			.controls {
+				position: fixed;
+				top: 60px;
+				left: 20px;
+				background-color: rgba(0, 0, 0, 0.7);
+				padding: 15px;
+				border-radius: 8px;
+				z-index: 1000;
+				display: flex;
+				flex-direction: column;
+				gap: 15px;
+				backdrop-filter: blur(5px);
+				transition: transform 0.3s ease, opacity 0.3s ease;
+				transform-origin: top left;
+			}
+
+			.controls.collapsed {
+				transform: translateX(-100%);
+				opacity: 0;
+			}
+
+			.control-group {
+				display: flex;
+				flex-direction: column;
+				gap: 5px;
+			}
+
+			label {
+				font-size: 14px;
+				color: #ddd;
+			}
+
+			input[type="range"] {
+				width: 200px;
+			}
+
+			.value-display {
+				font-size: 12px;
+				color: #aaa;
+			}
+
+			.vignette {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.8);
+				pointer-events: none;
+				z-index: 50;
+			}
+
+			/* Auto-transition notice */
+			.auto-transition-notice {
+				margin-top: 10px;
+				font-size: 12px;
+				color: #aaa;
+				text-align: center;
+			}
+
+			.complexity-hint {
+				font-size: 10px;
+				color: #aaa;
+				margin-top: 2px;
+				font-style: italic;
+			}
+
+			/* Add a title inspired by Mondrian's style */
+			.title {
+				position: fixed;
+				bottom: 20px;
+				right: 20px;
+				font-size: 18px;
+				font-weight: bold;
+				color: white;
+				background-color: rgba(0, 0, 0, 0.7);
+				padding: 10px;
+				border-radius: 4px;
+				z-index: 100;
+			}
+
+			.toggle-controls {
+				position: fixed;
+				top: 20px;
+				left: 20px;
+				z-index: 1001;
+				background-color: rgba(0, 0, 0, 0.7);
+				color: white;
+				border: none;
+				padding: 8px 12px;
+				border-radius: 4px;
+				cursor: pointer;
+				backdrop-filter: blur(5px);
+				transition: background-color 0.2s ease;
+			}
+
+			.toggle-controls:hover {
+				background-color: rgba(0, 0, 0, 0.8);
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<button class="toggle-controls" id="toggleControls">☰ Controls</button>
+			<div class="grid-container" id="grid-container"></div>
+			<div class="vignette"></div>
+			<div class="title">Mondrian in Motion</div>
+		</div>
+
+		<div class="controls" id="controls">
+			<div class="control-group">
+				<label for="columns">Columns: <span id="columns-value">4</span></label>
+				<input type="range" id="columns" min="2" max="8" value="4" step="1" />
+			</div>
+			<div class="control-group">
+				<label for="rows">Rows: <span id="rows-value">4</span></label>
+				<input type="range" id="rows" min="2" max="8" value="4" step="1" />
+			</div>
+			<div class="control-group">
+				<label for="complexity"
+					>Complexity: <span id="complexity-value">3</span></label
+				>
+				<input
+					type="range"
+					id="complexity"
+					min="1"
+					max="5"
+					value="3"
+					step="1"
+				/>
+				<div class="complexity-hint">
+					(Higher values create more varied shapes)
+				</div>
+			</div>
+			<div class="control-group">
+				<label for="gap">Gap Size: <span id="gap-value">4</span>px</label>
+				<input type="range" id="gap" min="0" max="10" value="4" step="1" />
+			</div>
+			<div class="auto-transition-notice">
+				Transitions happen automatically when settings change
+			</div>
+		</div>
+
+		<script>
+			"use strict";
+
+			// === Configuration ===
+			const colorMap = {
+				red: "#d40920", // Primary red - classic Mondrian red
+				blue: "#1a56d9", // Primary blue - deep blue
+				yellow: "#fac901", // Primary yellow - vibrant yellow
+				white: "#f5f5f5", // Off-white - main background in Mondrian
+				black: "#000000", // True black - for lines and some blocks
+				grey: "#e0e0e0", // Light grey - subtle variation of white
+			};
+
+			// Weighted selection to favor white cells
+			const colorWeights = {
+				white: 0.45, // 45% - dominant color
+				red: 0.15, // 15%
+				blue: 0.15, // 15%
+				yellow: 0.15, // 15%
+				black: 0.05, // 5%
+				grey: 0.05, // 5%
+			};
+
+			// === State ===
+			let cells = [];
+			let isTransitioning = false;
+			let lastTransitionTime = 0;
+			let gridConfig = {
+				columns: 4,
+				rows: 4,
+				complexity: 3,
+				gapSize: 4,
+			};
+
+			// Animation variables
+			let animation = {
+				requestId: null,
+				startTime: null,
+				duration: 400, // ms - faster for better responsiveness
+				easing: (t) =>
+					t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2, // Cubic easing
+			};
+
+			// === Utility Functions ===
+
+			// Get weighted random color
+			function getRandomColor() {
+				const random = Math.random();
+				let sum = 0;
+
+				for (const [color, weight] of Object.entries(colorWeights)) {
+					sum += weight;
+					if (random < sum) return color;
+				}
+
+				return "white"; // Fallback
+			}
+
+			// Convert hex to rgb
+			function hexToRgb(hex) {
+				const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+				return result
+					? {
+							r: parseInt(result[1], 16),
+							g: parseInt(result[2], 16),
+							b: parseInt(result[3], 16),
+					  }
+					: null;
+			}
+
+			// Interpolate between colors
+			function interpolateColor(startColor, endColor, factor) {
+				const start = hexToRgb(startColor);
+				const end = hexToRgb(endColor);
+
+				if (!start || !end) return startColor;
+
+				const r = Math.round(start.r + factor * (end.r - start.r));
+				const g = Math.round(start.g + factor * (end.g - start.g));
+				const b = Math.round(start.b + factor * (end.b - start.b));
+
+				return `rgb(${r}, ${g}, ${b})`;
+			}
+
+			// Generate a unique ID
+			let nextId = 1;
+			function generateId() {
+				return nextId++;
+			}
+
+			// === Cell Class ===
+			class Cell {
+				constructor(id, row, col, rowSpan, colSpan, color) {
+					this.id = id || generateId();
+					this.row = row;
+					this.col = col;
+					this.rowSpan = rowSpan || 1;
+					this.colSpan = colSpan || 1;
+					this.color = color || getRandomColor();
+
+					// Position and dimensions (will be calculated)
+					this.x = 0;
+					this.y = 0;
+					this.width = 0;
+					this.height = 0;
+
+					// Animation properties
+					this.startX = 0;
+					this.startY = 0;
+					this.startWidth = 0;
+					this.startHeight = 0;
+					this.targetX = 0;
+					this.targetY = 0;
+					this.targetWidth = 0;
+					this.targetHeight = 0;
+					this.targetColor = this.color;
+
+					// Create DOM element
+					this.element = document.createElement("div");
+					this.element.classList.add("cell");
+					this.element.id = `cell-${this.id}`;
+					this.element.style.backgroundColor = colorMap[this.color];
+					this.element.style.opacity = 0; // Start invisible
+
+					// Add to DOM
+					document.getElementById("grid-container").appendChild(this.element);
+				}
+
+				// Set position and dimensions immediately (no animation)
+				setPosition(x, y, width, height) {
+					this.x = x;
+					this.y = y;
+					this.width = width;
+					this.height = height;
+
+					this.element.style.transform = `translate(${x}px, ${y}px)`;
+					this.element.style.width = `${width}px`;
+					this.element.style.height = `${height}px`;
+				}
+
+				// Set animation start values
+				setAnimationStart() {
+					this.startX = this.x;
+					this.startY = this.y;
+					this.startWidth = this.width;
+					this.startHeight = this.height;
+				}
+
+				// Set animation target values
+				setAnimationTarget(x, y, width, height, color) {
+					this.targetX = x;
+					this.targetY = y;
+					this.targetWidth = width;
+					this.targetHeight = height;
+
+					if (color && color !== this.color) {
+						this.targetColor = color;
+						this.element.style.backgroundColor = colorMap[color];
+					}
+				}
+
+				// Update position based on animation progress
+				animate(progress) {
+					if (progress >= 1) {
+						// Animation complete - set final values
+						this.x = this.targetX;
+						this.y = this.targetY;
+						this.width = this.targetWidth;
+						this.height = this.targetHeight;
+						this.color = this.targetColor;
+					} else {
+						// Interpolate
+						this.x = this.startX + (this.targetX - this.startX) * progress;
+						this.y = this.startY + (this.targetY - this.startY) * progress;
+						this.width =
+							this.startWidth + (this.targetWidth - this.startWidth) * progress;
+						this.height =
+							this.startHeight +
+							(this.targetHeight - this.startHeight) * progress;
+					}
+
+					// Update DOM
+					this.element.style.transform = `translate(${this.x}px, ${this.y}px)`;
+					this.element.style.width = `${this.width}px`;
+					this.element.style.height = `${this.height}px`;
+				}
+
+				// Fade in the cell
+				fadeIn(duration = 400) {
+					this.element.style.transition = `opacity ${duration}ms ease`;
+					this.element.style.opacity = 1;
+				}
+
+				// Fade out and remove
+				remove(duration = 400) {
+					this.element.style.transition = `opacity ${duration}ms ease`;
+					this.element.style.opacity = 0;
+
+					setTimeout(() => {
+						if (this.element.parentNode) {
+							this.element.parentNode.removeChild(this.element);
+						}
+					}, duration);
+				}
+			}
+
+			// === Grid Generation ===
+
+			// Generate grid specification with enhanced complexity
+			function generateGridSpec() {
+				// Step 1: Create initial grid with all cells
+				const totalCells = gridConfig.rows * gridConfig.columns;
+				const grid = Array(totalCells)
+					.fill()
+					.map((_, index) => {
+						const row = Math.floor(index / gridConfig.columns);
+						const col = index % gridConfig.columns;
+
+						return {
+							id: null, // Will be assigned later
+							row,
+							col,
+							rowSpan: 1,
+							colSpan: 1,
+							color: getRandomColor(),
+							merged: false,
+						};
+					});
+
+				// Create a map to track merged cells and prevent overlaps
+				const mergedMap = new Array(gridConfig.rows * gridConfig.columns).fill(
+					false
+				);
+
+				// Function to check if a cell at (row, col) is available
+				const isCellAvailable = (row, col) => {
+					if (row >= gridConfig.rows || col >= gridConfig.columns) return false;
+					const index = row * gridConfig.columns + col;
+					return !mergedMap[index];
+				};
+
+				// Function to mark cells as merged
+				const markAsMerged = (startRow, startCol, rowSpan, colSpan) => {
+					for (let r = startRow; r < startRow + rowSpan; r++) {
+						for (let c = startCol; c < startCol + colSpan; c++) {
+							if (r < gridConfig.rows && c < gridConfig.columns) {
+								const index = r * gridConfig.columns + c;
+								mergedMap[index] = true;
+							}
+						}
+					}
+				};
+
+				// Step 2: Apply merges based on enhanced complexity
+				// Scale from 0 to 0.4 probability instead of 0.1 to 0.5
+				const baseRate = gridConfig.complexity * 0.08;
+
+				// Try to make larger merges first with lower probability
+				// This allows for occasional large dramatic elements
+				const largeSpanProbability = baseRate * 0.5;
+
+				// Large spans (3x2, 2x3, 3x1, 1x3)
+				if (gridConfig.complexity > 2) {
+					// Only for higher complexity levels
+					for (let row = 0; row < gridConfig.rows - 2; row++) {
+						for (let col = 0; col < gridConfig.columns - 2; col++) {
+							if (Math.random() < largeSpanProbability) {
+								// Check if all required cells are available
+								let available = true;
+								let spanType = Math.floor(Math.random() * 4); // 0: 3x2, 1: 2x3, 2: 3x1, 3: 1x3
+								let rowSpan =
+									spanType === 0
+										? 3
+										: spanType === 1
+										? 2
+										: spanType === 2
+										? 3
+										: 1;
+								let colSpan =
+									spanType === 0
+										? 2
+										: spanType === 1
+										? 3
+										: spanType === 2
+										? 1
+										: 3;
+
+								// Make sure we have enough space left
+								if (
+									row + rowSpan > gridConfig.rows ||
+									col + colSpan > gridConfig.columns
+								) {
+									continue;
+								}
+
+								// Check if all cells are available
+								for (let r = row; r < row + rowSpan; r++) {
+									for (let c = col; c < col + colSpan; c++) {
+										if (!isCellAvailable(r, c)) {
+											available = false;
+											break;
+										}
+									}
+									if (!available) break;
+								}
+
+								if (available) {
+									const index = row * gridConfig.columns + col;
+									grid[index].rowSpan = rowSpan;
+									grid[index].colSpan = colSpan;
+									markAsMerged(row, col, rowSpan, colSpan);
+
+									// Mark all merged cells
+									for (let r = row; r < row + rowSpan; r++) {
+										for (let c = col; c < col + colSpan; c++) {
+											if (r === row && c === col) continue; // Skip the main cell
+											if (r < gridConfig.rows && c < gridConfig.columns) {
+												const cellIndex = r * gridConfig.columns + c;
+												if (cellIndex < grid.length)
+													grid[cellIndex].merged = true;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+
+				// Medium spans (2x2)
+				const mediumSpanProbability = baseRate * 0.8;
+				if (gridConfig.complexity > 1) {
+					for (let row = 0; row < gridConfig.rows - 1; row++) {
+						for (let col = 0; col < gridConfig.columns - 1; col++) {
+							if (Math.random() < mediumSpanProbability) {
+								// Check if all required cells are available
+								if (
+									isCellAvailable(row, col) &&
+									isCellAvailable(row, col + 1) &&
+									isCellAvailable(row + 1, col) &&
+									isCellAvailable(row + 1, col + 1)
+								) {
+									const index = row * gridConfig.columns + col;
+									grid[index].rowSpan = 2;
+									grid[index].colSpan = 2;
+									markAsMerged(row, col, 2, 2);
+
+									// Mark merged cells
+									grid[index + 1].merged = true;
+									grid[index + gridConfig.columns].merged = true;
+									grid[index + gridConfig.columns + 1].merged = true;
+								}
+							}
+						}
+					}
+				}
+
+				// Regular merges (1x2, 2x1)
+				const normalSpanProbability = baseRate;
+
+				// Horizontal merges (1x2)
+				for (let row = 0; row < gridConfig.rows; row++) {
+					for (let col = 0; col < gridConfig.columns - 1; col++) {
+						if (Math.random() < normalSpanProbability) {
+							const index = row * gridConfig.columns + col;
+							const nextIndex = index + 1;
+
+							if (isCellAvailable(row, col) && isCellAvailable(row, col + 1)) {
+								grid[index].colSpan = 2;
+								grid[nextIndex].merged = true;
+								markAsMerged(row, col, 1, 2);
+							}
+						}
+					}
+				}
+
+				// Vertical merges (2x1)
+				for (let col = 0; col < gridConfig.columns; col++) {
+					for (let row = 0; row < gridConfig.rows - 1; row++) {
+						if (Math.random() < normalSpanProbability) {
+							const index = row * gridConfig.columns + col;
+							const belowIndex = index + gridConfig.columns;
+
+							if (isCellAvailable(row, col) && isCellAvailable(row + 1, col)) {
+								grid[index].rowSpan = 2;
+								grid[belowIndex].merged = true;
+								markAsMerged(row, col, 2, 1);
+							}
+						}
+					}
+				}
+
+				// Step 3: Return only non-merged cells
+				return grid.filter((cell) => !cell.merged);
+			}
+
+			// Calculate physical grid layout - gap size not used here anymore, it's now just border width
+			function calculateGridLayout(gridSpec) {
+				const container = document.getElementById("grid-container");
+				const containerWidth = container.clientWidth;
+				const containerHeight = container.clientHeight;
+
+				// Calculate cell dimensions - gap is now handled by border width, not spacing
+				const cellWidth = containerWidth / gridConfig.columns;
+				const cellHeight = containerHeight / gridConfig.rows;
+
+				// Calculate position and size of each cell
+				return gridSpec.map((cell) => {
+					// Calculate position based on grid coordinates
+					const x = cell.col * cellWidth;
+					const y = cell.row * cellHeight;
+
+					// Calculate width and height for this cell
+					const width = cellWidth * cell.colSpan;
+					const height = cellHeight * cell.rowSpan;
+
+					return {
+						...cell,
+						x,
+						y,
+						width,
+						height,
+					};
+				});
+			}
+
+			// === Grid Transitions ===
+
+			// Create initial grid
+			function createInitialGrid() {
+				const gridSpec = generateGridSpec();
+				const layout = calculateGridLayout(gridSpec);
+
+				// Store the original grid configuration to ensure consistent relative positioning
+				const originalGridConfig = { ...gridConfig };
+
+				// Create cells
+				cells = layout.map((cellData) => {
+					const cell = new Cell(
+						cellData.id,
+						cellData.row,
+						cellData.col,
+						cellData.rowSpan,
+						cellData.colSpan,
+						cellData.color
+					);
+
+					// Store original ratios for stable positioning with gap changes
+					cell.rowRatio = cellData.row / originalGridConfig.rows;
+					cell.colRatio = cellData.col / originalGridConfig.columns;
+
+					// Set position
+					cell.setPosition(
+						cellData.x,
+						cellData.y,
+						cellData.width,
+						cellData.height
+					);
+					cell.fadeIn(800);
+
+					return cell;
+				});
+			}
+
+			// Modify the transitionToNewGrid function to implement the minimal movement approach
+
+			function transitionToNewGrid() {
+				// Enforce immediate transitions, but still track to prevent concurrent transitions
+				const now = Date.now();
+				if (isTransitioning && now - lastTransitionTime < 50) return;
+
+				isTransitioning = true;
+				lastTransitionTime = now;
+
+				// Generate new grid and layout
+				const newGridSpec = generateGridSpec();
+				const newLayout = calculateGridLayout(newGridSpec);
+
+				// First determine which cells to keep and which to remove
+				const existingCellCount = cells.length;
+				const newCellCount = newLayout.length;
+
+				// Case 1: Removing cells (more cells now than needed)
+				if (existingCellCount > newCellCount) {
+					// Remove excess cells first to create space
+					const cellsToRemove = cells.splice(
+						newCellCount,
+						existingCellCount - newCellCount
+					);
+					cellsToRemove.forEach((cell) => cell.remove());
+				}
+
+				// Optimize cell assignments to minimize movement
+				const assignedCells = assignCellsWithMinimalMovement(
+					cells.slice(0, Math.min(existingCellCount, newCellCount)),
+					newLayout
+				);
+
+				// Case 2: Adding cells (more cells needed than exist)
+				const newCells = [];
+				if (newCellCount > existingCellCount) {
+					// Create new cells for positions that weren't assigned
+					const usedIndices = new Set(assignedCells.map((a) => a.newIndex));
+
+					for (let i = 0; i < newLayout.length; i++) {
+						if (!usedIndices.has(i)) {
+							const cellData = newLayout[i];
+							const cell = new Cell(
+								cellData.id,
+								cellData.row,
+								cellData.col,
+								cellData.rowSpan,
+								cellData.colSpan,
+								cellData.color
+							);
+
+							// Position in center initially (off-screen to prevent flash)
+							const containerWidth =
+								document.getElementById("grid-container").clientWidth;
+							const containerHeight =
+								document.getElementById("grid-container").clientHeight;
+							cell.setPosition(
+								containerWidth / 2 - 10,
+								containerHeight / 2 - 10,
+								10,
+								10
+							);
+
+							newCells.push(cell);
+
+							// Add this new cell to the assignments
+							assignedCells.push({
+								cell: cell,
+								newIndex: i,
+							});
+						}
+					}
+
+					// Add new cells to the array
+					cells = cells.concat(newCells);
+				}
+
+				// Prepare animation for ALL cells based on assignments
+				assignedCells.forEach((assignment) => {
+					const cell = assignment.cell;
+					const newCellData = newLayout[assignment.newIndex];
+
+					// Set animation start (current position)
+					cell.setAnimationStart();
+
+					// Set animation target (new position)
+					cell.setAnimationTarget(
+						newCellData.x,
+						newCellData.y,
+						newCellData.width,
+						newCellData.height,
+						newCellData.color
+					);
+				});
+
+				// Start animation
+				startAnimation();
+
+				// Fade in new cells after a short delay to prevent overlap during transitions
+				setTimeout(() => {
+					newCells.forEach((cell) => cell.fadeIn(400));
+				}, 200);
+			}
+
+			// New function to calculate optimal cell assignments
+			function assignCellsWithMinimalMovement(existingCells, newLayout) {
+				// Calculate the "cost" (distance) for each existing cell to move to each new position
+				const costs = [];
+
+				for (let i = 0; i < existingCells.length; i++) {
+					const cell = existingCells[i];
+					// Convert to center points for better distance calculation
+					const centerX = cell.x + cell.width / 2;
+					const centerY = cell.y + cell.height / 2;
+
+					const rowCosts = [];
+					for (let j = 0; j < newLayout.length; j++) {
+						const newCell = newLayout[j];
+						const newCenterX = newCell.x + newCell.width / 2;
+						const newCenterY = newCell.y + newCell.height / 2;
+
+						// Calculate Euclidean distance
+						const distance = Math.sqrt(
+							Math.pow(centerX - newCenterX, 2) +
+								Math.pow(centerY - newCenterY, 2)
+						);
+
+						// Add preference for maintaining similar cell size/shape
+						const sizeDiff = Math.abs(
+							cell.width * cell.height - newCell.width * newCell.height
+						);
+						const sizeFactor = 0.5; // Weight of size difference in the cost
+
+						// Consider color compatibility - less cost if same color
+						const colorFactor = 0.3; // Weight of color in the cost
+						const colorMatch = cell.color === newCell.color ? 0 : 1;
+
+						// Combined cost function
+						const cost =
+							distance + sizeFactor * sizeDiff + colorFactor * colorMatch;
+
+						rowCosts.push({ index: j, cost: cost });
+					}
+					costs.push(rowCosts);
+				}
+
+				// Greedy assignment algorithm - each cell picks its best position in order
+				// This isn't globally optimal but is a good approximation and much faster
+				// than the Hungarian algorithm for this purpose
+				const assignments = [];
+				const takenPositions = new Set();
+
+				// Sort cells by their minimum movement cost (prioritize cells with clear best options)
+				const cellPriorities = costs.map((rowCosts, cellIndex) => {
+					rowCosts.sort((a, b) => a.cost - b.cost);
+					const bestCost = rowCosts[0].cost;
+					const secondBestCost =
+						rowCosts.length > 1 ? rowCosts[1].cost : Infinity;
+					const costGap = secondBestCost - bestCost;
+					return { cellIndex, costGap, bestCost };
+				});
+
+				// Sort by highest cost gap (cells with a clear best option) and then by lowest best cost
+				cellPriorities.sort((a, b) =>
+					b.costGap !== a.costGap
+						? b.costGap - a.costGap
+						: a.bestCost - b.bestCost
+				);
+
+				// Assign cells in priority order
+				for (const priority of cellPriorities) {
+					const cellIndex = priority.cellIndex;
+					let assigned = false;
+
+					// Try to assign to best position first, then next best, etc.
+					for (const position of costs[cellIndex].sort(
+						(a, b) => a.cost - b.cost
+					)) {
+						if (!takenPositions.has(position.index)) {
+							assignments.push({
+								cell: existingCells[cellIndex],
+								newIndex: position.index,
+							});
+							takenPositions.add(position.index);
+							assigned = true;
+							break;
+						}
+					}
+
+					// Fallback in the unlikely case we couldn't assign this cell
+					if (!assigned && newLayout.length > 0) {
+						// Find any non-taken position
+						for (let i = 0; i < newLayout.length; i++) {
+							if (!takenPositions.has(i)) {
+								assignments.push({
+									cell: existingCells[cellIndex],
+									newIndex: i,
+								});
+								takenPositions.add(i);
+								break;
+							}
+						}
+					}
+				}
+
+				return assignments;
+			}
+
+			// Update just the gap size - PURELY changes the border width, no position changes
+			function updateGapOnly() {
+				// Skip animation entirely - just update border width on all cells
+				document.querySelectorAll(".cell").forEach((element) => {
+					element.style.borderWidth = `${gridConfig.gapSize}px`;
+				});
+
+				// No transition animation needed - instant update
+				isTransitioning = false;
+			}
+
+			// === Animation System ===
+
+			// Start animation sequence
+			function startAnimation() {
+				// Cancel any running animation
+				if (animation.requestId) {
+					cancelAnimationFrame(animation.requestId);
+				}
+
+				// Set up new animation
+				animation.startTime = null;
+				animation.requestId = requestAnimationFrame(animationStep);
+			}
+
+			// Animation step - cubic easing animation
+			function animationStep(timestamp) {
+				// Initialize start time
+				if (!animation.startTime) animation.startTime = timestamp;
+
+				// Calculate progress
+				const elapsed = timestamp - animation.startTime;
+				let progress = Math.min(elapsed / animation.duration, 1);
+
+				// Apply easing for smooth motion
+				const easedProgress = animation.easing(progress);
+
+				// Update all cells
+				cells.forEach((cell) => cell.animate(easedProgress));
+
+				// Continue animation if not complete
+				if (progress < 1) {
+					animation.requestId = requestAnimationFrame(animationStep);
+				} else {
+					// Animation complete
+					animation.requestId = null;
+					isTransitioning = false;
+				}
+			}
+
+			// === UI Updates ===
+
+			// Update UI display values
+			function updateUIValues() {
+				document.getElementById("columns-value").textContent =
+					gridConfig.columns;
+				document.getElementById("rows-value").textContent = gridConfig.rows;
+				document.getElementById("complexity-value").textContent =
+					gridConfig.complexity;
+				document.getElementById("gap-value").textContent = gridConfig.gapSize;
+			}
+
+			// === Event Listeners ===
+
+			// Handle columns slider - respond immediately to every change
+			document.getElementById("columns").addEventListener("input", (e) => {
+				const newValue = parseInt(e.target.value);
+				if (newValue !== gridConfig.columns) {
+					// Force end any current transition
+					if (isTransitioning) {
+						if (animation.requestId) {
+							cancelAnimationFrame(animation.requestId);
+							animation.requestId = null;
+						}
+						isTransitioning = false;
+					}
+
+					gridConfig.columns = newValue;
+					document.getElementById("columns-value").textContent = newValue;
+
+					// Immediate response
+					window.requestAnimationFrame(() => {
+						transitionToNewGrid();
+					});
+				}
+			});
+
+			// Handle rows slider - respond immediately to every change
+			document.getElementById("rows").addEventListener("input", (e) => {
+				const newValue = parseInt(e.target.value);
+				if (newValue !== gridConfig.rows) {
+					// Force end any current transition
+					if (isTransitioning) {
+						if (animation.requestId) {
+							cancelAnimationFrame(animation.requestId);
+							animation.requestId = null;
+						}
+						isTransitioning = false;
+					}
+
+					gridConfig.rows = newValue;
+					document.getElementById("rows-value").textContent = newValue;
+
+					// Immediate response
+					window.requestAnimationFrame(() => {
+						transitionToNewGrid();
+					});
+				}
+			});
+
+			// Handle complexity slider - respond immediately to every change
+			document.getElementById("complexity").addEventListener("input", (e) => {
+				const newValue = parseInt(e.target.value);
+				if (newValue !== gridConfig.complexity) {
+					// Force end any current transition
+					if (isTransitioning) {
+						if (animation.requestId) {
+							cancelAnimationFrame(animation.requestId);
+							animation.requestId = null;
+						}
+						isTransitioning = false;
+					}
+
+					gridConfig.complexity = newValue;
+					document.getElementById("complexity-value").textContent = newValue;
+
+					// Immediate response
+					window.requestAnimationFrame(() => {
+						transitionToNewGrid();
+					});
+				}
+			});
+
+			// Handle gap slider - respond immediately to every change
+			document.getElementById("gap").addEventListener("input", (e) => {
+				const newValue = parseInt(e.target.value);
+				if (newValue !== gridConfig.gapSize) {
+					// Force end any current transition
+					if (isTransitioning) {
+						if (animation.requestId) {
+							cancelAnimationFrame(animation.requestId);
+							animation.requestId = null;
+						}
+						isTransitioning = false;
+					}
+
+					gridConfig.gapSize = newValue;
+					document.getElementById("gap-value").textContent = newValue;
+
+					// Immediate response
+					window.requestAnimationFrame(() => {
+						updateGapOnly();
+					});
+				}
+			});
+
+			// Handle window resize
+			window.addEventListener("resize", () => {
+				if (!isTransitioning) {
+					updateGapOnly();
+				}
+			});
+
+			// === Auto-transition ===
+			let autoTransitionInterval = setInterval(() => {
+				if (!isTransitioning) {
+					transitionToNewGrid();
+				}
+			}, 15000);
+
+			// Clear interval and reset when user interacts
+			function resetAutoTransition() {
+				clearInterval(autoTransitionInterval);
+				autoTransitionInterval = setInterval(() => {
+					if (!isTransitioning) {
+						transitionToNewGrid();
+					}
+				}, 15000);
+			}
+
+			// Reset auto-transition on user interaction
+			document
+				.getElementById("columns")
+				.addEventListener("input", resetAutoTransition);
+			document
+				.getElementById("rows")
+				.addEventListener("input", resetAutoTransition);
+			document
+				.getElementById("complexity")
+				.addEventListener("input", resetAutoTransition);
+			document
+				.getElementById("gap")
+				.addEventListener("input", resetAutoTransition);
+
+			// === Initialization ===
+			function init() {
+				updateUIValues();
+				createInitialGrid();
+			}
+
+			// Start the application
+			init();
+
+			// Add this near the top of the script section with other initialization code
+			let controlsVisible = true;
+
+			// Add this with other event listeners
+			document
+				.getElementById("toggleControls")
+				.addEventListener("click", () => {
+					const controls = document.getElementById("controls");
+					const toggleButton = document.getElementById("toggleControls");
+					controlsVisible = !controlsVisible;
+
+					controls.classList.toggle("collapsed");
+					toggleButton.textContent = controlsVisible ? "☰ Controls" : "☰ Show";
+				});
+		</script>
+	</body>
+</html>

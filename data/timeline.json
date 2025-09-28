@@ -22,6 +22,39 @@
 				"categories": [],
 				"marking": [],
 				"collaborators": []
+			},
+			{
+				"title": "Refs",
+				"url": "/refs/",
+				"categories": [],
+				"marking": [],
+				"collaborators": []
+			}
+		]
+	},
+	{
+		"year": "2025",
+		"things": [
+			{
+				"title": "Mondrian",
+				"url": "/mondrian/",
+				"categories": [],
+				"marking": [],
+				"collaborators": []
+			},
+			{
+				"title": "Architecture chat",
+				"url": "https://architecture-frontend-nine.vercel.app/",
+				"categories": [],
+				"marking": [],
+				"collaborators": []
+			},
+			{
+				"title": "North Star",
+				"url": "/north-star/",
+				"categories": [],
+				"marking": ["star"],
+				"collaborators": []
 			}
 		]
 	},

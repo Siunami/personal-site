@@ -1,0 +1,776 @@
+---
+permalink: /viz-synth/
+---
+
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>P5 Sketch</title>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+		<style>
+			body {
+				background: #1a1a1a;
+				color: #e0e0e0;
+				font-family: "Helvetica Neue", Arial, sans-serif;
+				margin: 0;
+				padding: 20px;
+				min-height: 100vh;
+			}
+
+			#selector-container {
+				position: fixed;
+				top: 20px;
+				left: 20px;
+				width: 210px;
+				padding: 15px;
+				background: #252525;
+				border-radius: 12px;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+				z-index: 1000;
+			}
+
+			#rotation-dial-container {
+				position: fixed;
+				top: 20px;
+				left: 270px;
+				width: 100px;
+				padding: 15px;
+				background: #252525;
+				border-radius: 12px;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+				z-index: 1000;
+			}
+
+			#sketch-container {
+				margin-top: 280px;
+				width: fit-content;
+				display: grid;
+				grid-template-columns: repeat(1, 1fr);
+				gap: 2px;
+				padding: 20px;
+				margin: 280px auto 0;
+				background: #252525;
+				border-radius: 12px;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+			}
+
+			.sketch-cell {
+				display: block;
+				border: 1px solid #333;
+				width: 100px;
+				height: 100px;
+				overflow: hidden;
+				transform-origin: center;
+				transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+				position: relative;
+				will-change: transform, left, top;
+				border-radius: 6px;
+				background: #2a2a2a;
+			}
+
+			.sketch-cell.new {
+				transform: scale(0);
+			}
+
+			.sketch-cell.remove {
+				transform: scale(0);
+			}
+
+			.sketch-cell.active {
+				transform: scale(1);
+				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+			}
+
+			.sketch-cell:hover {
+				border-color: #4a4a4a;
+			}
+
+			.sketch-cell canvas {
+				display: block;
+				opacity: 0;
+				transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+				border-radius: 6px;
+			}
+
+			.sketch-cell.active canvas {
+				opacity: 1;
+			}
+
+			/* Add a label for the controls */
+			.control-label {
+				color: #888;
+				font-size: 12px;
+				text-transform: uppercase;
+				letter-spacing: 1px;
+				margin-bottom: 8px;
+				text-align: center;
+				display: block;
+			}
+
+			/* Add new color control styles */
+			#color-controls {
+				position: fixed;
+				top: 20px;
+				right: 20px;
+				display: flex;
+				gap: 15px;
+				z-index: 1000;
+			}
+
+			.color-selector {
+				background: #252525;
+				border-radius: 12px;
+				padding: 15px;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+				width: 100px;
+			}
+
+			.color-grid {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 4px;
+			}
+
+			.color-swatch {
+				width: 20px;
+				height: 20px;
+				border-radius: 4px;
+				cursor: pointer;
+				transition: transform 0.2s;
+				border: 2px solid transparent;
+			}
+
+			.color-swatch:hover {
+				transform: scale(1.1);
+			}
+
+			.color-swatch.selected {
+				border-color: #fff;
+			}
+
+			#symmetry-controls {
+				position: fixed;
+				top: 20px;
+				left: 420px;
+				padding: 15px;
+				background: #252525;
+				border-radius: 12px;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+				z-index: 1000;
+			}
+
+			#symmetry-canvas-container {
+				width: 100px;
+				height: 100px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="sketch-container">
+			<div class="sketch-cell" id="sketch0"></div>
+		</div>
+		<div id="selector-container"></div>
+		<div id="rotation-dial-container"></div>
+		<div id="color-controls">
+			<div class="color-selector">
+				<div class="control-label">STROKE</div>
+				<div id="stroke-colors" class="color-grid"></div>
+			</div>
+			<div class="color-selector">
+				<div class="control-label">BACKGROUND</div>
+				<div id="bg-colors" class="color-grid"></div>
+			</div>
+		</div>
+		<div id="symmetry-controls">
+			<div class="control-label">SYMMETRY</div>
+			<div id="symmetry-canvas-container"></div>
+		</div>
+
+		<script>
+			let sketches = [];
+			let drawingData = [];
+			let selectorSketch;
+			let gridSize = 4; // 4x4 grid for selection
+			let currentSelection = { x: 0, y: 0 }; // Start with 0,0 for 1x1 grid
+			let previewSelection = { x: 0, y: 0 };
+			let rotationDial;
+			let currentRotation = 0; // In radians
+			let currentStrokeColor = "#000000";
+			let currentBgColor = "#FAFAFA";
+			let symmetryX = false;
+			let symmetryY = false;
+			let symmetrySketch;
+
+			// Add this after your existing variables
+			const colorPalette = [
+				"#FF0B55", // Red
+				"#0BFF99", // Mint
+				"#FF8B0B", // Orange
+				"#0B84FF", // Blue
+				"#FFE70B", // Yellow
+				"#9D0BFF", // Purple
+				"#FFFFFF", // White
+				"#000000", // Black
+				"#666666", // Gray
+			];
+
+			// Create a sketch instance
+			function createSketchInstance(parentId) {
+				return new p5((p) => {
+					p.setup = () => {
+						let canvas = p.createCanvas(100, 100);
+						canvas.parent(parentId);
+						p.background(currentBgColor);
+					};
+
+					p.draw = () => {
+						// Draw reflection guides first
+						if (symmetryX || symmetryY) {
+							p.push();
+							p.translate(50, 50);
+							p.rotate(currentRotation);
+							p.strokeWeight(1);
+							p.stroke(getGuideColor());
+
+							if (symmetryX) {
+								p.line(-50, 0, 50, 0);
+							}
+							if (symmetryY) {
+								p.line(0, -50, 0, 50);
+							}
+							p.pop();
+						}
+
+						if (
+							p.mouseIsPressed &&
+							p.mouseX > 0 &&
+							p.mouseX < p.width &&
+							p.mouseY > 0 &&
+							p.mouseY < p.height
+						) {
+							// Transform the current and previous mouse positions
+							const center = { x: 50, y: 50 };
+							const current = rotatePoint(
+								{ x: p.mouseX, y: p.mouseY },
+								center,
+								-currentRotation
+							);
+							const prev = rotatePoint(
+								{ x: p.pmouseX, y: p.pmouseY },
+								center,
+								-currentRotation
+							);
+
+							// Draw the primary line
+							drawLine(p, current, prev);
+
+							// Draw symmetrical lines
+							if (symmetryX) {
+								const currentSymX = { x: current.x, y: 100 - current.y };
+								const prevSymX = { x: prev.x, y: 100 - prev.y };
+								drawLine(p, currentSymX, prevSymX);
+							}
+
+							if (symmetryY) {
+								const currentSymY = { x: 100 - current.x, y: current.y };
+								const prevSymY = { x: 100 - prev.x, y: prev.y };
+								drawLine(p, currentSymY, prevSymY);
+							}
+
+							if (symmetryX && symmetryY) {
+								const currentSymXY = { x: 100 - current.x, y: 100 - current.y };
+								const prevSymXY = { x: 100 - prev.x, y: 100 - prev.y };
+								drawLine(p, currentSymXY, prevSymXY);
+							}
+
+							redrawAllSketches();
+						}
+					};
+				});
+			}
+
+			// Add this helper function to rotate points
+			function rotatePoint(point, center, angle) {
+				const cos = Math.cos(angle);
+				const sin = Math.sin(angle);
+				const dx = point.x - center.x;
+				const dy = point.y - center.y;
+
+				return {
+					x: center.x + dx * cos - dy * sin,
+					y: center.y + dx * sin + dy * cos,
+				};
+			}
+
+			// Function to update all sketches with current drawing data
+			function redrawAllSketches() {
+				sketches.forEach((sketch) => {
+					sketch.background(currentBgColor);
+
+					// Draw reflection guides
+					if (symmetryX || symmetryY) {
+						sketch.push();
+						sketch.translate(50, 50);
+						sketch.rotate(currentRotation);
+						sketch.strokeWeight(1);
+						sketch.stroke(getGuideColor());
+
+						if (symmetryX) {
+							sketch.line(-50, 0, 50, 0);
+						}
+						if (symmetryY) {
+							sketch.line(0, -50, 0, 50);
+						}
+						sketch.pop();
+					}
+
+					// Draw the actual content
+					sketch.push();
+					sketch.translate(50, 50);
+					sketch.rotate(currentRotation);
+					sketch.translate(-50, -50);
+
+					for (let line of drawingData) {
+						sketch.stroke(line.color || currentStrokeColor);
+						sketch.strokeWeight(2);
+						sketch.line(line.x1, line.y1, line.x2, line.y2);
+					}
+					sketch.pop();
+				});
+			}
+
+			// Create the selector sketch
+			function createSelectorSketch() {
+				return new p5((p) => {
+					p.setup = () => {
+						let canvas = p.createCanvas(210, 210);
+						canvas.parent("selector-container");
+						// Add label
+						const label = document.createElement("div");
+						label.className = "control-label";
+						label.textContent = "GRID SIZE";
+						canvas.elt.parentNode.insertBefore(label, canvas.elt);
+					};
+
+					p.draw = () => {
+						p.background("#2a2a2a");
+						let cellSize = 200 / gridSize;
+						let offset = 5;
+
+						// Draw grid with improved styling
+						p.stroke("#444");
+						p.strokeWeight(1);
+						for (let x = 0; x <= gridSize; x++) {
+							for (let y = 0; y <= gridSize; y++) {
+								p.point(x * cellSize + offset, y * cellSize + offset);
+							}
+						}
+
+						// Draw preview with better colors
+						if (
+							p.mouseX > offset &&
+							p.mouseX < 200 + offset &&
+							p.mouseY > offset &&
+							p.mouseY < 200 + offset
+						) {
+							let hoverX = Math.floor((p.mouseX - offset) / cellSize);
+							let hoverY = Math.floor((p.mouseY - offset) / cellSize);
+							previewSelection = { x: hoverX, y: hoverY };
+
+							p.noFill();
+							p.stroke("#666");
+							p.rect(
+								offset,
+								offset,
+								(hoverX + 1) * cellSize,
+								(hoverY + 1) * cellSize
+							);
+						}
+
+						// Draw current selection with improved styling
+						p.noFill();
+						p.stroke("#888");
+						p.rect(
+							offset,
+							offset,
+							(currentSelection.x + 1) * cellSize,
+							(currentSelection.y + 1) * cellSize
+						);
+
+						p.fill("rgba(255, 255, 255, 0.1)");
+						p.noStroke();
+						p.rect(
+							offset,
+							offset,
+							(currentSelection.x + 1) * cellSize,
+							(currentSelection.y + 1) * cellSize
+						);
+					};
+
+					p.mouseClicked = () => {
+						let offset = 5;
+						if (
+							p.mouseX > offset &&
+							p.mouseX < 200 + offset &&
+							p.mouseY > offset &&
+							p.mouseY < 200 + offset
+						) {
+							currentSelection = previewSelection;
+							updateGridLayout(currentSelection.x + 1, currentSelection.y + 1);
+						}
+					};
+				});
+			}
+
+			function updateGridLayout(cols, rows) {
+				const container = document.getElementById("sketch-container");
+				const totalSketches = cols * rows;
+
+				// Update grid template
+				container.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+
+				// Store old sketches and clear the arrays
+				const oldSketches = [...sketches];
+				const existingCellIds = new Set(
+					oldSketches.map((_, i) => `sketch${i}`)
+				);
+				const oldDrawingData = [...drawingData];
+				sketches = [];
+
+				// Clear container but keep track of old cells
+				container.innerHTML = "";
+
+				// Create all cells
+				for (let i = 0; i < totalSketches; i++) {
+					const cell = document.createElement("div");
+					const isExistingCell = existingCellIds.has(`sketch${i}`);
+
+					cell.className = `sketch-cell${isExistingCell ? " active" : " new"}`;
+					cell.id = `sketch${i}`;
+					container.appendChild(cell);
+
+					// Create sketch immediately
+					let sketch = createSketchInstance(cell.id);
+					sketches.push(sketch);
+
+					// Draw the current pattern for both existing and new cells
+					sketch.background(currentBgColor);
+					sketch.push();
+					sketch.translate(50, 50);
+					sketch.rotate(currentRotation);
+					sketch.translate(-50, -50);
+
+					for (let line of oldDrawingData) {
+						sketch.stroke(line.color || currentStrokeColor);
+						sketch.strokeWeight(2);
+						sketch.line(line.x1, line.y1, line.x2, line.y2);
+					}
+					sketch.pop();
+				}
+
+				// Remove old sketches after new ones are created
+				oldSketches.forEach((sketch) => sketch.remove());
+
+				// Trigger animations only for new cells
+				requestAnimationFrame(() => {
+					const cells = container.getElementsByClassName("sketch-cell");
+					Array.from(cells).forEach((cell) => {
+						if (cell.classList.contains("new")) {
+							cell.classList.remove("new");
+							cell.classList.add("active");
+						}
+					});
+				});
+			}
+
+			// Fix the createRotationDial function
+			function createRotationDial() {
+				return new p5((p) => {
+					let isDragging = false;
+					let centerX, centerY;
+					let hoverRotation = null;
+
+					p.setup = () => {
+						let canvas = p.createCanvas(100, 100);
+						canvas.parent("rotation-dial-container");
+						centerX = p.width / 2;
+						centerY = p.height / 2;
+						// Add label
+						const label = document.createElement("div");
+						label.className = "control-label";
+						label.textContent = "ROTATE";
+						canvas.elt.parentNode.insertBefore(label, canvas.elt);
+					};
+
+					p.draw = () => {
+						p.background("#2a2a2a");
+
+						// Draw the dial base
+						p.stroke("#444");
+						p.strokeWeight(1);
+						p.circle(centerX, centerY, 80);
+
+						// Add tick marks for better visual feedback
+						p.push();
+						p.translate(centerX, centerY);
+						for (let i = 0; i < 12; i++) {
+							p.rotate(p.PI / 6);
+							p.line(35, 0, 40, 0);
+						}
+						p.pop();
+
+						// Improved hover preview
+						if (hoverRotation !== null && !isDragging) {
+							p.push();
+							p.translate(centerX, centerY);
+							p.rotate(hoverRotation);
+							p.stroke("#666");
+							p.strokeWeight(2);
+							p.line(0, 0, 0, -35);
+							p.pop();
+						}
+
+						// Improved rotation indicator
+						p.push();
+						p.translate(centerX, centerY);
+						p.rotate(currentRotation);
+						p.stroke("#888");
+						p.strokeWeight(2);
+						p.line(0, 0, 0, -35);
+						// Add a small circle at the end of the line
+						p.fill("#888");
+						p.circle(0, -35, 6);
+						p.pop();
+
+						// Update hover rotation
+						if (
+							!isDragging &&
+							p.dist(p.mouseX, p.mouseY, centerX, centerY) < 40
+						) {
+							let angle = p.atan2(p.mouseY - centerY, p.mouseX - centerX);
+							hoverRotation = angle + p.PI / 2;
+						} else if (!isDragging) {
+							hoverRotation = null;
+						}
+
+						// Handle dragging
+						if (
+							isDragging &&
+							p.mouseX > 0 &&
+							p.mouseX < p.width &&
+							p.mouseY > 0 &&
+							p.mouseY < p.height
+						) {
+							let angle = p.atan2(p.mouseY - centerY, p.mouseX - centerX);
+							currentRotation = angle + p.PI / 2;
+							redrawAllSketches();
+						}
+					};
+
+					p.mousePressed = () => {
+						if (p.dist(p.mouseX, p.mouseY, centerX, centerY) < 40) {
+							isDragging = true;
+							if (hoverRotation !== null) {
+								currentRotation = hoverRotation;
+								redrawAllSketches();
+							}
+						}
+					};
+
+					p.mouseReleased = () => {
+						isDragging = false;
+					};
+				});
+			}
+
+			// Fix the window.onload initialization
+			window.onload = () => {
+				selectorSketch = createSelectorSketch();
+				rotationDial = createRotationDial();
+				symmetrySketch = createSymmetryControl();
+				createColorControls();
+				updateGridLayout(1, 1); // Start with 1x1 grid
+			};
+
+			// Clear all canvases when 'c' key is pressed
+			document.addEventListener("keypress", (event) => {
+				if (event.key === "c") {
+					drawingData = [];
+					sketches.forEach((sketch) => {
+						sketch.background(250);
+					});
+				}
+			});
+
+			// Add this function after window.onload
+			function createColorControls() {
+				const strokeGrid = document.getElementById("stroke-colors");
+				const bgGrid = document.getElementById("bg-colors");
+
+				colorPalette.forEach((color, i) => {
+					// Create stroke color swatch
+					const strokeSwatch = document.createElement("div");
+					strokeSwatch.className = "color-swatch";
+					strokeSwatch.style.backgroundColor = color;
+					if (color === currentStrokeColor)
+						strokeSwatch.classList.add("selected");
+					strokeSwatch.onclick = () => {
+						document
+							.querySelectorAll("#stroke-colors .selected")
+							.forEach((el) => el.classList.remove("selected"));
+						strokeSwatch.classList.add("selected");
+						currentStrokeColor = color;
+						redrawAllSketches();
+					};
+					strokeGrid.appendChild(strokeSwatch);
+
+					// Create bg color swatch
+					const bgSwatch = document.createElement("div");
+					bgSwatch.className = "color-swatch";
+					bgSwatch.style.backgroundColor = color;
+					if (color === currentBgColor) bgSwatch.classList.add("selected");
+					bgSwatch.onclick = () => {
+						document
+							.querySelectorAll("#bg-colors .selected")
+							.forEach((el) => el.classList.remove("selected"));
+						bgSwatch.classList.add("selected");
+						currentBgColor = color;
+						redrawAllSketches();
+					};
+					bgGrid.appendChild(bgSwatch);
+				});
+			}
+
+			// Add this helper function to handle line drawing and data storage
+			function drawLine(p, current, prev) {
+				p.stroke(currentStrokeColor);
+				p.strokeWeight(2);
+				p.line(current.x, current.y, prev.x, prev.y);
+
+				drawingData.push({
+					x1: current.x,
+					y1: current.y,
+					x2: prev.x,
+					y2: prev.y,
+					color: currentStrokeColor,
+				});
+			}
+
+			function createSymmetryControl() {
+				return new p5((p) => {
+					const size = 100;
+					let activeAxes = {
+						vertical: false,
+						horizontal: false,
+					};
+					const axisWidth = 10;
+
+					p.setup = () => {
+						let canvas = p.createCanvas(size, size);
+						canvas.parent("symmetry-canvas-container");
+					};
+
+					p.draw = () => {
+						p.background("#2a2a2a");
+
+						// Draw rotated preview in the background
+						p.push();
+						p.translate(size / 2, size / 2);
+						p.rotate(currentRotation);
+						p.translate(-size / 2, -size / 2);
+
+						// Draw faint rotated guides
+						if (activeAxes.vertical) {
+							p.noStroke();
+							p.fill("rgba(255,255,255,0.05)");
+							p.rect(size / 2 - axisWidth / 2, 0, axisWidth, size);
+						}
+						if (activeAxes.horizontal) {
+							p.noStroke();
+							p.fill("rgba(255,255,255,0.05)");
+							p.rect(0, size / 2 - axisWidth / 2, size, axisWidth);
+						}
+						p.pop();
+
+						// Draw main control axes
+						p.noStroke();
+						// Vertical axis
+						p.fill(
+							activeAxes.vertical
+								? "rgba(255,255,255,0.3)"
+								: "rgba(255,255,255,0.1)"
+						);
+						if (isOverVerticalAxis()) {
+							p.fill("rgba(255,255,255,0.2)");
+						}
+						p.rect(size / 2 - axisWidth / 2, 0, axisWidth, size);
+
+						// Horizontal axis
+						p.fill(
+							activeAxes.horizontal
+								? "rgba(255,255,255,0.3)"
+								: "rgba(255,255,255,0.1)"
+						);
+						if (isOverHorizontalAxis()) {
+							p.fill("rgba(255,255,255,0.2)");
+						}
+						p.rect(0, size / 2 - axisWidth / 2, size, axisWidth);
+
+						// Draw rotation indicator lines
+						if (activeAxes.vertical || activeAxes.horizontal) {
+							p.push();
+							p.translate(size / 2, size / 2);
+							p.rotate(currentRotation);
+							p.strokeWeight(1);
+							p.stroke("rgba(255,255,255,0.3)");
+
+							if (activeAxes.vertical) {
+								p.line(0, -size / 2, 0, size / 2);
+							}
+							if (activeAxes.horizontal) {
+								p.line(-size / 2, 0, size / 2, 0);
+							}
+							p.pop();
+						}
+					};
+
+					function isOverVerticalAxis() {
+						return (
+							p.mouseX > size / 2 - axisWidth / 2 &&
+							p.mouseX < size / 2 + axisWidth / 2 &&
+							p.mouseY > 0 &&
+							p.mouseY < size
+						);
+					}
+
+					function isOverHorizontalAxis() {
+						return (
+							p.mouseY > size / 2 - axisWidth / 2 &&
+							p.mouseY < size / 2 + axisWidth / 2 &&
+							p.mouseX > 0 &&
+							p.mouseX < size
+						);
+					}
+
+					p.mouseClicked = () => {
+						if (isOverVerticalAxis()) {
+							activeAxes.vertical = !activeAxes.vertical;
+							symmetryY = activeAxes.vertical;
+						} else if (isOverHorizontalAxis()) {
+							activeAxes.horizontal = !activeAxes.horizontal;
+							symmetryX = activeAxes.horizontal;
+						}
+					};
+				});
+			}
+
+			function getGuideColor() {
+				// Check if background is light or dark
+				const rgb = currentBgColor.match(/\w\w/g).map((x) => parseInt(x, 16));
+				const brightness = (rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000;
+				return brightness > 128 ? "rgba(0,0,0,0.2)" : "rgba(255,255,255,0.2)";
+			}
+		</script>
+	</body>
+</html>

@@ -1,5 +1,94 @@
 [
 	{
+		"title": "Meter Command",
+		"date": "4/11/25",
+		"url": [
+			"https://x.com/kevinakwok/status/1826262311809830957",
+			"https://x.com/sharifshameem/status/1826313358779584596"
+		],
+		"media": ["/assets/things/meter-command.mp4"],
+		"description": "LLMs that both understand your data and design systems. Here unifying rich chat experience with open canvas space. Interfaces will become less cluttered, only showing you what you need to see or take action on at any moment."
+	},
+	{
+		"title": "GPU visualization",
+		"date": "4/11/25",
+		"url": ["https://x.com/JohnPhamous/status/1899147199289995464"],
+		"media": ["/assets/things/gpu-visualizer.mp4"],
+		"description": "It's easy to get desensitized to large numbers. If we sit back and think about it, often we start to feel the immensity. Or you can just show them. And even better, bring them into your world as well."
+	},
+	{
+		"title": "Simulation modeling",
+		"date": "4/11/25",
+		"url": ["https://x.com/redblobgames/status/1749145157096899058"],
+		"media": ["/assets/things/simulation-control.mp4"],
+		"description": "Simulations give rise to complex possiblity spaces, and emergent behavior. Sliders to control key variables of the simulation, coupled with the ability to see the range of possible effects of that variable at different strengths seems to provide a good way to build intuition about the system's dynamics."
+	},
+	{
+		"title": "Interface dimensionality",
+		"date": "4/11/25",
+		"url": ["https://x.com/cwervo/status/1817764349986951578"],
+		"media": [
+			"/assets/things/interface-dimensionality.png",
+			"/assets/things/interface-dimensionality-2.png"
+		],
+		"description": "Digital interface controls can come in a wider range of shapes and forms to navigate possibility spaces. They can match the underlying shape of the variable(s) you want to control, and can be extended as the need arises."
+	},
+	{
+		"title": "Quord",
+		"date": "4/11/25",
+		"url": ["https://soundwork.shop/"],
+		"media": ["/assets/things/quord.png"],
+		"description": "<blockquote>Harmony exploration machine</blockquote>What I love about this tool is how playful it makes it to discover harmonies and synth sounds. The space of possibilities enabled by the interface provides plenty of variation and taste to emerge. Quord doesn't expose too many knobs to the user, but the ones that it does capture key variables of sound that provide a lot of control in a bounded space where most possiblities are quite interesting to listen to."
+	},
+	{
+		"title": "Search space",
+		"date": "4/11/25",
+		"url": ["https://x.com/_baku89/status/1848878071585378521"],
+		"media": ["/assets/things/interface-search-space.mp4"],
+		"description": "<blockquote>An interface defines the metric of search space</blockquote>How we can act and what possible states we can reach is bounded by the set of controls we have at our disposal. By the interface we have to communicate our intentions. An elegant interface provides a set of controls that capture the key variables of a possibility space; that slice reality at the right level of abstraction.<br/><br/>Natural language interfaces provide a way to teleport to a configuration of variables in a state space; with the ability to fuzzily update those variables to find desired states."
+	},
+	{
+		"title": "Text synthesizers",
+		"date": "4/11/25",
+		"url": [
+			"https://thesephist.com/posts/synth/",
+			"https://thesephist.notion.site/public-A-synthesizer-for-thought-ac2395d64a444d44afe90236fabb513e"
+		],
+		"media": ["/assets/things/semantic-diffs.png"],
+		"description": "LLMs give us entirely new semantic variables that we can assign dials, sliders, knobs and controls to. Combinations of these variables can be used to increase, decrease and mix qualities together to explore a space of possibilities."
+	},
+	{
+		"title": "Luma Labs Landing Page",
+		"date": "4/9/25",
+		"url": [
+			"https://x.com/rauchg/status/1861116383175811130",
+			"https://lumalabs.ai/dream-machine"
+		],
+		"media": ["/assets/things/lumalabs.mp4"],
+		"description": "By blurring the separation between landing page and product, it makes for a very smooth narrative flow. After learning about what the product does, it's only natural to want to see the product in action."
+	},
+	{
+		"title": "Dynamic Input",
+		"date": "4/9/25",
+		"url": ["https://x.com/ronithhh/status/1894538136161849588"],
+		"media": ["/assets/things/ronith-dynamic-input.mp4"],
+		"description": "How can we be sure that natural language communication with machines correctly captures our intent? Interfaces can be used to allow machines to communicate their understanding of our intent, and allow us to correct them if they are wrong."
+	},
+	{
+		"title": "Nothing Phone: Essential Space",
+		"date": "4/9/25",
+		"url": ["https://x.com/nothing/status/1901591591472480425"],
+		"media": ["/assets/things/nothingphone.mp4"],
+		"description": "Frictionless text and voice notes attached to onscreen media.<br/><br/>All captures are organized in a single space. Tasks and todolists are automatically created. This is a smooth, fluid experience that maps to a user's intentions.<br/><br/>Elegant usage of single press, double press and long press gestures to capture text, go to your space, and capture voice respectively."
+	},
+	{
+		"title": "No one wants to take notes",
+		"date": "4/9/25",
+		"url": ["https://x.com/Meaningness/status/1906349209143361802"],
+		"media": [],
+		"description": "<blockquote>'Note-taking' isn't a thing. No one wants to 'take notes.' We have something else we are trying to get done, and it happens to involve text. A note-taking app does a lousy job of supporting whatever that is.</blockquote><br/>Every note carries with it an intention. We want to remember to take some action, keep track of some process, or capture some idea to return to. However, without a clear way to return to the note, intentions can be lost."
+	},
+	{
 		"title": "Lumalabs image prompt bar",
 		"date": "10/13/24",
 		"url": [],

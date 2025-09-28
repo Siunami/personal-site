@@ -13,10 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "_impressions/Jan-13-24.md",
+                "file": "_artifacts/Adjacent possible.md",
                 "mode": "source",
                 "source": false
-              }
+              },
+              "icon": "lucide-file",
+              "title": "Adjacent possible"
             }
           }
         ]
@@ -39,7 +41,9 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical"
-              }
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
             }
           },
           {
@@ -54,7 +58,9 @@
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical"
-              }
+              },
+              "icon": "lucide-search",
+              "title": "Search"
             }
           },
           {
@@ -62,14 +68,16 @@
             "type": "leaf",
             "state": {
               "type": "bookmarks",
-              "state": {}
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
             }
           }
         ]
       }
     ],
     "direction": "horizontal",
-    "width": 448.5
+    "width": 200
   },
   "right": {
     "id": "1294784e5534b621",
@@ -85,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "_impressions/Jan-13-24.md",
+                "file": "_artifacts/Fluid personal computing environments.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -93,7 +101,9 @@
                 "searchQuery": "",
                 "backlinkCollapsed": false,
                 "unlinkedCollapsed": true
-              }
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Fluid personal computing environments"
             }
           },
           {
@@ -102,10 +112,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "_impressions/Jan-13-24.md",
+                "file": "_artifacts/Fluid personal computing environments.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
-              }
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Fluid personal computing environments"
             }
           },
           {
@@ -116,7 +128,9 @@
               "state": {
                 "sortOrder": "frequency",
                 "useHierarchy": true
-              }
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
             }
           },
           {
@@ -125,8 +139,10 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "_impressions/Jan-13-24.md"
-              }
+                "file": "_artifacts/Fluid personal computing environments.md"
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Fluid personal computing environments"
             }
           }
         ]
@@ -149,12 +165,28 @@
   },
   "active": "bc02ebec13f70ab0",
   "lastOpenFiles": [
+    "_site/adjacent-possible/index.html",
+    "_site/adjacent-possible",
+    "_site/adjacent possible/index.html",
+    "_site/adjacent possible",
+    "_site/Pasted image 20241207145925.png",
+    "_drafts/adjacent possible notes.md",
+    "_drafts/Untitled.md",
+    "_artifacts/Adjacent possible.md",
+    "Pasted image 20241207145925.png",
+    "_artifacts/Fluid personal computing environments.md",
+    "_drafts/Proactive interfaces.md",
+    "_artifacts/Research Questions.md",
+    "_artifacts/Untitled.md",
+    "_artifacts/Worlding Comic.md",
+    "_artifacts/some-links.md",
+    "_artifacts/Places.md",
+    "_drafts/Airplanes are beautiful dreams.md",
     "_impressions/Jan 12 Morning pages.md",
     "_impressions/Airplanes are beautiful dreams.md",
     "_impressions/Attention is a resource that can catalyze change.md",
     "_drafts/Organizations are like an octopus.md",
     "_drafts/Untitled 1.md",
-    "_drafts/Untitled.md",
     "_site/assets/css/main.css.map",
     "_site/assets/css/main.css",
     "_site/assets/css",
@@ -168,8 +200,6 @@
     "_impressions/Nostalgia for places of the past.md",
     "assets/img/Wright-brothers-first-flight.png",
     "_site/assets/img/Wright-brothers-first-flight.png",
-    "_site/assets/img/Pasted image 20240118024321.png",
-    "_site/Pasted image 20240118024321.png",
     "_site/Airplanes-are-beautiful-dreams.html",
     "_drafts/Attention is a resource that can catalyze change.md",
     "_impressions/Jan-13-24.md",
@@ -179,18 +209,9 @@
     "_site/Nostalgia-for-places-of-the-past.html",
     "_impressions/2024-01-13 developing competence.md",
     "_drafts/a-test-draft.md",
-    "_site/Castles-evoke-a-feeling.html",
-    "_site/On-castles.html",
     "Untitled.canvas",
     "Untitled.md",
     "_site/Untitled.md",
-    "_site/Proactive-interfaces.html",
-    "_impressions/Test this.md",
-    "_templates/untitled.md",
-    "_notes/move your body every day.md",
-    "_notes/consistency.md",
-    "_notes/accents.md",
-    "_site/Untitled.canvas",
-    "page/index.md"
+    "_site/Untitled.canvas"
   ]
 }

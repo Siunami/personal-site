@@ -1,8 +1,11 @@
 # tufte-jekyll theme
 
-The *Tufte-Jekyll* blog theme is based on the github repository by Edward Tufte [here](https://github.com/edwardtufte/tufte-css), which was orginally created by Dave Leipmann, but is now labeled under Edward Tufte's moniker. I borrowed freely from the Tufte-CSS repo and have transformed many of the typographic and page-structural features into a set of custom Liquid tags that make creating content using this style much easier than writing straight HTML. Essentially, if you know markdown, and mix in a few custom Liquid tags, you can be creating a website with this document style in short order.
+bundle exec jekyll build
+bundle exec jekyll serve
 
-Please be aware that the feature parity between the tufte-css repository and this project is not perfect. It is very close, but this Jekyll theme has additional CSS to scratch some of my own itches. One example is that the sidenote's typography is vertically spaced in my CSS so they are on the same baseline grid as the body text and it doesn't hurt my eyes when I look at them. Another example is the optional use of color to style links. The current tufte.css repo doesn't allow that, but my opinion is that hey, this is the web. It shouldn't have to ape the way a book looks exactly.  I attempt to stay true to the overall sensibility of the tufte.css repo, but I am not going to sacrifice anything that I think reduces the usability or esthetics of this theme in the service of exact feature parity. Just as I have 'forked' the tufte.css, you are more than welcome to modify this theme to suit your own tastes and specific needs.
+The _Tufte-Jekyll_ blog theme is based on the github repository by Edward Tufte [here](https://github.com/edwardtufte/tufte-css), which was orginally created by Dave Leipmann, but is now labeled under Edward Tufte's moniker. I borrowed freely from the Tufte-CSS repo and have transformed many of the typographic and page-structural features into a set of custom Liquid tags that make creating content using this style much easier than writing straight HTML. Essentially, if you know markdown, and mix in a few custom Liquid tags, you can be creating a website with this document style in short order.
+
+Please be aware that the feature parity between the tufte-css repository and this project is not perfect. It is very close, but this Jekyll theme has additional CSS to scratch some of my own itches. One example is that the sidenote's typography is vertically spaced in my CSS so they are on the same baseline grid as the body text and it doesn't hurt my eyes when I look at them. Another example is the optional use of color to style links. The current tufte.css repo doesn't allow that, but my opinion is that hey, this is the web. It shouldn't have to ape the way a book looks exactly. I attempt to stay true to the overall sensibility of the tufte.css repo, but I am not going to sacrifice anything that I think reduces the usability or esthetics of this theme in the service of exact feature parity. Just as I have 'forked' the tufte.css, you are more than welcome to modify this theme to suit your own tastes and specific needs.
 
 ## Demo
 
@@ -28,46 +31,49 @@ You can also use `jekyll serve -w --baseurl ''` to remove `/tufte-jekyll` from t
 
 ### Jekyll site building options
 
-I have created a very simple site options file in the ```_data``` directory that contains two settings currently. The file in the github repo looks like this:
+I have created a very simple site options file in the `_data` directory that contains two settings currently. The file in the github repo looks like this:
+
 ```
 mathjax: true
 lato_font_load: true
 ```
+
 Removing either 'true' value will prevent the jekyll site building process from adding links to either the Mathjax library or the Google Fonts Lato font as a fallback for the Gill Sans. Set these values to blank if you want to really streamline your page loading time.
 
 ### SASS
 
-I am using Sass to create the css file used by this theme. If you would like to change things like fonts, text colors, background colors and so forth, edit the ```_scss/_settings.scss``` file. This file gets loaded first when Jekyll constructs the master CSS file from the tufte.scss SASS file, and contains SASS variables that influence the appearance of the site. The one variable that may be of interest to some is the ```$link-style``` variable, which can be set to either ```underline``` or ```color```. This will determine if your links are styled using the ```$contrast-color``` variable with no underlining, or whether they are styled using light underlining as seen on the [*tufte-css*](https://github.com/edwardtufte/tufte-css) repo.
+I am using Sass to create the css file used by this theme. If you would like to change things like fonts, text colors, background colors and so forth, edit the `_scss/_settings.scss` file. This file gets loaded first when Jekyll constructs the master CSS file from the tufte.scss SASS file, and contains SASS variables that influence the appearance of the site. The one variable that may be of interest to some is the `$link-style` variable, which can be set to either `underline` or `color`. This will determine if your links are styled using the `$contrast-color` variable with no underlining, or whether they are styled using light underlining as seen on the [_tufte-css_](https://github.com/edwardtufte/tufte-css) repo.
 
 ### Social icons
 
-You can edit the ```_data/social.yml``` file and put in your own information for the footer links
+You can edit the `_data/social.yml` file and put in your own information for the footer links
 
 ### Silly-ass badge in the upper left
 
-In the ```assets/img``` directory is a file called ```badge_1.png```. This file's parent is ```badge_1.psd``` and is an editable photoshop file with layers for the letters comprising the initials. Change them to suit your fancy. Or just substitute another badge in its place. You can edit the ```_includes/header.html``` file and change the file that it points too. Find your favorite Tufte emoji and fly your freak flag proudly.
+In the `assets/img` directory is a file called `badge_1.png`. This file's parent is `badge_1.psd` and is an editable photoshop file with layers for the letters comprising the initials. Change them to suit your fancy. Or just substitute another badge in its place. You can edit the `_includes/header.html` file and change the file that it points too. Find your favorite Tufte emoji and fly your freak flag proudly.
 
 ## Some things about the things
 
-I needed to create several custom Liquid tags to wrap content in the right kind of tags. You will create your posts in the normal way in the ```_posts``` directory, and then edit them with Github-Flavored Markdown. In addition to all that GFM goodness, you can use the following custom Liquid tags in your content area.
+I needed to create several custom Liquid tags to wrap content in the right kind of tags. You will create your posts in the normal way in the `_posts` directory, and then edit them with Github-Flavored Markdown. In addition to all that GFM goodness, you can use the following custom Liquid tags in your content area.
 
-Note that these tags *have been altered* from Version 1 of this theme to accommodate some responsive features, namely the ability to reveal hidden sidenotes, margin notes and margin figures by tapping either a superscript or a symbol on small screens. This requires you to add a parameter to the tag that is a unique *ID* for each tag instance on the page. What the id is called is not important, but it is important that it be unique for each individual element on the page. I would recommend in the interest of sanity to give names that are descriptive, like ```'sn-id-1'``` or ```'mf-id-rhino'```.
+Note that these tags _have been altered_ from Version 1 of this theme to accommodate some responsive features, namely the ability to reveal hidden sidenotes, margin notes and margin figures by tapping either a superscript or a symbol on small screens. This requires you to add a parameter to the tag that is a unique _ID_ for each tag instance on the page. What the id is called is not important, but it is important that it be unique for each individual element on the page. I would recommend in the interest of sanity to give names that are descriptive, like `'sn-id-1'` or `'mf-id-rhino'`.
 
 ### Notes about quotes in Liquid tags
 
-The custom Liquid tags are designed to simplify writing content and displaying it with the *tufte-css* look. Here are a few notes on using quotes inside the tags.
+The custom Liquid tags are designed to simplify writing content and displaying it with the _tufte-css_ look. Here are a few notes on using quotes inside the tags.
 
-* Liquid tags work with either double or single quotes to surround the tag parameters, as you'll see in all the examples below.
+- Liquid tags work with either double or single quotes to surround the tag parameters, as you'll see in all the examples below.
 
-* You can use single quotes and apostrophes in the text inside tag parameters, as long as all the parameters are surrounded by double quotes. Liquid will automatically process them correctly. For example: `{% newthought "I'm so smart!" %}` will render as `I'm so smart!`. If the text inside one of the parameters contains a single quote, then use double quotes to surround the parameters. Conversely, if the text inside one of the parameters contains a double quote, use single quotes to surround the parameters.
+- You can use single quotes and apostrophes in the text inside tag parameters, as long as all the parameters are surrounded by double quotes. Liquid will automatically process them correctly. For example: `{% newthought "I'm so smart!" %}` will render as `I'm so smart!`. If the text inside one of the parameters contains a single quote, then use double quotes to surround the parameters. Conversely, if the text inside one of the parameters contains a double quote, use single quotes to surround the parameters.
 
-* One can also use a double quote in the text inside a tag parameter by 'escaping' the double quote by placing a backslash directly in front of it, for example: `{% newthought "\"I'm so smart!\", she thought." %}` will render as `"I'm so smart!", she thought.`
+- One can also use a double quote in the text inside a tag parameter by 'escaping' the double quote by placing a backslash directly in front of it, for example: `{% newthought "\"I'm so smart!\", she thought." %}` will render as `"I'm so smart!", she thought.`
 
-* You can use HTML inside of a tag parameter. Originally, Markdown support inside the Liquid parameters strings was spotty, but I recently added some code that should allow most Markdown inside the tag parameter strings. You can use either single quotes, or escaped double quotes in the HTML. For example, both of the following tags will work:
+- You can use HTML inside of a tag parameter. Originally, Markdown support inside the Liquid parameters strings was spotty, but I recently added some code that should allow most Markdown inside the tag parameter strings. You can use either single quotes, or escaped double quotes in the HTML. For example, both of the following tags will work:
 
 ```
 {% newthought "Example website: <a href='http://example.com'>example label</a>" %}
 ```
+
 ```
 {% newthought "Example website: <a href=\"http://example.com\">example label</a>" %}
 ```
@@ -92,11 +98,12 @@ This tag will render its contents in small caps. Useful at the beginning of new 
 
 ### Sidenote
 
-This tag inserts a *sidenote* in the content, which is like a footnote, only its in the spacious right-hand column. It is automatically numbered, starting over on each page. Just put it in the content like you would insert a footnote like so:
+This tag inserts a _sidenote_ in the content, which is like a footnote, only its in the spacious right-hand column. It is automatically numbered, starting over on each page. Just put it in the content like you would insert a footnote like so:
 
 ```
 blah lorem blah{% sidenote "sidenote-id" "This is a random sidenote" %} blah blah
 ```
+
 And it will add the html spans and superscripts. On smaller screens, tapping on the number will reveal the sidenote!
 
 The `full-width` page layout will not display side notes. (It's a full-width page and has no margin)
@@ -108,6 +115,7 @@ This tag is essentially the same as a sidenote, but heh, no number. Like this:
 ```
 lorem nobeer toasty critters{% marginnote "margin-note-id" "Random thought when drinking" %} continue train of thought
 ```
+
 On smaller screens, tapping on the <span>&#8853;</span> symbol will open up the margin note.
 
 The `full-width` page layout will not display margin notes. (It's a full-width page and has no margin)
@@ -132,7 +140,7 @@ blah
 
 Note the absence of a leading slash in the image url when using relative file paths. (This is incorrect: `/assets/img/rhino.png`)
 
-Also note that fullwidth images need to be included *on their own line* in order for the captions to work correctly.
+Also note that fullwidth images need to be included _on their own line_ in order for the captions to work correctly.
 
 ### Main column image
 
@@ -176,11 +184,11 @@ The `full-width` page layout will not display margin figures. (It's a full-width
 
 ### Mathjax
 
-For those wanting to use this Jekyll theme for academic writing, the new Kramdown Markdown engine will accurately parse *MathJax* expressions as long as they are enclosed in a pair of double dollar signs like this:
+For those wanting to use this Jekyll theme for academic writing, the new Kramdown Markdown engine will accurately parse _MathJax_ expressions as long as they are enclosed in a pair of double dollar signs like this:
 
-```$$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$```
+`$$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$`
 
-As a side note - if you do not need the math ability, navigate to the ```_data/options.yml``` file and change the mathjax to 'false' and it will not load the mathjax javascript.
+As a side note - if you do not need the math ability, navigate to the `_data/options.yml` file and change the mathjax to 'false' and it will not load the mathjax javascript.
 
 ### Setting your baseurl correctly
 
@@ -200,6 +208,6 @@ This is `baseurl:` with nothing after it. Not even a space.
 
 ### Rakefile
 
-I have added a boilerplate Rakefile directly from the [jekyll-rake-boilerplate repo](https://github.com/gummesson/jekyll-rake-boilerplate). This saves you a small amount of time by prepending the date on a post name and populated the bare minimum of YAML front matter in the file. Please visit the link to the repo to find out how it runs. One thing to note is that there should be *no* space between the task and the opening bracket of your file name. ```rake post["Title"]``` will work while ```rake post ["Title"]``` will not.
+I have added a boilerplate Rakefile directly from the [jekyll-rake-boilerplate repo](https://github.com/gummesson/jekyll-rake-boilerplate). This saves you a small amount of time by prepending the date on a post name and populated the bare minimum of YAML front matter in the file. Please visit the link to the repo to find out how it runs. One thing to note is that there should be _no_ space between the task and the opening bracket of your file name. `rake post["Title"]` will work while `rake post ["Title"]` will not.
 
-There is another rakefile (UploadtoGithub.Rakefile) included that only has one task in it - an automated upload to a *Github Pages* location of the site. This is necessary because of the plugins used by this theme. It does scary stuff like move your ```_site``` somewhere safe, delete everything, move the ```_site``` back and then do a commit to the ```gh-pages``` branch of your repository. You can read about it [here](http://blog.nitrous.io/2013/08/30/using-jekyll-plugins-on-github-pages.html). You would only need to use this if you are using Github project pages to host your site. Integration with the existing Rakefile is left as an exercise for the reader.
+There is another rakefile (UploadtoGithub.Rakefile) included that only has one task in it - an automated upload to a _Github Pages_ location of the site. This is necessary because of the plugins used by this theme. It does scary stuff like move your `_site` somewhere safe, delete everything, move the `_site` back and then do a commit to the `gh-pages` branch of your repository. You can read about it [here](http://blog.nitrous.io/2013/08/30/using-jekyll-plugins-on-github-pages.html). You would only need to use this if you are using Github project pages to host your site. Integration with the existing Rakefile is left as an exercise for the reader.

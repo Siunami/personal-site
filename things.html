@@ -3,7 +3,20 @@ permalink: /things/
 layout: default
 ---
 
-<div id="container"></div>
+<div id="container">
+	<div class="item" style="background-color: rgb(252, 247, 228)">
+		<span class="reaction">Hello!</span>
+		<p class="reaction">
+			This is a collection of things that have captured my interest. There
+			aren't any unifying themes here; only that I felt like I wanted to return
+			to them. To sit with them. And eventually, to be able to clearly
+			articulate what drew me to these things in the first place.
+		</p>
+		<!-- <p class="reaction">
+			Here are some themes that have emerged for me so far:
+		</p> -->
+	</div>
+</div>
 <div id="link-viewer"></div>
 
 <script>
@@ -231,26 +244,37 @@ layout: default
 		flex-direction: column;
 		flex-wrap: wrap;
 		padding: 0;
-		height: calc(100vh - 20px);
+		height: calc(150vh);
 	}
 	#container .item {
 		margin-bottom: 10px;
 		padding: 10px;
 		margin: 10px;
-		font-size: 1rem;
+		font-size: 16px !important;
 		max-width: 400px;
 		width: auto;
+	}
+
+	#container .item {
+		color: #666;
+	}
+
+	#container .item > h2 {
+		color: #333;
 	}
 
 	#container .item > h2 {
 		margin-top: 0px !important;
 	}
 
-	#container .item > p,
+	#container .item >,
+	p,
 	a,
 	b,
-	blockquote {
-		font-size: 1rem;
+	blockquote,
+	div,
+	* {
+		font-size: 16px !important;
 	}
 
 	#container .item > blockquote {
@@ -260,7 +284,7 @@ layout: default
 	}
 
 	.reaction {
-		font-size: 1rem;
+		font-size: 16px !important;
 		color: #666;
 		width: 100%;
 		line-height: 115%;
@@ -333,25 +357,27 @@ layout: default
 		#container .item {
 			margin: 0 0 20px 0;
 			padding: 15px;
-			font-size: 1.1rem;
+			font-size: 17.6px !important;
 			width: auto;
 		}
 
 		#container .item > h2 {
-			font-size: 1.6rem;
+			font-size: 25.6px !important;
 			margin-bottom: 10px;
 		}
 
 		#container .item > p,
 		#container .item > a,
 		#container .item > b,
-		#container .item > blockquote {
-			font-size: 1.1rem;
+		#container .item > blockquote,
+		#container .item > div,
+		#container .item > * {
+			font-size: 17.6px !important;
 			line-height: 1.4;
 		}
 
 		.reaction {
-			font-size: 1.1rem;
+			font-size: 17.6px !important;
 			line-height: 1.4;
 		}
 
@@ -363,7 +389,7 @@ layout: default
 			margin: 0 5px 0px 0;
 			text-decoration: none;
 			color: #333;
-			font-size: 1.1rem;
+			font-size: 17.6px !important;
 		}
 
 		.media-container img,

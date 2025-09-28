@@ -1,11 +1,3 @@
----
-layout: post
-title: Notes
-permalink: /Notes/
-date: 2023-01-15 23:07
-categories:
----
-
 ## interfaces
 
 for the interfaces where you could play with them, you should have something there that can prove it.

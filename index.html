@@ -1,293 +1,496 @@
----
-layout: page
----
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<style>
-	/* canvas {
+		<title>Matthew Siu</title>
+		<meta name="description" content="Matthew Siu" />
+
+		<!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
+
+		<link
+			href="//fonts.googleapis.com/css?family=Lato:400,400italic"
+			rel="stylesheet"
+			type="text/css"
+		/>
+
+		<!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
+
+		<script type="text/x-mathjax-config">
+			MathJax.Hub.Config({
+			  extensions: [
+			    "MathMenu.js",
+			    "MathZoom.js",
+			    "AssistiveMML.js",
+			    "a11y/accessibility-menu.js"
+			  ],
+			  jax: ["input/TeX", "output/CommonHTML"],
+			  TeX: {
+			    extensions: [
+			      "AMSmath.js",
+			      "AMSsymbols.js",
+			      "noErrors.js",
+			      "noUndefined.js",
+			    ]
+			  }
+			});
+		</script>
+
+		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+		<script
+			id="MathJax-script"
+			async
+			src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+		></script>
+		<link rel="stylesheet" type="text/css" href="/css/tufte.css" />
+		<!-- <link rel="stylesheet" type="text/css"
+	href="/css/custom.css"> -->
+		<!-- <link rel="stylesheet" type="text/css" href="/css/print.css" media="print"> -->
+
+		<link rel="canonical" href="http://localhost:4000/" />
+
+		<link
+			rel="alternate"
+			type="application/rss+xml"
+			title="Matthew Siu"
+			href="http://localhost:4000/feed.xml"
+		/>
+	</head>
+
+	<body>
+		<article class="group content">
+			<!--- Header and nav template site-wide -->
+			<!-- FILEPATH: /Users/dubberly/Desktop/personal-site/_includes/header.html -->
+			<!-- BEGIN: abpxx6d04wxr -->
+			<header class="header">
+				<!-- Import English name SVG -->
+				<a href="/">
+					<!-- <img
+			class="english-name"
+			src="/assets/english-name.svg"
+			alt="English Name"
+		/> -->
+					<img class="english-name" src="/assets/MattLogo.png" alt="logo" />
+				</a>
+				<!-- Import Chinese name SVG -->
+				<a href="/">
+					<!-- <img
+			class="chinese-name header-spacing"
+			src="/assets/chinese-name.svg"
+			alt="Chinese Name"
+		/> -->
+					<!-- <img
+			class="chinese-name header-spacing"
+			src="/assets/MattChineseName.png"
+			alt="Chinese Name"
+		/> -->
+				</a>
+			</header>
+			<h1></h1>
+			<p class="subtitle"></p>
+
+			<style>
+				/* canvas {
 		position: absolute;
 		top: 0;
 		left: 0;
 		z-index: -1;
 		display: block;
 	} */
-</style>
-<div class="bento bento-full">
-	<div class="letter bento-item-1-1">
-		<img
-			style="
-				position: absolute;
-				z-index: 1;
-				right: 16px;
-				bottom: 16px;
-				user-select: none;
-			"
-			src="/assets/letter.png"
-		/>
 
-		<div style="z-index: 100">
-			<p class="text" style="margin-top: 0px">Welcome!</p>
-			<!-- <p class="text">
+				#preview-modal {
+					display: none;
+					position: fixed;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%, -50%);
+					max-width: 80vw;
+					max-height: 80vh;
+					z-index: 1001;
+					background: white;
+					border-radius: 8px;
+					user-select: none;
+					pointer-events: none;
+					border: 1px solid #e0e0e0;
+					padding: 0;
+					box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+						0 2px 4px -1px rgba(0, 0, 0, 0.06);
+				}
+
+				#preview-modal img,
+				#preview-modal video {
+					display: block;
+					max-width: 100%;
+					max-height: 80vh;
+					object-fit: contain;
+					border-radius: 8px;
+				}
+
+				#preview-modal.active {
+					display: block;
+				}
+
+				@media (max-width: 768px) {
+					#preview-modal {
+						width: calc(100% - 2rem); /* Full width minus margins */
+						max-width: none;
+						margin: auto; /* Center vertically */
+						left: 50%;
+						transform: translate(-50%, -50%); /* Keep the centering transform */
+					}
+
+					#preview-modal img,
+					#preview-modal video {
+						width: 100%;
+						max-height: 60vh;
+					}
+				}
+
+				.preview-content {
+					line-height: 0;
+				}
+			</style>
+			<div class="bento bento-full">
+				<div class="letter bento-item-1-1">
+					<img
+						style="
+							position: absolute;
+							z-index: 1;
+							right: 16px;
+							bottom: 16px;
+							user-select: none;
+						"
+						src="/assets/letter.png"
+					/>
+
+					<div style="z-index: 100">
+						<p class="text" style="margin-top: 0px">Welcome!</p>
+						<!-- <p class="text">
 				I'm an interface researcher interested in ways to expand what we can
 				<i>perceive</i> and <i>understand</i>.
 			</p> -->
-			<p class="text">
-				I'm an interface researcher interested in how technology can support
-				deeper understanding and playful discovery.
-			</p>
-			<p class="text">
-				I've done research at NYU focused on <i>creativity support tools</i>,
-				developed interfaces at Midjourney and worked as an interaction designer
-				alongside Hugh Dubberly.
-			</p>
-			<p class="text">
-				With Andy Matuschak, we designed
-				<a href="/Latticework">Latticework</a>, a text editing environment aimed
-				to help people synthesize freeform, unstructured documents.
-			</p>
-			<p class="text">
-				If my work resonates with you, this is a standing invitation to reach
-				out!
-			</p>
+						<p class="text">
+							I'm an interface researcher interested in how technology can
+							support deeper understanding and expand human creative capacity.
+						</p>
+						<p class="text">
+							I've done research at NYU focused on
+							<i>creativity support tools</i>, developed interfaces at
+							Midjourney and worked as an interaction designer alongside Hugh
+							Dubberly.
+						</p>
+						<p class="text">
+							With Andy Matuschak, we designed
+							<a href="/Latticework">Latticework</a>, a text editing environment
+							aimed to help people synthesize freeform, unstructured documents.
+						</p>
+						<p class="text">
+							If my work resonates with you, this is a standing invitation to
+							reach out!
+						</p>
 
-			<div
-				class="text"
-				style="
-					color: grey;
-					display: flex;
-					flex-direction: row;
-					padding-left: 20px;
-				"
-			>
-				<a
+						<div
+							class="text"
+							style="
+								color: grey;
+								display: flex;
+								flex-direction: row;
+								padding-left: 20px;
+								position: relative;
+							"
+						>
+							<a
+								style="
+									position: absolute;
+									left: 0px;
+									top: 3px;
+									text-decoration: none;
+									background-repeat: no-repeat;
+									margin-top: auto;
+									margin-bottom: auto;
+								"
+								href="mailto:matthewwilsonsiu@gmail.com"
+							>
+								<img
+									style="width: auto; margin-top: auto; margin-bottom: auto"
+									src="/assets/mail.svg"
+								/>
+							</a>
+							matthewwilsonsiu@gmail.com
+						</div>
+						<div
+							class="text"
+							style="
+								color: grey;
+								display: flex;
+								flex-direction: row;
+								padding-left: 20px;
+								position: relative;
+							"
+						>
+							<a
+								style="
+									position: absolute;
+									left: 0px;
+									top: 3px;
+									text-decoration: none;
+									background-repeat: no-repeat;
+									margin-top: auto;
+									margin-bottom: auto;
+								"
+								href="https://twitter.com/MatthewWSiu"
+								target="_blank"
+							>
+								<img
+									style="width: auto; margin-top: auto; margin-bottom: auto"
+									src="/assets/twitter.svg"
+								/>
+							</a>
+							@MatthewWSiu
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="bento bento-third">
+				<div
+					class="bento-item bento-item-1-3"
 					style="
-						position: absolute;
-						left: 0px;
-						top: 3px;
-						text-decoration: none;
+						background-image: url('/assets/Interface.png');
 						background-repeat: no-repeat;
-						margin-top: auto;
-						margin-bottom: auto;
+						background-size: cover;
+						cursor: pointer;
 					"
-					href="mailto:matthewwilsonsiu@gmail.com"
+					onclick="window.open('/Interfaces', '_blank')"
 				>
-					<img
-						style="width: auto; margin-top: auto; margin-bottom: auto"
-						src="/assets/mail.svg"
-					/>
-				</a>
-				matthewwilsonsiu@gmail.com
-			</div>
-			<div
-				class="text"
-				style="
-					color: grey;
-					display: flex;
-					flex-direction: row;
-					padding-left: 20px;
-				"
-			>
-				<a
+					<h2 class="bento-bulletin-header">Interface Gallery</h2>
+				</div>
+				<div
+					class="bento-item bento-item-3-3 bulletin-bento-item"
 					style="
-						position: absolute;
-						left: 0px;
-						top: 3px;
-						text-decoration: none;
+						background-image: url('/assets/bulletin3.png');
 						background-repeat: no-repeat;
-						margin-top: auto;
-						margin-bottom: auto;
+						background-size: cover;
 					"
-					href="https://twitter.com/MatthewWSiu"
-					target="_blank"
+					id="bulletin-container"
 				>
-					<img
-						style="width: auto; margin-top: auto; margin-bottom: auto"
-						src="/assets/twitter.svg"
-					/>
-				</a>
-				<div class="">@MatthewWSiu</div>
+					<!-- Bulletin items will be dynamically inserted here -->
+					<div id="bulletin-toggle">
+						<div class="caret-item caret-up" style="position: relative">
+							<div class="caret-disable"></div>
+							<img
+								class="caret"
+								style="transform: rotate(-180deg)"
+								src="/assets/caret.svg"
+								alt="Caret"
+							/>
+						</div>
+						<div class="caret-item caret-down" style="position: relative">
+							<div class="caret-disable"></div>
+							<img class="caret" src="/assets/caret.svg" alt="Caret" />
+						</div>
+					</div>
+				</div>
 			</div>
-		</div>
-	</div>
-</div>
-
-<div class="bento bento-third">
-	<div
-		class="bento-item bento-item-1-3"
-		style="
-			background-image: url('/assets/Interface.png');
-			background-repeat: no-repeat;
-			background-size: cover;
-			cursor: pointer;
-		"
-		onclick="window.open('/Interfaces', '_blank')"
-	>
-		<h2 class="bento-title">Interface Gallery</h2>
-	</div>
-	<div
-		class="bento-item bento-item-3-3 bulletin-bento-item"
-		style="
-			background-image: url('/assets/bulletin3.png');
-			background-repeat: no-repeat;
-			background-size: cover;
-		"
-	>
-		{% for data in site.data.bulletin %}
-		<div class="bulletin-item hide">
-			{% assign bulletin_parts = data.bulletin | split: ';' %}
-			<div class="bulletin-content">
-				<span class="flex-row bento-title">
-					<h2 class="bento-bulletin-header">Bulletin</h2>
-					<span class="bento-time">{{ data.date }}</span>
-				</span>
-
-				{% for part in bulletin_parts %}
-				<span class="text">{{ part | strip }}</span>{% unless forloop.last %}<br /><br />{%
-				endunless %} {% endfor %}
+			<div class="bento bento-half">
+				<div
+					class="bento-item bento-item-1-2"
+					style="
+						background-image: url('https://pbs.twimg.com/media/GGd5bwzX0AAi-94?format=jpg&name=large');
+						background-repeat: no-repeat;
+						background-size: cover;
+						background-position: 0% 70%;
+					"
+				>
+					<a
+						href="https://x.com/Aurumek_/status/1758507708758556899?s=20"
+						target="_blank"
+						class="bento-attribution"
+						>@Arumek</a
+					>
+				</div>
+				<div
+					class="bento-item bento-item-2-2"
+					style="
+						background-image: url('assets/map.png');
+						background-repeat: no-repeat;
+						background-size: cover;
+						cursor: pointer;
+					"
+					onclick="window.open('https://felt.com/map/Places-9Ag4bBexWQJ6IUpH9BzhvqyB?loc=39.09,-140.53,3.56z', '_blank')"
+				>
+					<h2 class="bento-title">Places</h2>
+				</div>
 			</div>
-		</div>
-		{% endfor %}
 
-		<div id="bulletin-toggle">
-			<div class="caret-item caret-up" style="position: relative">
-				<div class="caret-disable"></div>
-				<img
-					class="caret"
-					style="transform: rotate(-180deg)"
-					src="/assets/caret.svg"
-					alt="Caret"
-				/>
-			</div>
-			<div class="caret-item caret-down" style="position: relative">
-				<div class="caret-disable"></div>
-				<img class="caret" src="/assets/caret.svg" alt="Caret" />
-			</div>
-		</div>
-	</div>
-</div>
-<div class="bento bento-half">
-	<div
-		class="bento-item bento-item-1-2"
-		style="
-			background-image: url('https://pbs.twimg.com/media/GGd5bwzX0AAi-94?format=jpg&name=large');
-			background-repeat: no-repeat;
-			background-size: cover;
-			background-position: 0% 70%;
-		"
-	>
-		<a
-			href="https://x.com/Aurumek_/status/1758507708758556899?s=20"
-			target="_blank"
-			class="bento-attribution"
-			>@Arumek</a
-		>
-	</div>
-	<div
-		class="bento-item bento-item-2-2"
-		style="
-			background-image: url('assets/map.png');
-			background-repeat: no-repeat;
-			background-size: cover;
-			cursor: pointer;
-		"
-		onclick="window.open('https://felt.com/map/Places-9Ag4bBexWQJ6IUpH9BzhvqyB?loc=39.09,-140.53,3.56z', '_blank')"
-	>
-		<h2 class="bento-title">Places</h2>
-	</div>
-</div>
-
-<div class="bento">
-	<!-- <div class="bento-item-no-background" style="color: gray; font-style: italic">
+			<div class="bento">
+				<!-- <div class="bento-item-no-background" style="color: gray; font-style: italic">
 		indexing... please take a look in the meantime!
 	</div> -->
-	<div class="bento-item-no-background">
-		<h2 class="bento-title post-header">Index</h2>
-	</div>
-	<div class="bento-half">
-		<div class="bento-item-no-background bento-item-1-2 things"></div>
-		<div class="bento-item-no-background bento-item-2-2 ongoing-things"></div>
-	</div>
-</div>
+				<div class="bento-item-no-background">
+					<h2 class="bento-title post-header">Index</h2>
+				</div>
+				<div class="bento-half">
+					<div class="bento-item-no-background bento-item-1-2 things"></div>
+					<div
+						class="bento-item-no-background bento-item-2-2 ongoing-things"
+					></div>
+				</div>
+			</div>
 
-<div id="preview-box"></div>
+			<div id="preview-box"></div>
 
-<script>
-	let previewBox = document.getElementById("preview-box");
+			<script>
+				let previewBox = document.getElementById("preview-box");
 
-	function createYearSection(year, isFirst) {
-		return `
+				function createYearSection(year, isFirst) {
+					return `
 			<div class="post-section ${isFirst ? "first-section" : ""}">
 				${year}
 			</div>
 		`;
-	}
+				}
 
-	function createMonthSection(monthName) {
-		return `
+				function createMonthSection(monthName) {
+					return `
 			<span class="post-month">
 				${monthName}
 				<hr class="post-decoration"></hr>
 			</span>
 		`;
-	}
+				}
 
-	async function generateThings() {
-		let t_things = document.querySelector(".things");
-		let o_t_things = document.querySelector(".ongoing-things");
+				function createPreviewModal() {
+					const modal = document.createElement("div");
+					modal.id = "preview-modal";
+					modal.innerHTML = '<div class="preview-content"></div>';
+					document.body.appendChild(modal);
+					return modal;
+				}
 
-		// load json
-		let data = await fetch("./assets/things.json").then((response) => {
-			return response.json();
-		});
+				function getFileType(filename) {
+					const extension = filename.toLowerCase().split(".").pop();
+					const videoFormats = ["mp4", "webm", "mov"];
+					const imageFormats = ["jpg", "jpeg", "png", "gif", "webp", "heic"];
 
-		let collaborators = await fetch("./assets/collaborators.json").then(
-			(response) => {
-				return response.json();
-			}
-		);
+					if (videoFormats.includes(extension)) return "video";
+					if (imageFormats.includes(extension)) return "image";
+					return "unknown";
+				}
 
-		data.forEach((section, index) => {
-			let year = section["year"];
-			let month = section["month"];
-			let things = section["things"];
+				function updateModalContent(modal, previewPath, fileType) {
+					const contentDiv = modal.querySelector(".preview-content");
+					contentDiv.innerHTML = ""; // Clear existing content
 
-			if (year == "ongoing") {
-				let newDiv = document.createElement("div");
-				let html = createYearSection(year, true);
-				newDiv.innerHTML = html;
-				o_t_things.appendChild(newDiv);
-			} else if (year) {
-				let newDiv = document.createElement("div");
-				let html = createYearSection(year, t_things.children.length === 0);
-				newDiv.innerHTML = html;
+					let mediaElement;
 
-				t_things.appendChild(newDiv);
-			} else if (month) {
-				let newDiv = document.createElement("div");
-				let html = createMonthSection(month);
-				newDiv.innerHTML = html;
-				t_things.appendChild(newDiv);
-			}
+					if (fileType === "video") {
+						mediaElement = document.createElement("video");
+						mediaElement.autoplay = true;
+						mediaElement.loop = true;
+						mediaElement.muted = true;
+					} else {
+						mediaElement = document.createElement("img");
+					}
 
-			things.forEach((thing) => {
-				let newDiv = document.createElement("div");
-				let marker = thing.marking;
-				let collaboratorsHtml = thing.collaborators
-					.map((collaborator) => {
-						let collaborator_url = collaborators[collaborator];
-						return `<a style="color: gray; font-style: italic;" href="${collaborator_url}" target="_blank">${collaborator}</a>`;
-					})
-					.join(", ");
+					mediaElement.src = previewPath;
+					contentDiv.appendChild(mediaElement);
+				}
 
-				let html = `
-						<div class="index-item" style="position: relative;">
-							${
-								marker === "star"
-									? `
-								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="position: absolute; left: -20px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px;">
-									<path d="M12 2l2.4 7.4h7.6l-6 4.6 2.4 7.4-6-4.6-6 4.6 2.4-7.4-6-4.6h7.6z"/>
-								</svg>`
-									: ""
+				async function generateThings() {
+					let t_things = document.querySelector(".things");
+					let o_t_things = document.querySelector(".ongoing-things");
+
+					// load json
+					let data = await fetch("./data/timeline.json").then((response) => {
+						return response.json();
+					});
+
+					let collaborators = await fetch("./data/collaborators.json").then(
+						(response) => {
+							return response.json();
+						}
+					);
+
+					const modal = createPreviewModal();
+
+					data.forEach((section, index) => {
+						let year = section["year"];
+						let month = section["month"];
+						let things = section["things"];
+
+						if (year == "ongoing") {
+							let newDiv = document.createElement("div");
+							let html = createYearSection(year, true);
+							newDiv.innerHTML = html;
+							o_t_things.appendChild(newDiv);
+						} else if (year) {
+							let newDiv = document.createElement("div");
+							let html = createYearSection(
+								year,
+								t_things.children.length === 0
+							);
+							newDiv.innerHTML = html;
+
+							t_things.appendChild(newDiv);
+						} else if (month) {
+							let newDiv = document.createElement("div");
+							let html = createMonthSection(month);
+							newDiv.innerHTML = html;
+							t_things.appendChild(newDiv);
+						}
+
+						things.forEach((thing) => {
+							let newDiv = document.createElement("div");
+							let markers = Array.isArray(thing.marking)
+								? thing.marking
+								: [thing.marking];
+							let markerHtml = `
+					<div style="
+						position: absolute; 
+						transform: translateY(-50%);
+						display: flex;
+		
+					">
+					${markers
+						.map((marker) => {
+							if (marker === "star") {
+								return `
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 16px; height: 16px; position: absolute; left: -20px; top: 3px">
+								<path d="M12 2l2.4 7.4h7.6l-6 4.6 2.4 7.4-6-4.6-6 4.6 2.4-7.4-6-4.6h7.6z"/>
+							</svg>`;
+							} else if (marker === "twitter") {
+								return "";
+								return `
+							<svg width="15" height="15" viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg" style="position: absolute; left: -40px; top:1px">
+								<g clip-path="url(#clip0_358_2917)">
+									<path d="M4.26754 9.78894C3.55348 10.3498 2.73389 10.7613 1.85754 10.9989C1.76101 11.034 1.67761 11.0979 1.61868 11.1819C1.55974 11.266 1.52812 11.3662 1.52812 11.4689C1.52812 11.5716 1.55974 11.6718 1.61868 11.7559C1.67761 11.84 1.76101 11.9039 1.85754 11.9389C8.77754 14.7789 13.1775 10.3889 12.5075 5.51894L13.6275 3.19894H12.3275C10.7075 1.20894 6.40754 1.30894 7.11754 5.54894C7.11754 5.54894 4.81754 5.95894 1.87754 3.06894C1.80953 3.0018 1.7237 2.95555 1.63022 2.93568C1.53674 2.91581 1.43953 2.92314 1.35009 2.95681C1.26065 2.99048 1.18273 3.04908 1.12556 3.12567C1.0684 3.20225 1.03438 3.29362 1.02753 3.38894C0.716666 4.66679 0.872238 6.01364 1.46624 7.18697C2.06024 8.3603 3.05363 9.28301 4.26754 9.78894Z" fill="currentColor"/>
+								</g>
+								<defs>
+									<clipPath id="clip0_358_2917">
+										<rect width="14" height="14" fill="white" transform="translate(0.265625 0.388672)"/>
+									</clipPath>
+								</defs>
+							</svg>`;
 							}
+							return "";
+						})
+						.join("")}
+					</div>
+				`;
+
+							let collaboratorsHtml = thing.collaborators
+								.map((collaborator) => {
+									let collaborator_url = collaborators[collaborator];
+									return `<a style="color: gray; font-style: italic;" href="${collaborator_url}" target="_blank">${collaborator}</a>`;
+								})
+								.join(", ");
+
+							let html = `
+						<div class="index-item" style="position: relative;">
+							${markerHtml}
 							<a class="index-link" href="${thing.url}">${thing.title}</a>
 							${
 								collaboratorsHtml
@@ -297,63 +500,143 @@ layout: page
 						</div>
 					`;
 
-				newDiv.innerHTML = html;
+							newDiv.innerHTML = html;
 
-				if (year == "ongoing") {
-					o_t_things.appendChild(newDiv);
-				} else {
-					t_things.appendChild(newDiv);
+							// Add preview functionality if preview exists
+							// if (thing.preview) {
+							// 	const indexItem = newDiv.querySelector(".index-item");
+							// 	indexItem.style.cursor = "pointer";
+
+							// 	const previewPath = thing.preview;
+							// 	const fileType = getFileType(thing.preview);
+
+							// 	indexItem.addEventListener("mouseenter", () => {
+							// 		updateModalContent(modal, previewPath, fileType);
+							// 		modal.classList.add("active");
+							// 	});
+
+							// 	indexItem.addEventListener("mouseleave", () => {
+							// 		modal.classList.remove("active");
+							// 		// Stop video playback when modal is hidden
+							// 		const video = modal.querySelector("video");
+							// 		if (video) video.pause();
+							// 	});
+							// }
+
+							if (year == "ongoing") {
+								o_t_things.appendChild(newDiv);
+							} else {
+								t_things.appendChild(newDiv);
+							}
+						});
+					});
 				}
-			});
-		});
-	}
-	generateThings();
-</script>
-<script>
-	let bb_bulletinItems = document.querySelectorAll(".bulletin-item");
-	let bb_currentBulletin = 0;
-	bb_bulletinItems[bb_currentBulletin].classList.remove("hide");
+				generateThings();
+			</script>
+			<script>
+				async function loadBulletins() {
+					try {
+						const response = await fetch("/data/bulletin.json");
+						const bulletins = await response.json();
+						const container = document.getElementById("bulletin-container");
+						const toggle = document.getElementById("bulletin-toggle");
 
-	let bb_downCaretDisable = document
-		.querySelector(".caret-down")
-		.querySelector(".caret-disable");
-	let bb_upCaretDisable = document
-		.querySelector(".caret-up")
-		.querySelector(".caret-disable");
+						bulletins.forEach((item, index) => {
+							const bulletinDiv = document.createElement("div");
+							bulletinDiv.className = "bulletin-item hide";
 
-	function toggleBulletinCarets() {
-		if (bb_currentBulletin == 0) {
-			bb_upCaretDisable.classList.remove("caret-hide");
-			bb_downCaretDisable.classList.add("caret-hide");
-		} else if (bb_currentBulletin == bb_bulletinItems.length - 1) {
-			bb_upCaretDisable.classList.add("caret-hide");
-			bb_downCaretDisable.classList.remove("caret-hide");
-		} else {
-			bb_upCaretDisable.classList.add("caret-hide");
-			bb_downCaretDisable.classList.add("caret-hide");
-		}
-	}
+							const bulletinHTML = `
+							<div class="bulletin-content">
+								<span class="flex-row bento-title">
+									<h2 class="bento-bulletin-header">Bulletin</h2>
+									<span class="bento-time">${item.date}</span>
+								</span>
+								${item.bulletin
+									.map(
+										(text, i) => `
+									<span class="text">${text}</span>
+									${i < item.bulletin.length - 1 ? "<br /><br />" : ""}
+								`
+									)
+									.join("")}
+							</div>
+						`;
 
-	toggleBulletinCarets();
-	let bb_downCaret = document
-		.querySelector(".caret-down")
-		.querySelector(".caret");
-	let bb_upCaret = document.querySelector(".caret-up").querySelector(".caret");
+							bulletinDiv.innerHTML = bulletinHTML;
+							container.insertBefore(bulletinDiv, toggle);
+						});
 
-	bb_downCaret.addEventListener("click", function () {
-		bb_bulletinItems[bb_currentBulletin].classList.add("hide");
-		bb_currentBulletin = Math.min(
-			bb_currentBulletin + 1,
-			bb_bulletinItems.length - 1
-		);
-		bb_bulletinItems[bb_currentBulletin].classList.remove("hide");
-		toggleBulletinCarets();
-	});
+						// Initialize the first bulletin to be visible
+						const bulletinItems = document.querySelectorAll(".bulletin-item");
+						if (bulletinItems.length > 0) {
+							bulletinItems[0].classList.remove("hide");
+						}
 
-	bb_upCaret.addEventListener("click", function () {
-		bb_bulletinItems[bb_currentBulletin].classList.add("hide");
-		bb_currentBulletin = Math.max(bb_currentBulletin - 1, 0);
-		bb_bulletinItems[bb_currentBulletin].classList.remove("hide");
-		toggleBulletinCarets();
-	});
-</script>
+						// Initialize the bulletin navigation
+						initializeBulletinNavigation();
+					} catch (error) {
+						console.error("Error loading bulletins:", error);
+					}
+				}
+
+				function initializeBulletinNavigation() {
+					let bb_bulletinItems = document.querySelectorAll(".bulletin-item");
+					let bb_currentBulletin = 0;
+
+					let bb_downCaretDisable = document
+						.querySelector(".caret-down")
+						.querySelector(".caret-disable");
+					let bb_upCaretDisable = document
+						.querySelector(".caret-up")
+						.querySelector(".caret-disable");
+
+					function toggleBulletinCarets() {
+						if (bb_currentBulletin == 0) {
+							bb_upCaretDisable.classList.remove("caret-hide");
+							bb_downCaretDisable.classList.add("caret-hide");
+						} else if (bb_currentBulletin == bb_bulletinItems.length - 1) {
+							bb_upCaretDisable.classList.add("caret-hide");
+							bb_downCaretDisable.classList.remove("caret-hide");
+						} else {
+							bb_upCaretDisable.classList.add("caret-hide");
+							bb_downCaretDisable.classList.add("caret-hide");
+						}
+					}
+
+					toggleBulletinCarets();
+
+					let bb_downCaret = document
+						.querySelector(".caret-down")
+						.querySelector(".caret");
+					let bb_upCaret = document
+						.querySelector(".caret-up")
+						.querySelector(".caret");
+
+					bb_downCaret.addEventListener("click", function () {
+						bb_bulletinItems[bb_currentBulletin].classList.add("hide");
+						bb_currentBulletin = Math.min(
+							bb_currentBulletin + 1,
+							bb_bulletinItems.length - 1
+						);
+						const newBulletin = bb_bulletinItems[bb_currentBulletin];
+						newBulletin.classList.remove("hide");
+						document.getElementById("bulletin-container").scrollTop = 0;
+						toggleBulletinCarets();
+					});
+
+					bb_upCaret.addEventListener("click", function () {
+						bb_bulletinItems[bb_currentBulletin].classList.add("hide");
+						bb_currentBulletin = Math.max(bb_currentBulletin - 1, 0);
+						const newBulletin = bb_bulletinItems[bb_currentBulletin];
+						newBulletin.classList.remove("hide");
+						document.getElementById("bulletin-container").scrollTop = 0;
+						toggleBulletinCarets();
+					});
+				}
+
+				// Load bulletins when the page loads
+				loadBulletins();
+			</script>
+		</article>
+	</body>
+</html>

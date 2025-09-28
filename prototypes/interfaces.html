@@ -1,0 +1,131 @@
+---
+layout: page
+permalink: /Interfaces/
+---
+
+<div class="grid-container" id="prototypes"></div>
+
+<script>
+	let p_prototypes = document.querySelector("#prototypes");
+
+	fetch("../data/proto.json")
+		.then((response) => {
+			return response.json();
+		})
+		.then((data) => {
+			data.forEach((column) => {
+				const grid_item = document.createElement("div");
+				grid_item.classList.add("grid-item");
+				column.forEach((item) => {
+					const newDiv = document.createElement("div");
+					newDiv.style.position = "relative";
+
+					if (item.type == "image") {
+						const img = document.createElement("img");
+						img.src = item.resource;
+						img.alt = item.name;
+						img.classList.add("prototype", "image-dimensions");
+						newDiv.appendChild(img);
+					} else {
+						const video = document.createElement("video");
+						video.src = item.resource;
+						video.autoplay = true;
+						video.loop = true;
+						video.muted = true;
+						video.classList.add("prototype", "video-dimensions");
+						newDiv.appendChild(video);
+					}
+
+					const caption = document.createElement("div");
+					caption.classList.add("prototype-caption");
+					const linkIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>`;
+					caption.innerHTML = `${item.name} ${item.url ? linkIcon : ""}`;
+					if (item.url) {
+						caption.onclick = () => window.open(item.url, "_blank");
+						caption.style.cursor = "pointer";
+					}
+					newDiv.appendChild(caption);
+
+					grid_item.appendChild(newDiv);
+
+					p_prototypes.appendChild(grid_item);
+				});
+			});
+		});
+</script>
+
+<style>
+	.video-dimensions {
+		max-width: 300px;
+	}
+
+	.image-dimensions {
+		max-width: 300px;
+	}
+
+	.grid-container {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+
+	.grid-item {
+		display: flex;
+		flex-direction: column;
+		width: 300px;
+		margin-left: 12px;
+	}
+
+	.media-caption {
+		font-size: 1rem;
+	}
+
+	.prototype {
+		border: 1px solid #bdbdbd66;
+		/* border: 3px solid black; */
+		border-radius: 4px;
+		width: calc(100% - 6px);
+	}
+
+	.prototype-caption {
+		position: absolute;
+		bottom: 10px;
+		left: 5px;
+		padding: 4px;
+		border-radius: 4px;
+		font-size: medium;
+		background-color: rgba(0, 0, 0, 0.51);
+		color: white;
+	}
+
+	.prototype-caption svg {
+		width: 14px;
+		height: 14px;
+	}
+
+	@media (max-width: 1200px) {
+		body {
+			padding: 0 20px;
+		}
+
+		.video-dimensions {
+			/* max-width: calc(100%-6px); */
+			max-width: 600px;
+			width: 100%;
+		}
+
+		.image-dimensions {
+			/* max-width: calc(100%-6px); */
+			max-width: 600px;
+			width: 100%;
+		}
+
+		.grid-container {
+			flex-direction: column;
+		}
+		.grid-item {
+			width: 100%;
+			margin-left: 0px;
+		}
+	}
+</style>

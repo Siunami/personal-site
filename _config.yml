@@ -37,12 +37,12 @@ pandoc:
     - filter: "pandoc-sidenote"
 
 collections:
+  artifacts:
+    output: true
+    permalink: /:title
   notes:
     output: true
-    permalink: /:title
-  impressions:
-    output: true
-    permalink: /:title
+    permalink: /notes/:title/
 
 post:
   template: _post.txt
