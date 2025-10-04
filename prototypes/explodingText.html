@@ -28,6 +28,7 @@ permalink: /ExplodingText/
 
 				width: 700px;
 				border-radius: 5px;
+				z-index: 100;
 			}
 
 			#explode {
@@ -46,6 +47,7 @@ permalink: /ExplodingText/
 				position: absolute;
 				left: 42%;
 				top: 10%;
+				z-index: 0;
 			}
 
 			.mobile-message {
@@ -110,6 +112,9 @@ permalink: /ExplodingText/
 		// 1231
 
 		let textArea = document.getElementById("textarea");
+
+		textArea.value =
+			"Break a line, recombine a thought. Click the bomb to let chance scatter the words to form new ideas, new relations, new metaphors.\n\nBrian Eno on randomness: \"The interesting thing about randomness is that sometimes you're taken somewhere that you didn't expect to go and sometimes that turns out to be a really interesting new place\"";
 		// textArea.style.transition = "all 1s ease-in-out";
 		let textMeasure = document.getElementById("text");
 		textMeasure.style.position = "absolute";
@@ -125,6 +130,10 @@ permalink: /ExplodingText/
 		// const SPACE_BAR_WIDTH = 5;
 		const SPACE_BAR_WIDTH = 4.25;
 		const VERTICAL_SPACING = 21;
+		// Explosion tuning
+		const BLAST_RADIUS = 420; // px
+		const MIN_SPEED = 18;
+		const MAX_SPEED = 96;
 
 		function measureText(word) {
 			textMeasure.style.maxWidth = `50%`;
@@ -232,36 +241,33 @@ permalink: /ExplodingText/
 		}
 
 		function renderTextPositions() {
-			let words = textArea.value.split(" ");
+			let text = textArea.value || "";
+			let lines = text.split(/\r?\n/);
 
 			let textAreaDim = textArea.getBoundingClientRect();
 			let currRow = 0;
 			let currRowIndex = 0;
 
-			for (let word of words) {
-				if (word != "") {
-					let wordBoundaries = measureText(word);
+			for (let li = 0; li < lines.length; li++) {
+				let words = lines[li].split(/\s+/).filter(Boolean);
 
+				for (let word of words) {
+					let wordBoundaries = measureText(word);
 					let { width, x, y } = wordBoundaries;
 
 					const element = document.createElement("div");
 					element.className = "text-style";
-
-					// word styling
-					// element.style.fontSize ="18px";
 					element.innerText = word;
 					element.style.position = "absolute";
 					element.style.left = `-1000px`;
 					element.style.top = `-1000px`;
 
-					// console.log(textAreaDim)
 					const remainingWidth = calculateRowWidth(
 						rows[currRow],
 						textAreaDim.width
 					);
 
 					if (remainingWidth - 60 > width) {
-						// calculate starting position
 						const xOffset =
 							textAreaDim.width - remainingWidth - TEXT_AREA_PADDING;
 
@@ -297,33 +303,50 @@ permalink: /ExplodingText/
 					rows[currRow].push(particle);
 					currRowIndex += 1;
 				}
+
+				// force a new row on manual line breaks (except after final line)
+				if (li < lines.length - 1) {
+					currRow += 1;
+					currRowIndex = 0;
+					rows[currRow] = [];
+				}
 			}
 		}
 
 		function explode() {
 			flattened_rows = rows.flat();
 
+			const bombRect = bomb.getBoundingClientRect();
+			const bx = bombRect.left + bombRect.width / 2;
+			const by = bombRect.top + bombRect.height / 2;
+
 			flattened_rows.forEach((particle) => {
-				particle.element.getBoundingClientRect().width;
-				particle.velX =
-					getRandomInt(-20, 90) *
-					(particle.element.getBoundingClientRect().x < window.innerWidth / 2
-						? -1
-						: 1);
-				// particle.velY = getRandomInt(70, 90) * (getRandomInt(-1,1) < 0 ? -1 : 1);
-				particle.velY = getRandomInt(30, 60);
-				// particle.velY = (getRandomInt(-1,1) < 0 ? getRandomInt(10, 30) : getRandomInt(70, 90));
+				const r = particle.element.getBoundingClientRect();
+				const px = r.left + r.width / 2;
+				const py = r.top + r.height / 2;
+
+				const dx = px - bx;
+				const dy = py - by;
+				const dist = Math.max(1, Math.hypot(dx, dy));
+
+				const within = dist <= BLAST_RADIUS;
+				const falloff = within ? 1 - dist / BLAST_RADIUS : 0.18; // small push even outside
+				const dirX = dx / dist;
+				const dirY = dy / dist;
+
+				const speed =
+					MIN_SPEED + falloff * (MAX_SPEED - MIN_SPEED) + getRandomInt(-6, 6);
+
+				particle.velX = dirX * speed;
+				particle.velY = dirY * speed;
 
 				const acc = 2;
-
 				if (particle.velX < 0) particle.accX = acc;
 				else particle.accX = -acc;
-
 				if (particle.velY < 0) particle.accY = acc;
 				else particle.accY = -acc;
 
-				// var regex = /[.,\/#!$%\^&\*;:{}=\-_`~()]/g;
-				// particle.text = particle.text.replace(/[.,/#!$%^&*;:{}=-_`~()]/g, "").replace(/s{2,}/g, " ");
+				// keep punctuation cleanup
 				particle.text = particle.text.replace(/[^a-zA-Z0-9'’]+/g, "");
 			});
 
@@ -336,6 +359,7 @@ permalink: /ExplodingText/
 
 		function dropBomb() {
 			if (!bombClicked) {
+				bomb.style.zIndex = 100;
 				bombClicked = true;
 
 				renderTextPositions();
