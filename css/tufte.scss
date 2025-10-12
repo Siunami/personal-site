@@ -17,6 +17,8 @@ nav_exclude: true
 @import "../_sass/settings";
 @import "../_sass/syntax-highlighting";
 
+
+
 // Global Resets
 //
 * { margin: 0; padding: 0; }
@@ -35,23 +37,25 @@ html, body { height: 100%; }
 
 html{
     text-align: baseline;
-    font-size: 11px;
+    /* DISABLED: Now controlled in custom.scss */
+    /* font-size: 11px; */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
   }
 
-@media screen and (min-width: 800px){ html{ font-size: 12px;} }
+/* DISABLED: Now controlled in custom.scss */
+/* @media screen and (min-width: 800px){ html{ font-size: 12px;} } */
 
-@media screen and (min-width: 900px){ html{ font-size: 13px;} }
+/* @media screen and (min-width: 900px){ html{ font-size: 13px;} } */
 
-@media screen and (min-width: 1000px){ html{ font-size: 14px;} }
+/* @media screen and (min-width: 1000px){ html{ font-size: 14px;} } */
 
-@media screen and (min-width: 1100px){ html{ font-size: 15px; } }
+/* @media screen and (min-width: 1100px){ html{ font-size: 15px; } } */
 
-@media screen and (min-width: 1200px){ html{ font-size: 16px; } }
+/* @media screen and (min-width: 1200px){ html{ font-size: 16px; } } */
 
-@media screen and (min-width: 1300px){ html{ font-size: 17px; } }
+/* @media screen and (min-width: 1300px){ html{ font-size: 17px; } } */
 
 // Mathjax fonts need TLC
 .mjx-math{
@@ -646,3 +650,5 @@ hr.slender {
   content: "\eae4";
 }
 /*-- End of Icomoon icon font section --*/
+
+@import "../css/custom";

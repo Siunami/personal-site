@@ -20,12 +20,56 @@ $light-gray: #e6e6e6;
 $width: 87.5%;
 // $small-width: 92.5%;
 
+/* Fluid base type size and simple type scale */
+/* DISABLED: Now controlled in custom.scss */
+/* html { font-size: clamp(16px, 1.2vw + 14px, 20px); } */
+
+:root {
+    --font-0: 1rem;      /* body */
+    --font-1: 1.125rem;  /* small up */
+    --font-2: 1.25rem;   /* section headers */
+    --font-3: 1.5rem;    /* big headers */
+}
+
+// Layout primitives
+$bp: (
+    sm: 768px,
+    md: 1250px,
+    lg: 1400px
+);
+
+$gutters: (
+    sm: 1rem,
+    md: 3.5%,
+    lg: 0
+);
+
+@mixin respond($key, $dir: max) {
+    $w: map-get($bp, $key);
+    @if $w {
+        @media (#{$dir}-width: #{$w}) { @content; }
+    }
+}
+
+@mixin gutters($key, $important: false) {
+    $g: map-get($gutters, $key);
+    @if $important {
+        padding-left: $g !important;
+        padding-right: $g !important;
+    } @else {
+        padding-left: $g;
+        padding-right: $g;
+    }
+}
+
 
 body, * {
     margin: 0;
     padding: 0;
-    font-size: 16px; /* Converted 1rem to 16px */
 }
+
+// Default wide-desktop gutters
+body { @include gutters(lg); }
 
 /* GLOBAL CONTENT STYLING */
 strong, em, b, i, a, p, ul,ul li, blockquote {
@@ -58,6 +102,9 @@ ul {
 }
 
 @media (max-width: 768px) {
+    /* DISABLED: Now controlled in custom.scss */
+    /* html { font-size: 20px; } */
+    body { @include gutters(sm, true); }
     // blockquote {
     //     font-size: 1.5rem;
     // }
@@ -72,13 +119,33 @@ ul {
         line-height: 1.7 !important;
     }
 
-    .content {
+    .content { width: 100% !important; max-width: 100%; padding-left: 0; padding-right: 0; margin: 0; }
+
+    /* Make primary text elements full-width and remove right padding */
+    p, footer, .MJXc-display, .MathJax, div.table-wrapper {
         width: 100% !important;
-        max-width: 100%;
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
-        margin: 0;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
     }
+
+    p, li {
+        padding-right: 0 !important;
+    }
+
+    ul { width: 100% !important; }
+    figure { max-width: 100% !important; }
+    figcaption, figure.fullwidth figcaption {
+        margin-right: 0% !important;
+        max-width: none !important;
+    }
+
+    blockquote p, blockquote footer, div.epigraph > blockquote > footer, .MJXc-display {
+        width: 100% !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    /* rely on fluid base; no text size override needed */
 
     ul {
         margin-left: 2rem;  // Add left margin for the entire list
@@ -146,9 +213,7 @@ ul {
 }
 
 
-.content {
-    max-width: 1020px;
-}
+.content { max-width: 1020px; margin-left: auto; margin-right: auto; width: 100%; }
 
 .section {
     margin-bottom: 1rem
@@ -159,15 +224,22 @@ ul {
     font-family: $body-font;
     color: $text-color;
     width:100%;
-    max-width:800px;
-    font-size: 19.2px !important; /* Converted 1.2rem to 19.2px */
-    margin-top:8px; /* Converted .5rem to 8px */
-    margin-bottom: 16px; /* Converted 1rem to 16px */
+    // max-width:800px;
+    font-size: var(--font-0) !important;
+    margin-top:8px;
+    margin-bottom: 16px;
+}
+
+/* Tighter paragraph spacing specifically in the homepage intro letter */
+.letter p.text {
+    margin-top: 4px;
+    margin-bottom: 0px !important;
 }
 
 div {
     font-family: $body-font;
-    font-size: 1.2rem !important;
+    /* DISABLED: Now controlled in custom.scss */
+    /* font-size: 1.2rem !important; */
 }
 
 // .text > * {
@@ -320,16 +392,6 @@ div {
     margin-bottom: 8px;
 }
 
-.bento-bulletin-header {
-    // font-size: 1.5rem;
-    margin-top: 0rem;
-    margin-bottom: 0rem;
-    padding-right: 0px;
-    width: fit-content;
-    margin-top:auto;
-    margin-bottom:auto;
-}
-
 .bento-time {
     position: relative;
     // bottom: 6px;
@@ -386,6 +448,22 @@ div {
     color: $gray
 }
 
+.bento-bulletin-header {
+    font-size: 1.5rem !important;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+    padding-right: 0px;
+    width: fit-content;
+    margin-top: auto;
+    margin-bottom: auto;
+    color: black;
+    text-decoration: none;
+    border-bottom: none;
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
 /* POST PREVIEW STYLING */
 
 .side-by-side {
@@ -434,7 +512,6 @@ div {
     font-style: italic;
     margin-top: 32px;
     font-weight: 500;
-    font-size: 22.4px !important
     // text-decoration: underline;
 }
 
@@ -480,7 +557,7 @@ div {
 
 .index-link {
     width: fit-content;
-    font-size: 19.2px !important; /* Converted 1.6rem to 25.6px */
+    font-size: var(--font-0);
 }
 
 .post-nav {
@@ -558,13 +635,11 @@ div {
 }
 
 @media (max-width: 1250px) {
-    body, * {
-        font-size: 19.2px; /* Converted 1.2rem to 19.2px */
-    }
-
-    body { 
-        padding-left: 3.5% !important;
-        padding-right: 3.5% !important;
+    /* DISABLED: Now controlled in custom.scss */
+    /* body, * { font-size: 1rem !important; } */
+    body { @include gutters(md, true); }
+    .english-name {
+        margin-left: 0px !important;
     }
     
     .header {
@@ -586,31 +661,34 @@ div {
         flex-direction: row;
     }
 
-
-
-
     #bulletin-toggle {
         display:none;
     }
 
-    .text {
-        font-size: 22.4px; /* Converted 1.4rem to 22.4px */
+    /* Keep body copy comfortable on mid-width screens */
+    .text { font-size: 1rem !important; }
+}
+
+/* Prevent header/logo from sitting flush with the left edge on mid-width screens
+   just above 1250px (e.g., 1252px). We add gutters and switch header to relative. */
+@media (min-width: 1251px) and (max-width: 1400px) {
+    .english-name {
+        margin-left: 0px !important;
+    }
+
+    body { @include gutters(md, true); }
+    .header {
+        position: relative;
+        left: 0px;
+        margin-top: 3rem;
+        flex-direction: row;
     }
 }
 
 @media (max-width: 768px) {
-    // body, * {
-    //     font-size: 16px; /* Converted 1rem to 16px */
-    // }
-
-    .content {
-        width: calc(100% - 2rem) !important;
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-
     .english-name {
         margin-top: 0px;
+        // align logo with paragraph left edge on smallest screens
     }
 
     //reversed
@@ -634,7 +712,7 @@ div {
     // }
 
     .index-item {
-        font-size: 19.2px; /* Converted 1.2rem to 19.2px */
+        font-size: var(--font-0);
     }
 
     // .bento-item {
@@ -682,9 +760,5 @@ div {
     #preview-box {
         width: calc(100% - 6rem);
         left: calc(2rem);
-    }
-
-    .bento-title, .post-header {
-        font-size: 25.6px; /* Converted 1.6rem to 25.6px */
     }
 }

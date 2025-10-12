@@ -1,0 +1,80 @@
+---
+layout: page
+---
+
+<div id="loading" class="text">Loading messages...</div>
+<div id="messages-container" class="text">
+	<!-- Messages will be populated here -->
+</div>
+<div id="error" class="text hide">
+	Failed to load messages. Please try again later.
+</div>
+
+<script>
+	async function loadMessages() {
+		const loadingEl = document.getElementById("loading");
+		const errorEl = document.getElementById("error");
+
+		try {
+			const response = await fetch(
+				"https://siunami-telegram-bot.vercel.app/messages"
+			);
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const data = await response.json();
+
+			if (data.ok && data.items) {
+				displayMessages(data.items);
+				loadingEl.classList.add("hide");
+			} else {
+				throw new Error("Invalid response format");
+			}
+		} catch (error) {
+			console.error("Error loading messages:", error);
+			loadingEl.classList.add("hide");
+			errorEl.classList.remove("hide");
+		}
+	}
+
+	function displayMessages(messages) {
+		const container = document.getElementById("messages-container");
+
+		// Sort messages by timestamp (newest first)
+		const sortedMessages = messages.sort(
+			(a, b) => new Date(b.ts) - new Date(a.ts)
+		);
+
+		sortedMessages.forEach((message) => {
+			const messageEl = createMessageElement(message);
+			container.appendChild(messageEl);
+		});
+	}
+
+	function createMessageElement(message) {
+		const messageDiv = document.createElement("div");
+		messageDiv.className = "text";
+		messageDiv.style.marginBottom = "2rem";
+
+		const date = new Date(message.ts);
+		const formattedDate = date.toLocaleDateString("en-US", {
+			year: "numeric",
+			month: "long",
+			day: "numeric",
+			hour: "2-digit",
+			minute: "2-digit",
+		});
+
+		messageDiv.innerHTML = `
+			<div style="font-size: 0.9rem; color: #8d8d8d; margin-bottom: 0.5rem;">${formattedDate}</div>
+			<div style="white-space: pre-wrap;">${message.text}</div>
+		`;
+
+		return messageDiv;
+	}
+
+	// Load messages when the page loads
+	document.addEventListener("DOMContentLoaded", loadMessages);
+</script>
